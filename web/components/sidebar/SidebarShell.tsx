@@ -279,29 +279,19 @@ export function SidebarShell({
               </filter>
             </defs>
 
-            {/* Layer 1 (UNDERNEATH): Soft White Seafoam Foam Body (Rendered BEHIND water, extends left & 15px right onto shore) */}
+            {/* Layer 1 (UNDERNEATH): Soft White Seafoam Foam Body (Rendered BEHIND water, peeking 18px out onto shore) */}
             <path
               className="sand-seafoam-underlayer-ambient"
               d="M 0,0 L 878,0 C 904,75 855,150 886,225 C 916,300 862,375 894,450 C 922,525 855,600 886,675 C 916,750 862,825 894,900 C 910,950 882,985 878,1000 L 0,1000 Z"
-              fill="rgba(255, 255, 255, 0.72)"
+              fill="rgba(255, 255, 255, 0.75)"
               filter="url(#seafoamGlow)"
             />
 
-            {/* Layer 2 (ON TOP OF SEAFOAM): Solid Gradient Ocean Body (Deep Swell Ambient 5.4s) */}
+            {/* Layer 2 (ON TOP OF SEAFOAM): Solid Ocean Water Body (Deep Swell Ambient 5.4s) */}
             <path
               className="sand-ocean-body-ambient"
               d="M 0,0 L 860,0 C 883,75 840,150 867,225 C 893,300 845,375 873,450 C 897,525 840,600 867,675 C 893,750 845,825 873,900 C 887,950 863,985 860,1000 L 0,1000 Z"
               fill="url(#oceanWaveGrad)"
-            />
-
-            {/* Layer 3 (ON EDGE): Glowing White Seafoam Crest Line (Out-of-Phase Foam Crest Swell 7.2s) */}
-            <path
-              className="sand-seafoam-crest-ambient drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"
-              d="M 860,0 C 883,75 840,150 867,225 C 893,300 845,375 873,450 C 897,525 840,600 867,675 C 893,750 845,825 873,900 C 887,950 863,985 860,1000"
-              fill="none"
-              stroke="rgba(255, 255, 255, 0.95)"
-              strokeWidth="5"
-              strokeLinecap="round"
             />
           </svg>
 
