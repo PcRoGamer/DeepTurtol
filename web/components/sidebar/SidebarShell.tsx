@@ -187,8 +187,6 @@ export function SidebarShell({
 
   /* ---- Turtol Staggered Multi-Layer Seafoam Wave Architecture ---- */
   return (
-  /* ---- Turtol Staggered Multi-Layer Seafoam Wave Architecture ---- */
-  return (
     <div className="relative flex h-screen shrink-0 overflow-visible">
       {/* 1. Persistent Underneath Rail (always visible when collapsed) */}
       <div className="sand-rail-container">
