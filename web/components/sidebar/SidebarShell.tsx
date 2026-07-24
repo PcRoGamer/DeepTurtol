@@ -510,6 +510,7 @@ export function SidebarShell({
             </a>
           </div>
         </div>
+      )}
     </aside>
   );
 }
