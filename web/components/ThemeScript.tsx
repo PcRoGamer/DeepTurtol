@@ -19,19 +19,16 @@ export default function ThemeScript() {
           document.documentElement.classList.add('dark');
         } else if (stored === 'glass') {
           document.documentElement.classList.add('dark', 'theme-glass');
-        } else if (stored === 'snow') {
-          document.documentElement.classList.add('theme-snow');
-        } else if (stored === 'light') {
-          // already clean
+        } else if (stored === 'beach' || stored === 'light') {
+          document.documentElement.classList.add('theme-beach');
         } else {
-          // No stored preference: Default (snow) for light systems,
-          // Dark for prefers-color-scheme: dark.
+          // No stored preference: Default theme-beach for light, dark for dark
           if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
             localStorage.setItem('deeptutor-theme', 'dark');
           } else {
-            document.documentElement.classList.add('theme-snow');
-            localStorage.setItem('deeptutor-theme', 'snow');
+            document.documentElement.classList.add('theme-beach');
+            localStorage.setItem('deeptutor-theme', 'beach');
           }
         }
       } catch (e) {

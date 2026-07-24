@@ -21,81 +21,30 @@
      the warm tint only surfaces on filled blocks (selected nav, panels)
      and against the terracotta primary. Inspired by Claude's chrome:
      keep bg essentially white, save the visible warmth for accents. */
-  :root {
-    color-scheme: light;
-    --background: #f7f1e3;
-    --foreground: #3d2b1f;
-    --card: #ffffff;
-    --card-foreground: #3d2b1f;
-    --popover: #ffffff;
-    --popover-foreground: #3d2b1f;
-    --primary: #028090;
-    --primary-foreground: #ffffff;
-    --secondary: #ede3ce;
-    --secondary-foreground: #3d2b1f;
-    --muted: #e8ddc7;
-    --muted-foreground: #7a6857;
-    --accent: #e2d4bb;
-    --accent-foreground: #3d2b1f;
-    --destructive: #c53a2c;
-    --destructive-foreground: #ffffff;
-    --border: #dfd0b5;
-    --input: #dfd0b5;
-    --ring: #028090;
-    --overlay: rgba(61, 43, 31, 0.42);
-  }
-
-  /* Dark — warm night beach canvas */
-  .dark {
-    color-scheme: dark;
-    --background: #231d17;
-    --foreground: #f2e9dc;
-    --card: #2c251e;
-    --card-foreground: #f2e9dc;
-    --popover: #2c251e;
-    --popover-foreground: #f2e9dc;
-    --primary: #00a896;
-    --primary-foreground: #1c1815;
-    --secondary: #362e26;
-    --secondary-foreground: #f2e9dc;
-    --muted: #362e26;
-    --muted-foreground: #a69888;
-    --accent: #3d342c;
-    --accent-foreground: #f2e9dc;
-    --destructive: #d44a3c;
-    --destructive-foreground: #ffffff;
-    --border: #473d34;
-    --input: #473d34;
-    --ring: #00a896;
-    --overlay: rgba(0, 0, 0, 0.6);
-  }
-
-  /* Default — pure-white neutral canvas (theme id "snow" kept for stored
-     preferences). No tint anywhere: flat #fff bg, plain grey surfaces and
-     borders. The only chroma is the blue primary on interactive accents,
-     in the spirit of Codex/ChatGPT chrome. */
+  :root,
+  .theme-beach,
   .theme-snow {
     color-scheme: light;
-    --background: #ffffff;
-    --foreground: #0d0d0d;
-    --card: #ffffff;
-    --card-foreground: #0d0d0d;
-    --popover: #ffffff;
-    --popover-foreground: #0d0d0d;
-    --primary: #2563eb;
+    --background: #F6EFE5;
+    --foreground: #4E342E;
+    --card: #FDFCF9;
+    --card-foreground: #4E342E;
+    --popover: #FDFCF9;
+    --popover-foreground: #4E342E;
+    --primary: #028090;
     --primary-foreground: #ffffff;
-    --secondary: #f7f7f7;
-    --secondary-foreground: #0d0d0d;
-    --muted: #f2f2f2;
-    --muted-foreground: #6e6e6e;
-    --accent: #ececec;
-    --accent-foreground: #0d0d0d;
-    --destructive: #d92d20;
+    --secondary: #E5D3B8;
+    --secondary-foreground: #4E342E;
+    --muted: #EDE3CE;
+    --muted-foreground: #7A6857;
+    --accent: #E2D4BB;
+    --accent-foreground: #4E342E;
+    --destructive: #c53a2c;
     --destructive-foreground: #ffffff;
-    --border: #e5e5e5;
-    --input: #e5e5e5;
-    --ring: #2563eb;
-    --overlay: rgba(0, 0, 0, 0.4);
+    --border: #C3B095;
+    --input: #C3B095;
+    --ring: #028090;
+    --overlay: rgba(78, 52, 46, 0.42);
   }
 
   /* Glass — translucent purple panels on near-black. Slightly brighter

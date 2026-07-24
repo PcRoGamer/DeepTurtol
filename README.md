@@ -164,30 +164,12 @@ DeepTutor is an agent-native learning workspace that connects tutoring, problem 
 
 ## 🚀 Get Started
 
-DeepTutor ships four installation paths. They all share one workspace layout: settings live in `data/user/settings/` under the directory you launch from (or under `DEEPTUTOR_HOME` / `deeptutor start --home` if you set one explicitly). For the full app, the recommended flow is **pick a workspace directory → install → `deeptutor init` → `deeptutor start`**.
+DeepTurtol ships two supported installation paths from our fork repository.
 
 <details>
-<summary><b>Option 1 — Install From PyPI</b> · full local Web app + CLI, no clone required</summary>
+<summary><b>Option 1 — Install From Source (Recommended)</b> · develop & run DeepTurtol</summary>
 
-Full local Web app + CLI, no clone required. Needs **Python 3.11–3.13** and a **Node.js 20+** runtime on PATH (the packaged Next.js standalone server is spawned by `deeptutor start`).
-
-```bash
-mkdir -p my-deeptutor && cd my-deeptutor
-pip install -U deeptutor
-deeptutor init     # prompts for ports + LLM provider + optional embedding
-deeptutor start    # starts backend + frontend; keep the terminal open
-```
-
-`deeptutor init` prompts for backend port (default `8001`), frontend port (default `3782`), LLM provider / base URL / API key / model, and an optional embedding provider for Knowledge Base / RAG.
-
-After `deeptutor start`, open the frontend URL printed in the terminal — by default [http://127.0.0.1:3782](http://127.0.0.1:3782). Press `Ctrl+C` in that terminal to stop both backend and frontend. Skipping `deeptutor init` is fine for a quick trial; the app boots with default ports and empty model settings, configure them later in **Settings → Models**.
-
-</details>
-
-<details>
-<summary><b>Option 2 — Install From Source</b> · develop against a checkout</summary>
-
-For development against a checkout. Use **Python 3.11–3.13** and **Node.js 22 LTS** to match CI and Docker.
+Use **Python 3.11–3.13** and **Node.js 22 LTS**.
 
 ```bash
 git clone https://github.com/PcRoGamer/DeepTurtol.git
@@ -206,14 +188,14 @@ deeptutor init
 deeptutor start
 ```
 
-Source installs run Next.js in dev mode against the local `web/` directory; everything else (config layout, ports, stop with `Ctrl+C`) matches Option 1.
+After `deeptutor start`, open [http://127.0.0.1:3782](http://127.0.0.1:3782).
 
 <details>
 <summary><b>Conda environment</b> (instead of <code>venv</code>)</summary>
 
 ```bash
-conda create -n deeptutor python=3.11
-conda activate deeptutor
+conda create -n deepturtol python=3.11
+conda activate deepturtol
 python -m pip install --upgrade pip
 ```
 
@@ -235,7 +217,7 @@ pip install -e ".[math-animator]"   # Manim addon; requires LaTeX/ffmpeg/system 
 <details>
 <summary><b>Frontend dependency tweaks & dev-server troubleshooting</b></summary>
 
-**Changing frontend dependencies:** run `npm install --legacy-peer-deps` to refresh `web/package-lock.json`, then commit both `web/package.json` and `web/package-lock.json`.
+**Changing frontend dependencies:** run `npm install --legacy-peer-deps` inside `web/` to refresh `web/package-lock.json`, then commit both `web/package.json` and `web/package-lock.json`.
 
 **Stuck dev server:** if `deeptutor start` reports an existing frontend that isn't responding, stop the PID it prints. If no Next.js process is actually running, the lock files are stale — remove them and retry:
 
@@ -249,20 +231,15 @@ deeptutor start
 </details>
 
 <details>
-<summary><b>Option 3 — Docker</b> · one self-contained container</summary>
+<summary><b>Option 2 — Docker (Build Local Image)</b> · self-contained container</summary>
 
-One container for the full Web app. Images on GitHub Container Registry:
-
-- `ghcr.io/hkuds/deeptutor:latest` — stable release
-- `ghcr.io/hkuds/deeptutor:pre` — pre-release, when available
-
-> See [CONTAINERIZATION.md](./CONTAINERIZATION.md) for podman/rootless/read-only-rootfs deployments and the full per-installation guide.
+Build and run DeepTurtol locally using Docker:
 
 ```bash
-docker run --rm --name deeptutor \
-  -p 127.0.0.1:3782:3782 \
-  -v deeptutor-data:/app/data \
-  ghcr.io/hkuds/deeptutor:latest
+git clone https://github.com/PcRoGamer/DeepTurtol.git
+cd DeepTurtol
+docker build -t deepturtol .
+docker run --rm --name deepturtol -p 127.0.0.1:3782:3782 -v deepturtol-data:/app/data deepturtol
 ```
 
 > **Only `3782` needs to be published.** The browser talks exclusively to the frontend origin; the Next.js middleware (`web/proxy.ts`) forwards `/api/*` and `/ws/*` to the FastAPI backend **inside the container**. Publishing `8001` (`-p 127.0.0.1:8001:8001`) is optional — handy only for hitting the API directly with curl or scripts.
