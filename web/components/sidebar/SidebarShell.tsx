@@ -283,13 +283,12 @@ export function SidebarShell({
 
             {/* Layer 1: Glowing White Seafoam Crest Line (Out-of-Phase Foam Crest Swell 7.2s) */}
             <path
-              className="sand-seafoam-crest-ambient"
+              className="sand-seafoam-crest-ambient drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"
               d="M 560,0 C 583,60 540,120 567,180 C 593,240 545,300 573,360 C 597,420 540,480 567,540 C 593,600 545,660 573,720 C 587,760 563,790 560,800"
               fill="none"
               stroke="rgba(255, 255, 255, 0.95)"
               strokeWidth="4.5"
               strokeLinecap="round"
-              className="drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"
             />
           </svg>
 
