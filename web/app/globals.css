@@ -893,38 +893,45 @@ body[data-picker-open] .dt-mark-pulse {
   }
 }
 
-/* Staggered Layer 3: Seafoam Wave Edge SVG — slides in first (0s delay) with spring bounce! (105% overshoot) */
+/* Staggered Layer 3: Seafoam Wave Edge SVG — slides in first (0s delay) with noticeable wave spring-wash bounce onto shore! */
 .wave-layer-seafoam-expand {
-  animation: waveSeafoamExpand 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0s both;
+  animation: waveSeafoamExpandNoticeable 0.52s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s both;
 }
 .wave-layer-seafoam-collapse {
-  animation: waveSeafoamCollapse 0.42s cubic-bezier(0.34, 1.45, 0.64, 1) 0.1s both;
+  animation: waveSeafoamCollapseNoticeable 0.45s cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.08s both;
 }
 
-@keyframes waveSeafoamExpand {
+@keyframes waveSeafoamExpandNoticeable {
   0% {
-    transform: translateX(-100%) scaleX(0.85);
+    transform: translateX(-100%) scaleX(0.7) skewY(5deg);
     opacity: 0.5;
   }
-  70% {
-    transform: translateX(10px) scaleX(1.08); /* 105% spring overshoot */
+  55% {
+    transform: translateX(32px) scaleX(1.15) skewY(-4deg) rotate(2deg);
     opacity: 1;
   }
+  78% {
+    transform: translateX(-10px) scaleX(0.95) skewY(2deg) rotate(-1deg);
+  }
+  92% {
+    transform: translateX(4px) scaleX(1.02) skewY(-0.8deg);
+  }
   100% {
-    transform: translateX(0) scaleX(1);
+    transform: translateX(0) scaleX(1) skewY(0) rotate(0);
     opacity: 1;
   }
 }
 
-@keyframes waveSeafoamCollapse {
+@keyframes waveSeafoamCollapseNoticeable {
   0% {
-    transform: translateX(0) scaleX(1);
+    transform: translateX(0) scaleX(1) skewY(0);
   }
-  40% {
-    transform: translateX(12px) scaleX(1.06); /* Initial wave recoil before receding */
+  30% {
+    transform: translateX(20px) scaleX(1.1) skewY(-3.5deg) rotate(1.8deg);
   }
   100% {
-    transform: translateX(-100%) scaleX(0.8);
+    transform: translateX(-100%) scaleX(0.7) skewY(4deg);
+    opacity: 0;
   }
 }
 
@@ -933,41 +940,41 @@ body[data-picker-open] .dt-mark-pulse {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: -32px;
-  width: 32px;
+  right: -36px;
+  width: 36px;
   height: 100%;
   pointer-events: none;
   z-index: 40;
 }
 
-/* Layer 1: Translucent Seafoam Crest Wave */
-.sand-seafoam-layer1 {
-  position: absolute;
-  inset: 0;
-  width: 32px;
-  height: 100%;
-  fill: rgba(255, 255, 255, 0.88);
-  filter: drop-shadow(3px 0 6px rgba(255, 255, 255, 0.5));
-  animation: seafoamCrestMotion 6s ease-in-out infinite alternate;
-}
-
-/* Layer 2: Deep Ocean Turquoise Wave Body */
+/* Layer 2: Solid Wave Body Extension (Exact same solid ocean color as sidebar body) */
 .sand-seafoam-layer2 {
   position: absolute;
   inset: 0;
-  width: 24px;
+  width: 36px;
   height: 100%;
-  fill: #05668d;
-  filter: drop-shadow(4px 0 10px rgba(2, 128, 144, 0.3));
+  fill: #2A9D8F;
+  filter: drop-shadow(4px 0 10px rgba(42, 157, 143, 0.35));
   animation: seafoamBodyMotion 4.5s ease-in-out infinite alternate;
+}
+
+/* Layer 1: White Seafoam Line Over Solid Wave Edge Tip */
+.sand-seafoam-layer1 {
+  position: absolute;
+  inset: 0;
+  width: 36px;
+  height: 100%;
+  fill: rgba(255, 255, 255, 0.78);
+  filter: drop-shadow(2px 0 5px rgba(255, 255, 255, 0.6));
+  animation: seafoamCrestMotion 6s ease-in-out infinite alternate;
+}
+
+.dark .sand-seafoam-layer2 {
+  fill: #014f58;
 }
 
 .dark .sand-seafoam-layer1 {
   fill: rgba(224, 244, 247, 0.65);
-}
-
-.dark .sand-seafoam-layer2 {
-  fill: #03384e;
 }
 
 /* Dual-Layer Seafoam Wave Motion Keyframes */
