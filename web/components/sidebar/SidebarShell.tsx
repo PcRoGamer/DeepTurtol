@@ -189,15 +189,27 @@ export function SidebarShell({
   if (collapsed) {
     return (
       <aside className="sand-wave-sidebar sand-wave-sidebar-collapsed group/sb relative flex h-screen w-[60px] shrink-0 flex-col items-center py-3 transition-all duration-350 ease-out">
-        {/* Dynamic Vertical Wave Edge SVG — washes over sandy main canvas */}
-        <svg
-          className="sand-wave-edge"
-          viewBox="0 0 24 800"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,0 C18,60 -6,120 12,180 C24,240 0,300 14,360 C24,420 -4,480 12,540 C24,600 2,660 16,720 C24,760 8,790 0,800 L0,0 Z" />
-        </svg>
+        {/* Dual-Layer Seafoam Wave Edge — washes over the sandy app canvas */}
+        <div className="sand-seafoam-wrapper">
+          {/* Layer 1: Translucent Seafoam Crest Wave */}
+          <svg
+            className="sand-seafoam-layer1"
+            viewBox="0 0 32 800"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0,0 C26,50 -10,110 18,170 C32,230 4,290 20,350 C32,410 -8,470 16,530 C32,590 6,650 22,710 C32,750 12,795 0,800 L0,0 Z" />
+          </svg>
+          {/* Layer 2: Deep Ocean Turquoise Wave Body */}
+          <svg
+            className="sand-seafoam-layer2"
+            viewBox="0 0 24 800"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0,0 C18,60 -6,120 12,180 C24,240 0,300 14,360 C24,420 -4,480 12,540 C24,600 2,660 16,720 C24,760 8,790 0,800 L0,0 Z" />
+          </svg>
+        </div>
         {/* Header: logo + collapse toggle (toggle replaces logo on hover) */}
         <div className="relative mb-2 flex h-9 w-9 items-center justify-center">
           <Link
@@ -331,15 +343,27 @@ export function SidebarShell({
   /* ---- Expanded state ---- */
   return (
     <aside className="sand-wave-sidebar sand-wave-sidebar-expanded flex w-[220px] h-screen shrink-0 flex-col py-0 transition-all duration-350 ease-out">
-      {/* Dynamic Vertical Wave Edge SVG — washes over sandy main canvas */}
-      <svg
-        className="sand-wave-edge"
-        viewBox="0 0 24 800"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0,0 C18,60 -6,120 12,180 C24,240 0,300 14,360 C24,420 -4,480 12,540 C24,600 2,660 16,720 C24,760 8,790 0,800 L0,0 Z" />
-      </svg>
+      {/* Dual-Layer Seafoam Wave Edge — washes over the sandy app canvas */}
+      <div className="sand-seafoam-wrapper">
+        {/* Layer 1: Translucent Seafoam Crest Wave */}
+        <svg
+          className="sand-seafoam-layer1"
+          viewBox="0 0 32 800"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0,0 C26,50 -10,110 18,170 C32,230 4,290 20,350 C32,410 -8,470 16,530 C32,590 6,650 22,710 C32,750 12,795 0,800 L0,0 Z" />
+        </svg>
+        {/* Layer 2: Deep Ocean Turquoise Wave Body */}
+        <svg
+          className="sand-seafoam-layer2"
+          viewBox="0 0 24 800"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0,0 C18,60 -6,120 12,180 C24,240 0,300 14,360 C24,420 -4,480 12,540 C24,600 2,660 16,720 C24,760 8,790 0,800 L0,0 Z" />
+        </svg>
+      </div>
       {/* Header: logo + collapse toggle */}
       <div className="flex h-14 items-center justify-between px-4">
         <Link href="/" className="group flex items-center gap-1.5">

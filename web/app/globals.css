@@ -23,50 +23,50 @@
      keep bg essentially white, save the visible warmth for accents. */
   :root {
     color-scheme: light;
-    --background: #fdfcf9;
-    --foreground: #1c1816;
+    --background: #f7f1e3;
+    --foreground: #3d2b1f;
     --card: #ffffff;
-    --card-foreground: #1c1816;
+    --card-foreground: #3d2b1f;
     --popover: #ffffff;
-    --popover-foreground: #1c1816;
-    --primary: #b0501e;
+    --popover-foreground: #3d2b1f;
+    --primary: #028090;
     --primary-foreground: #ffffff;
-    --secondary: #f5f2ea;
-    --secondary-foreground: #1c1816;
-    --muted: #f1ede2;
-    --muted-foreground: #6d645a;
-    --accent: #ece7d8;
-    --accent-foreground: #1c1816;
+    --secondary: #ede3ce;
+    --secondary-foreground: #3d2b1f;
+    --muted: #e8ddc7;
+    --muted-foreground: #7a6857;
+    --accent: #e2d4bb;
+    --accent-foreground: #3d2b1f;
     --destructive: #c53a2c;
     --destructive-foreground: #ffffff;
-    --border: #e6decc;
-    --input: #e6decc;
-    --ring: #b0501e;
-    --overlay: rgba(28, 24, 22, 0.42);
+    --border: #dfd0b5;
+    --input: #dfd0b5;
+    --ring: #028090;
+    --overlay: rgba(61, 43, 31, 0.42);
   }
 
-  /* Dark — warm near-black, same terracotta family as Cream. */
+  /* Dark — warm night beach canvas */
   .dark {
     color-scheme: dark;
-    --background: #1a1918;
-    --foreground: #e8e4de;
-    --card: #242220;
-    --card-foreground: #e8e4de;
-    --popover: #242220;
-    --popover-foreground: #e8e4de;
-    --primary: #d4734b;
-    --primary-foreground: #1a1918;
-    --secondary: #2a2725;
-    --secondary-foreground: #e8e4de;
-    --muted: #2a2725;
-    --muted-foreground: #9b9590;
-    --accent: #302d2a;
-    --accent-foreground: #e8e4de;
+    --background: #231d17;
+    --foreground: #f2e9dc;
+    --card: #2c251e;
+    --card-foreground: #f2e9dc;
+    --popover: #2c251e;
+    --popover-foreground: #f2e9dc;
+    --primary: #00a896;
+    --primary-foreground: #1c1815;
+    --secondary: #362e26;
+    --secondary-foreground: #f2e9dc;
+    --muted: #362e26;
+    --muted-foreground: #a69888;
+    --accent: #3d342c;
+    --accent-foreground: #f2e9dc;
     --destructive: #d44a3c;
     --destructive-foreground: #ffffff;
-    --border: #3a3634;
-    --input: #3a3634;
-    --ring: #d4734b;
+    --border: #473d34;
+    --input: #473d34;
+    --ring: #00a896;
     --overlay: rgba(0, 0, 0, 0.6);
   }
 
@@ -844,87 +844,117 @@ body[data-picker-open] .dt-mark-pulse {
 
 .sand-wave-sidebar {
   position: relative;
-  background: linear-gradient(180deg, #f4ecd8 0%, #ece2cd 50%, #e2d6be 100%);
+  background: linear-gradient(180deg, #028090 0%, #00a896 45%, #05668d 100%);
   border-right: none !important;
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-shadow: 6px 0 24px rgba(160, 130, 90, 0.18);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 8px 0 28px rgba(2, 128, 144, 0.28);
   overflow: visible !important;
-  color: #3d3126;
+  color: #ffffff !important;
+  z-index: 30;
 }
 
 .dark .sand-wave-sidebar {
-  background: linear-gradient(180deg, #2a241f 0%, #221d19 50%, #1c1815 100%);
-  box-shadow: 6px 0 24px rgba(0, 0, 0, 0.45);
-  color: #e5dac6;
+  background: linear-gradient(180deg, #014f58 0%, #00665c 50%, #03384e 100%);
+  box-shadow: 8px 0 28px rgba(0, 0, 0, 0.55);
+  color: #e0f4f7 !important;
 }
 
-/* Dynamic Vertical Wave Edge SVG */
-.sand-wave-edge {
+/* Dual-Layer Seafoam Wave Edge Container */
+.sand-seafoam-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: -23px;
-  width: 24px;
+  right: -32px;
+  width: 32px;
   height: 100%;
   pointer-events: none;
-  z-index: 20;
-  fill: #e2d6be;
-  filter: drop-shadow(4px 0 8px rgba(2, 128, 144, 0.15));
-  transition: fill 0.35s ease;
+  z-index: 40;
 }
 
-.dark .sand-wave-edge {
-  fill: #1c1815;
-  filter: drop-shadow(4px 0 8px rgba(0, 0, 0, 0.35));
+/* Layer 1: Outer Translucent Seafoam Crest Wave */
+.sand-seafoam-layer1 {
+  position: absolute;
+  inset: 0;
+  width: 32px;
+  height: 100%;
+  fill: rgba(255, 255, 255, 0.85);
+  filter: drop-shadow(3px 0 6px rgba(255, 255, 255, 0.5));
+  animation: seafoamCrestMotion 6s ease-in-out infinite alternate;
 }
 
-/* Animated Liquid Wave Crest Effect */
-@keyframes waveCrestWash {
+/* Layer 2: Inner Deep Ocean Wave Body */
+.sand-seafoam-layer2 {
+  position: absolute;
+  inset: 0;
+  width: 24px;
+  height: 100%;
+  fill: #05668d;
+  filter: drop-shadow(4px 0 10px rgba(2, 128, 144, 0.3));
+  animation: seafoamBodyMotion 4.5s ease-in-out infinite alternate;
+}
+
+.dark .sand-seafoam-layer1 {
+  fill: rgba(224, 244, 247, 0.65);
+}
+
+.dark .sand-seafoam-layer2 {
+  fill: #03384e;
+}
+
+/* Dual-Layer Seafoam Wave Motion Keyframes */
+@keyframes seafoamCrestMotion {
   0% {
-    transform: translateY(0) scaleY(1);
+    transform: translateY(0) scaleX(1);
   }
   50% {
-    transform: translateY(-8px) scaleY(1.02);
+    transform: translateY(-14px) scaleX(1.1);
   }
   100% {
-    transform: translateY(0) scaleY(1);
+    transform: translateY(6px) scaleX(0.92);
   }
 }
 
-.sand-wave-edge path {
-  animation: waveCrestWash 6s infinite ease-in-out;
-  transform-origin: center;
+@keyframes seafoamBodyMotion {
+  0% {
+    transform: translateY(0) scaleX(1);
+  }
+  50% {
+    transform: translateY(10px) scaleX(0.94);
+  }
+  100% {
+    transform: translateY(-8px) scaleX(1.06);
+  }
 }
 
-/* Tide Slide In / Slide Out Wave Effects */
+/* Tide Washing Over Sandy Main Canvas */
 .sand-wave-sidebar-expanded {
-  animation: tideSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: tideWashIn 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sand-wave-sidebar-collapsed {
-  animation: tideSlideOut 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: tideWashOut 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes tideSlideIn {
+@keyframes tideWashIn {
   0% {
-    transform: translateX(-30px);
-    opacity: 0.85;
+    transform: translateX(-40px) skewX(-1deg);
+    opacity: 0.8;
   }
   60% {
-    transform: translateX(4px);
+    transform: translateX(6px) skewX(0.5deg);
   }
   100% {
-    transform: translateX(0);
+    transform: translateX(0) skewX(0);
     opacity: 1;
   }
 }
 
-@keyframes tideSlideOut {
+@keyframes tideWashOut {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-15px);
+    transform: translateX(-18px);
   }
 }
 
