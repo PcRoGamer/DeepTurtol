@@ -792,31 +792,78 @@ body[data-picker-open] .dt-mark-pulse {
 }
 
 /* ============================================================
-   Turtol Beach Wave Wash: Inflow, Apex, Outflow & Wet Sand
+   Turtol Smooth Ocean Wave Sidebar Architecture & Animations
    ============================================================ */
 
-/* Unified Seamless Clip-Path Sidebar Panel (Zero Seam Mismatch!) */
-.sand-wave-sidebar-clipped {
-  clip-path: polygon(
-    0% 0%,
-    calc(100% - 24px) 0%,
-    100% 10%,
-    calc(100% - 18px) 20%,
-    100% 32%,
-    calc(100% - 22px) 45%,
-    100% 58%,
-    calc(100% - 16px) 72%,
-    100% 86%,
-    calc(100% - 24px) 100%,
-    0% 100%
-  );
-  background: linear-gradient(180deg, #2A9D8F 0%, #00a896 45%, #05668d 100%);
-  box-shadow: 8px 0 28px rgba(42, 157, 143, 0.3);
-  overflow: visible !important;
+/* Single Fixed Top-Left Toggle Button */
+.sand-fixed-toggle-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
 }
 
-.dark .sand-wave-sidebar-clipped {
-  background: linear-gradient(180deg, #014f58 0%, #00665c 50%, #03384e 100%);
+.sand-fixed-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.38);
+  transform: scale(1.06);
+}
+
+.sand-fixed-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Smooth Wave Slide & Natural Shore-Wash Overshoot (No Genie Warping!) */
+.sand-wave-slide-in {
+  animation: waveNaturalShoreWash 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sand-wave-slide-out {
+  animation: waveNaturalTideRecede 0.38s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+
+@keyframes waveNaturalShoreWash {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0.4;
+  }
+  70% {
+    /* Natural gentle wave wash overshoot onto sand */
+    transform: translateX(12px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes waveNaturalTideRecede {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  30% {
+    /* Natural tidal pull back before receding */
+    transform: translateX(8px);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 }
 
 /* Wet Sand Mark Left on Shore */
@@ -825,91 +872,15 @@ body[data-picker-open] .dt-mark-pulse {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 250px;
-  background: linear-gradient(90deg, rgba(165, 135, 95, 0.45) 0%, rgba(185, 155, 115, 0.28) 75%, transparent 100%);
+  width: 260px;
+  background: linear-gradient(90deg, rgba(165, 135, 95, 0.42) 0%, rgba(185, 155, 115, 0.22) 75%, transparent 100%);
   pointer-events: none;
   z-index: 15;
-  transition: opacity 1.5s ease-out;
+  transition: opacity 1.2s ease-out;
 }
 
 .dark .sand-wet-wash {
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.2) 75%, transparent 100%);
-}
-
-/* 1. Forward Rush (Inflow) + Apex + Recession Seafoam Wash */
-.wave-foam-wash-in {
-  animation: waveInflowApexOutflow 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.wave-foam-wash-out {
-  animation: waveRecessionOutflow 0.55s cubic-bezier(0.5, 0, 0.75, 0) forwards;
-}
-
-@keyframes waveInflowApexOutflow {
-  0% {
-    /* Inflow start: foam narrow out at sea */
-    transform: translateX(-100%) scaleX(0.5);
-    opacity: 0.3;
-  }
-  45% {
-    /* Inflow Peak / Forward Rush: foam expands wide up beach slope */
-    transform: translateX(28px) scaleX(1.2) skewY(-3deg);
-    opacity: 1;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-  }
-  65% {
-    /* The Turn (Apex): motion slows down at peak extension, foam breaks apart */
-    transform: translateX(22px) scaleX(1.1) skewY(-1deg);
-    opacity: 0.95;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
-  }
-  85% {
-    /* Initial backwash transition leaving wet sand mark */
-    transform: translateX(-4px) scaleX(0.98);
-    opacity: 0.9;
-  }
-  100% {
-    /* Resting water position */
-    transform: translateX(0) scaleX(1) skewY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes waveRecessionOutflow {
-  0% {
-    transform: translateX(0) scaleX(1);
-    opacity: 1;
-  }
-  30% {
-    /* Water recoils slightly before wiping back down beach */
-    transform: translateX(14px) scaleX(1.08) skewY(-2deg);
-    opacity: 0.9;
-  }
-  70% {
-    /* Recession: water layer wipes back down lowering opacity */
-    transform: translateX(-60%) scaleX(0.7);
-    opacity: 0.4;
-  }
-  100% {
-    /* Completely receded */
-    transform: translateX(-100%) scaleX(0.5);
-    opacity: 0;
-  }
-}
-
-/* Seafoam Edge White Foam Line */
-.sand-seafoam-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: -8px;
-  width: 32px;
-  height: 100%;
-  pointer-events: none;
-  z-index: 45;
-  fill: rgba(255, 255, 255, 0.92);
-  filter: drop-shadow(3px 0 8px rgba(255, 255, 255, 0.7));
-  animation: seafoamCrestMotion 5s ease-in-out infinite alternate;
 }
 
 /* Dual-Layer Seafoam Wave Edge Container */

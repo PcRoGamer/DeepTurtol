@@ -185,37 +185,39 @@ export function SidebarShell({
     router.push("/home");
   };
 
-  /* ---- Turtol Staggered Multi-Layer Seafoam Wave Architecture ---- */
+  /* ---- Turtol Smooth Ocean Wave Architecture ---- */
   return (
     <div className="relative flex h-screen shrink-0 overflow-visible">
-      {/* 1. Persistent Underneath Rail (always visible when collapsed) */}
-      <div className="sand-rail-container">
-        {/* Logo & Static Toggle Button at top */}
-        <div className="mb-4 flex flex-col items-center gap-3">
-          <Link
-            href="/"
-            aria-label="DeepTurtol"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 transition-transform hover:scale-105"
-          >
-            <Image
-              src="/logo.png"
-              alt="DeepTurtol"
-              width={24}
-              height={24}
-              className="h-6 w-6 rounded-md"
-            />
-          </Link>
+      {/* 1. Single Static Toggle Button ALWAYS Fixed at Top-Left */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="sand-fixed-toggle-btn"
+        aria-label={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
+        title={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
+      >
+        {collapsed ? (
+          <PanelLeftOpen size={18} strokeWidth={2.2} />
+        ) : (
+          <PanelLeftClose size={18} strokeWidth={2.2} />
+        )}
+      </button>
 
-          {/* Static Expand Button (Always visible at top of rail when collapsed) */}
-          <button
-            onClick={() => setCollapsed(false)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/25 text-white shadow-md transition-all hover:bg-white/40 hover:scale-105 border border-white/30 active:scale-95"
-            aria-label={t("Expand sidebar")}
-            title={t("Expand sidebar") as string}
-          >
-            <PanelLeftOpen size={18} strokeWidth={2.2} />
-          </button>
-        </div>
+      {/* 2. Persistent Underneath Rail (always visible when collapsed) */}
+      <div className="sand-rail-container pt-14">
+        {/* Logo at top */}
+        <Link
+          href="/"
+          aria-label="DeepTurtol"
+          className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 transition-transform hover:scale-105"
+        >
+          <Image
+            src="/logo.png"
+            alt="DeepTurtol"
+            width={24}
+            height={24}
+            className="h-6 w-6 rounded-md"
+          />
+        </Link>
 
         {/* Sine-Wave Staggered Pebble Rocks on Rail */}
         <div className="flex flex-1 flex-col items-center gap-3.5 pt-1">
@@ -244,39 +246,55 @@ export function SidebarShell({
         </div>
       </div>
 
-      {/* 2. Wet Sand Texture Layer on Shore (revealed as water recedes) */}
+      {/* 3. Wet Sand Texture Layer on Shore (revealed as water recedes) */}
       <div
         className="sand-wet-wash"
         style={{ opacity: collapsed ? 0.2 : 0.85 }}
       />
 
-      {/* 3. Unified Clipped Wave Sidebar Panel (100% Solid Gradient Piece, Zero Seams!) */}
+      {/* 4. Smooth Bézier Ocean Wave Panel (Silky Curved Wave Edge, Zero Pointy Triangles!) */}
       {!collapsed && (
         <aside
-          className={`sand-wave-sidebar-clipped absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[235px] flex-col py-0 ${
-            collapsed ? "wave-foam-wash-out" : "wave-foam-wash-in"
+          className={`absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[265px] flex-col py-0 ${
+            collapsed ? "sand-wave-slide-out" : "sand-wave-slide-in"
           }`}
         >
-          {/* White Seafoam Edge Line (Inflow Forward Rush -> Apex Turn -> Outflow Recession) */}
+          {/* Background SVG defining the smooth Bézier curved wave shape */}
           <svg
-            className="sand-seafoam-line"
-            viewBox="0 0 32 800"
+            className="absolute inset-0 h-full w-full pointer-events-none drop-shadow-xl"
+            viewBox="0 0 265 800"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path d="M0,0 C26,50 -10,110 18,170 C32,230 4,290 20,350 C32,410 -8,470 16,530 C32,590 6,650 22,710 C32,750 12,795 0,800 L0,0 Z" />
+            <defs>
+              <linearGradient id="oceanWaveGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#2A9D8F" />
+                <stop offset="45%" stopColor="#00a896" />
+                <stop offset="100%" stopColor="#05668d" />
+              </linearGradient>
+            </defs>
+
+            {/* Solid Gradient Smooth Wave Body */}
+            <path
+              d="M 0,0 L 225,0 C 248,60 205,120 232,180 C 258,240 210,300 238,360 C 262,420 205,480 232,540 C 258,600 210,660 238,720 C 252,760 228,790 225,800 L 0,800 Z"
+              fill="url(#oceanWaveGrad)"
+            />
+
+            {/* Glowing White Seafoam Crest Line Along Wave Edge */}
+            <path
+              d="M 225,0 C 248,60 205,120 232,180 C 258,240 210,300 238,360 C 262,420 205,480 232,540 C 258,600 210,660 238,720 C 252,760 228,790 225,800"
+              fill="none"
+              stroke="rgba(255, 255, 255, 0.9)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              className="drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]"
+            />
           </svg>
 
-          {/* Layer 1: Content (Text & Nav links — slides in last, slides out first) */}
-          <div
-            className={`flex h-full w-full flex-col ${
-              collapsed
-                ? "wave-layer-content-collapse"
-                : "wave-layer-content-expand"
-            }`}
-          >
-            {/* Header: logo + static collapse toggle button */}
-            <div className="flex h-14 items-center justify-between px-4">
+          {/* Sidebar Content (Text & Nav links) */}
+          <div className="relative z-10 flex h-full w-[220px] flex-col pl-14 pt-3">
+            {/* Header: logo */}
+            <div className="flex h-12 items-center px-2 mb-2">
               <Link href="/" className="group flex items-center gap-1.5">
                 <Image
                   src="/logo.png"
@@ -294,16 +312,6 @@ export function SidebarShell({
                   className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
                 />
               </Link>
-
-              {/* Static Collapse Button (Always visible at top-right of wave header) */}
-              <button
-                onClick={() => setCollapsed(true)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20 text-white shadow-sm transition-all hover:bg-white/35 hover:scale-105 active:scale-95"
-                aria-label={t("Collapse sidebar")}
-                title={t("Collapse sidebar") as string}
-              >
-                <PanelLeftClose size={16} strokeWidth={2} />
-              </button>
             </div>
 
             {/* Primary nav */}
