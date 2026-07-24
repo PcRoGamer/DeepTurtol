@@ -792,18 +792,17 @@ body[data-picker-open] .dt-mark-pulse {
 }
 
 /* ============================================================
-   Whole Sidebar Wave Rocking & Ocean Wash Animation System
+   Turtol Staggered Multi-Layer Seafoam Wave Animation System
    ============================================================ */
 
 .sand-wave-sidebar {
   position: relative;
-  background: linear-gradient(180deg, #028090 0%, #00a896 45%, #05668d 100%);
+  background: linear-gradient(180deg, #2A9D8F 0%, #00a896 45%, #05668d 100%);
   border-right: none !important;
-  box-shadow: 8px 0 28px rgba(2, 128, 144, 0.28);
+  box-shadow: 8px 0 28px rgba(42, 157, 143, 0.28);
   overflow: visible !important;
   color: #ffffff !important;
   z-index: 30;
-  will-change: transform, width;
 }
 
 .dark .sand-wave-sidebar {
@@ -812,49 +811,124 @@ body[data-picker-open] .dt-mark-pulse {
   color: #e0f4f7 !important;
 }
 
-/* Whole Sidebar Washing In as an Ocean Wave */
-.wave-rocking-in {
-  animation: waveRockingWashIn 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  transform-origin: left center;
+/* Persistent Underneath Rail */
+.sand-rail-container {
+  width: 54px;
+  height: 100vh;
+  background: linear-gradient(180deg, #2A9D8F 0%, #00a896 50%, #05668D 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Whole Sidebar Receding Back as an Ocean Tide */
-.wave-rocking-out {
-  animation: waveRockingWashOut 0.45s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
-  transform-origin: left center;
+.dark .sand-rail-container {
+  background: linear-gradient(180deg, #014f58 0%, #00665c 50%, #03384e 100%);
 }
 
-@keyframes waveRockingWashIn {
+/* Staggered Sine-Wave Pebble Rocks on Rail */
+.sand-rail-rock-0 { margin-left: 8px; }
+.sand-rail-rock-1 { margin-left: -6px; }
+.sand-rail-rock-2 { margin-left: 4px; }
+.sand-rail-rock-3 { margin-left: -3px; }
+.sand-rail-rock-4 { margin-left: 6px; }
+
+/* Staggered Layer 1: Content (Text/Nav) — slides left first on collapse (0s delay), slides in last on expand (0.12s delay) */
+.wave-layer-content-expand {
+  animation: waveContentExpand 0.32s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+.wave-layer-content-collapse {
+  animation: waveContentCollapse 0.22s cubic-bezier(0.4, 0, 1, 1) 0s both;
+}
+
+@keyframes waveContentExpand {
   0% {
-    transform: translateX(-45px) skewY(4deg) rotate(-2.5deg) scaleX(0.88);
-    opacity: 0.7;
-  }
-  45% {
-    transform: translateX(16px) skewY(-3deg) rotate(2deg) scaleX(1.06);
-    opacity: 1;
-  }
-  75% {
-    transform: translateX(-6px) skewY(1.2deg) rotate(-1deg) scaleX(0.97);
+    opacity: 0;
+    transform: translateX(-16px);
   }
   100% {
-    transform: translateX(0) skewY(0) rotate(0) scaleX(1);
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes waveContentCollapse {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Staggered Layer 2: Teal Wave Background Panel — slides in at 0.05s delay */
+.wave-layer-bg-expand {
+  animation: waveBgExpand 0.38s cubic-bezier(0.25, 1, 0.5, 1) 0.05s both;
+}
+.wave-layer-bg-collapse {
+  animation: waveBgCollapse 0.35s cubic-bezier(0.5, 0, 0.75, 0) 0.05s both;
+}
+
+@keyframes waveBgExpand {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes waveBgCollapse {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Staggered Layer 3: Seafoam Wave Edge SVG — slides in first (0s delay) with spring bounce! (105% overshoot) */
+.wave-layer-seafoam-expand {
+  animation: waveSeafoamExpand 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0s both;
+}
+.wave-layer-seafoam-collapse {
+  animation: waveSeafoamCollapse 0.42s cubic-bezier(0.34, 1.45, 0.64, 1) 0.1s both;
+}
+
+@keyframes waveSeafoamExpand {
+  0% {
+    transform: translateX(-100%) scaleX(0.85);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translateX(10px) scaleX(1.08); /* 105% spring overshoot */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
     opacity: 1;
   }
 }
 
-@keyframes waveRockingWashOut {
+@keyframes waveSeafoamCollapse {
   0% {
-    transform: translateX(0) skewY(0) rotate(0);
+    transform: translateX(0) scaleX(1);
   }
-  35% {
-    transform: translateX(12px) skewY(-2.5deg) rotate(1.5deg);
+  40% {
+    transform: translateX(12px) scaleX(1.06); /* Initial wave recoil before receding */
   }
   100% {
-    transform: translateX(0) skewY(0) rotate(0);
+    transform: translateX(-100%) scaleX(0.8);
   }
 }
 
-/* Dual-Layer Seafoam Wave Edge Container with Living Wave Sway */
+/* Dual-Layer Seafoam Wave Edge Container */
 .sand-seafoam-wrapper {
   position: absolute;
   top: 0;
@@ -864,20 +938,6 @@ body[data-picker-open] .dt-mark-pulse {
   height: 100%;
   pointer-events: none;
   z-index: 40;
-  animation: waveEdgeRockingSway 6s ease-in-out infinite alternate;
-  transform-origin: left center;
-}
-
-@keyframes waveEdgeRockingSway {
-  0% {
-    transform: skewY(1deg) scaleX(1);
-  }
-  50% {
-    transform: skewY(-1deg) scaleX(1.15) translateX(3px);
-  }
-  100% {
-    transform: skewY(0.6deg) scaleX(0.92) translateX(-2px);
-  }
 }
 
 /* Layer 1: Translucent Seafoam Crest Wave */
