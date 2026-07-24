@@ -241,40 +241,28 @@ export function SidebarShell({
         </button>
       </div>
 
-      {/* 2. Overlaid Staggered Wave Panel (Slides & Spring-Bounces over Rail) */}
+      {/* 2. Wet Sand Texture Layer on Shore (revealed as water recedes) */}
+      <div
+        className="sand-wet-wash"
+        style={{ opacity: collapsed ? 0.2 : 0.85 }}
+      />
+
+      {/* 3. Unified Clipped Wave Sidebar Panel (100% Solid Gradient Piece, Zero Seams!) */}
       {!collapsed && (
         <aside
-          className={`sand-wave-sidebar absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[220px] flex-col py-0 ${
-            collapsed ? "wave-layer-bg-collapse" : "wave-layer-bg-expand"
+          className={`sand-wave-sidebar-clipped absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[235px] flex-col py-0 ${
+            collapsed ? "wave-foam-wash-out" : "wave-foam-wash-in"
           }`}
         >
-          {/* Layer 3: Dual-Layer Seafoam Wave Edge (Slides in first with 105% spring bounce!) */}
-          <div
-            className={`sand-seafoam-wrapper ${
-              collapsed
-                ? "wave-layer-seafoam-collapse"
-                : "wave-layer-seafoam-expand"
-            }`}
+          {/* White Seafoam Edge Line (Inflow Forward Rush -> Apex Turn -> Outflow Recession) */}
+          <svg
+            className="sand-seafoam-line"
+            viewBox="0 0 32 800"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Layer 1: Translucent Seafoam Crest Wave */}
-            <svg
-              className="sand-seafoam-layer1"
-              viewBox="0 0 32 800"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M0,0 C26,50 -10,110 18,170 C32,230 4,290 20,350 C32,410 -8,470 16,530 C32,590 6,650 22,710 C32,750 12,795 0,800 L0,0 Z" />
-            </svg>
-            {/* Layer 2: Deep Ocean Turquoise Wave Body */}
-            <svg
-              className="sand-seafoam-layer2"
-              viewBox="0 0 24 800"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M0,0 C18,60 -6,120 12,180 C24,240 0,300 14,360 C24,420 -4,480 12,540 C24,600 2,660 16,720 C24,760 8,790 0,800 L0,0 Z" />
-            </svg>
-          </div>
+            <path d="M0,0 C26,50 -10,110 18,170 C32,230 4,290 20,350 C32,410 -8,470 16,530 C32,590 6,650 22,710 C32,750 12,795 0,800 L0,0 Z" />
+          </svg>
 
           {/* Layer 1: Content (Text & Nav links — slides in last, slides out first) */}
           <div
