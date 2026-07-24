@@ -183,6 +183,8 @@ export function SidebarShell({
     event.preventDefault();
     onNewChat?.();
     router.push("/home");
+  };
+
   /* ---- Persistent unified sidebar element with fluid wave width transitions ---- */
   return (
     <aside
