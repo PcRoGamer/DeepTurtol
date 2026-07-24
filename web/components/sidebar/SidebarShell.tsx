@@ -252,17 +252,17 @@ export function SidebarShell({
         style={{ opacity: collapsed ? 0.2 : 0.85 }}
       />
 
-      {/* 4. Smooth Bézier Ocean Wave Panel (Vast Ocean Extending Left Off-Screen with Out-of-Phase Ambient Swell) */}
+      {/* 4. Smooth Ocean Wave Panel (Extends Far Beyond Viewport Bounds Top/Bottom/Left, Seafoam Underneath Water) */}
       {!collapsed && (
         <aside
-          className={`absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[265px] flex-col py-0 ${
+          className={`absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[275px] flex-col py-0 ${
             collapsed ? "sand-layer-wave-collapse" : "sand-layer-wave-expand"
           }`}
         >
-          {/* Extended Background SVG (Starts 335px off-screen to the left so no sand ever pokes through!) */}
+          {/* Extended Background SVG (Starts 140px above top, 140px below bottom, and 600px off-screen left!) */}
           <svg
-            className="absolute top-0 bottom-0 -left-[335px] h-full w-[600px] pointer-events-none drop-shadow-xl overflow-visible"
-            viewBox="0 0 600 800"
+            className="absolute -top-[140px] -bottom-[140px] -left-[600px] h-[calc(100vh+280px)] w-[900px] pointer-events-none drop-shadow-2xl overflow-visible"
+            viewBox="0 0 900 1000"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -272,22 +272,35 @@ export function SidebarShell({
                 <stop offset="45%" stopColor="#00a896" />
                 <stop offset="100%" stopColor="#05668d" />
               </linearGradient>
+
+              {/* Seafoam texture blur filter */}
+              <filter id="seafoamGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" />
+              </filter>
             </defs>
 
-            {/* Layer 2: Solid Gradient Smooth Ocean Body (Deep Swell Ambient 5.4s) */}
+            {/* Layer 1 (UNDERNEATH): Soft White Seafoam Foam Body (Rendered BEHIND water, extends left & 15px right onto shore) */}
+            <path
+              className="sand-seafoam-underlayer-ambient"
+              d="M 0,0 L 878,0 C 904,75 855,150 886,225 C 916,300 862,375 894,450 C 922,525 855,600 886,675 C 916,750 862,825 894,900 C 910,950 882,985 878,1000 L 0,1000 Z"
+              fill="rgba(255, 255, 255, 0.72)"
+              filter="url(#seafoamGlow)"
+            />
+
+            {/* Layer 2 (ON TOP OF SEAFOAM): Solid Gradient Ocean Body (Deep Swell Ambient 5.4s) */}
             <path
               className="sand-ocean-body-ambient"
-              d="M 0,0 L 560,0 C 583,60 540,120 567,180 C 593,240 545,300 573,360 C 597,420 540,480 567,540 C 593,600 545,660 573,720 C 587,760 563,790 560,800 L 0,800 Z"
+              d="M 0,0 L 860,0 C 883,75 840,150 867,225 C 893,300 845,375 873,450 C 897,525 840,600 867,675 C 893,750 845,825 873,900 C 887,950 863,985 860,1000 L 0,1000 Z"
               fill="url(#oceanWaveGrad)"
             />
 
-            {/* Layer 1: Glowing White Seafoam Crest Line (Out-of-Phase Foam Crest Swell 7.2s) */}
+            {/* Layer 3 (ON EDGE): Glowing White Seafoam Crest Line (Out-of-Phase Foam Crest Swell 7.2s) */}
             <path
               className="sand-seafoam-crest-ambient drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"
-              d="M 560,0 C 583,60 540,120 567,180 C 593,240 545,300 573,360 C 597,420 540,480 567,540 C 593,600 545,660 573,720 C 587,760 563,790 560,800"
+              d="M 860,0 C 883,75 840,150 867,225 C 893,300 845,375 873,450 C 897,525 840,600 867,675 C 893,750 845,825 873,900 C 887,950 863,985 860,1000"
               fill="none"
               stroke="rgba(255, 255, 255, 0.95)"
-              strokeWidth="4.5"
+              strokeWidth="5"
               strokeLinecap="round"
             />
           </svg>

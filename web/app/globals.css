@@ -927,6 +927,11 @@ body[data-picker-open] .dt-mark-pulse {
   transform-origin: center center;
 }
 
+.sand-seafoam-underlayer-ambient {
+  animation: seafoamUnderlayerAmbient 6.2s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
 @keyframes oceanBodyAmbientSwell {
   0% {
     transform: translateY(0px) scaleY(1);
@@ -948,6 +953,21 @@ body[data-picker-open] .dt-mark-pulse {
   }
   100% {
     transform: translateY(-10px) scaleX(0.94);
+  }
+}
+
+@keyframes seafoamUnderlayerAmbient {
+  0% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(16px) scale(1.04);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-12px) scale(0.96);
+    opacity: 0.75;
   }
 }
 
