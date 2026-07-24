@@ -791,15 +791,19 @@ body[data-picker-open] .dt-mark-pulse {
   --overlay: rgba(45, 38, 33, 0.42);
 }
 
+/* ============================================================
+   Whole Sidebar Wave Rocking & Ocean Wash Animation System
+   ============================================================ */
+
 .sand-wave-sidebar {
   position: relative;
   background: linear-gradient(180deg, #028090 0%, #00a896 45%, #05668d 100%);
   border-right: none !important;
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
   box-shadow: 8px 0 28px rgba(2, 128, 144, 0.28);
   overflow: visible !important;
   color: #ffffff !important;
   z-index: 30;
+  will-change: transform, width;
 }
 
 .dark .sand-wave-sidebar {
@@ -808,7 +812,49 @@ body[data-picker-open] .dt-mark-pulse {
   color: #e0f4f7 !important;
 }
 
-/* Dual-Layer Seafoam Wave Edge Container */
+/* Whole Sidebar Washing In as an Ocean Wave */
+.wave-rocking-in {
+  animation: waveRockingWashIn 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform-origin: left center;
+}
+
+/* Whole Sidebar Receding Back as an Ocean Tide */
+.wave-rocking-out {
+  animation: waveRockingWashOut 0.45s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+  transform-origin: left center;
+}
+
+@keyframes waveRockingWashIn {
+  0% {
+    transform: translateX(-45px) skewY(4deg) rotate(-2.5deg) scaleX(0.88);
+    opacity: 0.7;
+  }
+  45% {
+    transform: translateX(16px) skewY(-3deg) rotate(2deg) scaleX(1.06);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(-6px) skewY(1.2deg) rotate(-1deg) scaleX(0.97);
+  }
+  100% {
+    transform: translateX(0) skewY(0) rotate(0) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes waveRockingWashOut {
+  0% {
+    transform: translateX(0) skewY(0) rotate(0);
+  }
+  35% {
+    transform: translateX(12px) skewY(-2.5deg) rotate(1.5deg);
+  }
+  100% {
+    transform: translateX(0) skewY(0) rotate(0);
+  }
+}
+
+/* Dual-Layer Seafoam Wave Edge Container with Living Wave Sway */
 .sand-seafoam-wrapper {
   position: absolute;
   top: 0;
@@ -818,20 +864,34 @@ body[data-picker-open] .dt-mark-pulse {
   height: 100%;
   pointer-events: none;
   z-index: 40;
+  animation: waveEdgeRockingSway 6s ease-in-out infinite alternate;
+  transform-origin: left center;
 }
 
-/* Layer 1: Outer Translucent Seafoam Crest Wave */
+@keyframes waveEdgeRockingSway {
+  0% {
+    transform: skewY(1deg) scaleX(1);
+  }
+  50% {
+    transform: skewY(-1deg) scaleX(1.15) translateX(3px);
+  }
+  100% {
+    transform: skewY(0.6deg) scaleX(0.92) translateX(-2px);
+  }
+}
+
+/* Layer 1: Translucent Seafoam Crest Wave */
 .sand-seafoam-layer1 {
   position: absolute;
   inset: 0;
   width: 32px;
   height: 100%;
-  fill: rgba(255, 255, 255, 0.85);
+  fill: rgba(255, 255, 255, 0.88);
   filter: drop-shadow(3px 0 6px rgba(255, 255, 255, 0.5));
   animation: seafoamCrestMotion 6s ease-in-out infinite alternate;
 }
 
-/* Layer 2: Inner Deep Ocean Wave Body */
+/* Layer 2: Deep Ocean Turquoise Wave Body */
 .sand-seafoam-layer2 {
   position: absolute;
   inset: 0;
@@ -872,38 +932,6 @@ body[data-picker-open] .dt-mark-pulse {
   }
   100% {
     transform: translateY(-8px) scaleX(1.06);
-  }
-}
-
-/* Tide Washing Over Sandy Main Canvas */
-.sand-wave-sidebar-expanded {
-  animation: tideWashIn 0.42s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sand-wave-sidebar-collapsed {
-  animation: tideWashOut 0.42s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes tideWashIn {
-  0% {
-    transform: translateX(-40px) skewX(-1deg);
-    opacity: 0.8;
-  }
-  60% {
-    transform: translateX(6px) skewX(0.5deg);
-  }
-  100% {
-    transform: translateX(0) skewX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes tideWashOut {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-18px);
   }
 }
 

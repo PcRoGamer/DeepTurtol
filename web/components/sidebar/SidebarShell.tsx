@@ -188,8 +188,10 @@ export function SidebarShell({
   /* ---- Persistent unified sidebar element with fluid wave width transitions ---- */
   return (
     <aside
-      className={`sand-wave-sidebar group/sb relative flex h-screen shrink-0 flex-col overflow-visible py-0 transition-all duration-400 ease-in-out ${
-        collapsed ? "w-[60px] items-center" : "w-[220px]"
+      className={`sand-wave-sidebar group/sb relative flex h-screen shrink-0 flex-col overflow-visible py-0 ${
+        collapsed
+          ? "wave-rocking-out w-[60px] items-center"
+          : "wave-rocking-in w-[220px]"
       }`}
     >
       {/* Dual-Layer Seafoam Wave Edge — washes over the sandy app canvas */}
