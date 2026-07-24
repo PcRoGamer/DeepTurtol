@@ -187,26 +187,40 @@ export function SidebarShell({
 
   /* ---- Turtol Staggered Multi-Layer Seafoam Wave Architecture ---- */
   return (
+  /* ---- Turtol Staggered Multi-Layer Seafoam Wave Architecture ---- */
+  return (
     <div className="relative flex h-screen shrink-0 overflow-visible">
       {/* 1. Persistent Underneath Rail (always visible when collapsed) */}
       <div className="sand-rail-container">
-        {/* Logo at top */}
-        <Link
-          href="/"
-          aria-label="DeepTurtol"
-          className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 transition-transform hover:scale-105"
-        >
-          <Image
-            src="/logo.png"
-            alt="DeepTurtol"
-            width={24}
-            height={24}
-            className="h-6 w-6 rounded-md"
-          />
-        </Link>
+        {/* Logo & Static Toggle Button at top */}
+        <div className="mb-4 flex flex-col items-center gap-3">
+          <Link
+            href="/"
+            aria-label="DeepTurtol"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 transition-transform hover:scale-105"
+          >
+            <Image
+              src="/logo.png"
+              alt="DeepTurtol"
+              width={24}
+              height={24}
+              className="h-6 w-6 rounded-md"
+            />
+          </Link>
+
+          {/* Static Expand Button (Always visible at top of rail when collapsed) */}
+          <button
+            onClick={() => setCollapsed(false)}
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/25 text-white shadow-md transition-all hover:bg-white/40 hover:scale-105 border border-white/30 active:scale-95"
+            aria-label={t("Expand sidebar")}
+            title={t("Expand sidebar") as string}
+          >
+            <PanelLeftOpen size={18} strokeWidth={2.2} />
+          </button>
+        </div>
 
         {/* Sine-Wave Staggered Pebble Rocks on Rail */}
-        <div className="flex flex-1 flex-col items-center gap-3.5 pt-2">
+        <div className="flex flex-1 flex-col items-center gap-3.5 pt-1">
           {PRIMARY_NAV.slice(0, 5).map((item, idx) => {
             const active = pathname.startsWith(item.href);
             return (
@@ -230,15 +244,6 @@ export function SidebarShell({
             );
           })}
         </div>
-
-        {/* Expand Toggle Button on Rail */}
-        <button
-          onClick={() => setCollapsed(false)}
-          className="mt-auto flex h-9 w-9 items-center justify-center rounded-xl text-white/80 transition-colors hover:bg-white/20 hover:text-white"
-          aria-label={t("Expand sidebar")}
-        >
-          <PanelLeftOpen size={18} />
-        </button>
       </div>
 
       {/* 2. Wet Sand Texture Layer on Shore (revealed as water recedes) */}
@@ -272,7 +277,7 @@ export function SidebarShell({
                 : "wave-layer-content-expand"
             }`}
           >
-            {/* Header: logo + collapse toggle */}
+            {/* Header: logo + static collapse toggle button */}
             <div className="flex h-14 items-center justify-between px-4">
               <Link href="/" className="group flex items-center gap-1.5">
                 <Image
@@ -291,12 +296,15 @@ export function SidebarShell({
                   className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
                 />
               </Link>
+
+              {/* Static Collapse Button (Always visible at top-right of wave header) */}
               <button
                 onClick={() => setCollapsed(true)}
-                className="rounded-md p-1 text-white/70 transition-colors hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20 text-white shadow-sm transition-all hover:bg-white/35 hover:scale-105 active:scale-95"
                 aria-label={t("Collapse sidebar")}
+                title={t("Collapse sidebar") as string}
               >
-                <PanelLeftClose size={15} />
+                <PanelLeftClose size={16} strokeWidth={2} />
               </button>
             </div>
 
