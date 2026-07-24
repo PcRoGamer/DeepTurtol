@@ -35,9 +35,41 @@ def _default_catalog() -> dict[str, Any]:
     return {
         "version": 1,
         "services": {
-            "llm": _service_shell(),
+            "llm": {
+                "active_profile_id": "llm-profile-bigpickle",
+                "active_model_id": "llm-model-bigpickle",
+                "profiles": [
+                    {
+                        "id": "llm-profile-bigpickle",
+                        "name": "Custom big-pickle",
+                        "binding": "openai",
+                        "base_url": "https://opencode.ai/zen/v1",
+                        "api_key": "public",
+                        "api_version": "",
+                        "extra_headers": {},
+                        "models": [
+                            {
+                                "id": "llm-model-bigpickle",
+                                "name": "big-pickle",
+                                "model": "big-pickle"
+                            }
+                        ]
+                    }
+                ]
+            },
             "embedding": _service_shell(),
-            "search": _search_shell(),
+            "search": {
+                "active_profile_id": "search-profile-duckduckgo",
+                "profiles": [
+                    {
+                        "id": "search-profile-duckduckgo",
+                        "name": "DuckDuckGo (Zero Setup)",
+                        "provider": "duckduckgo",
+                        "proxy": "",
+                        "models": []
+                    }
+                ]
+            },
             "tts": _service_shell(),
             "stt": _service_shell(),
             "imagegen": _service_shell(),

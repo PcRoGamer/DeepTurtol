@@ -630,13 +630,13 @@ def resolve_llm_runtime_config(
     profile, model = _active_profile_and_model(loaded, catalog_service, "llm")
     resolved_model = _as_str((model or {}).get("model"))
     if not resolved_model:
-        resolved_model = "gpt-4o-mini"
+        resolved_model = "big-pickle"
 
-    binding_hint_raw = _as_str((profile or {}).get("binding"))
+    binding_hint_raw = _as_str((profile or {}).get("binding")) or "openai"
     binding_hint = canonical_provider_name(binding_hint_raw)
 
-    active_api_key = _as_str((profile or {}).get("api_key"))
-    active_api_base = _as_str((profile or {}).get("base_url"))
+    active_api_key = _as_str((profile or {}).get("api_key")) or "public"
+    active_api_base = _as_str((profile or {}).get("base_url")) or "https://opencode.ai/zen/v1"
     active_api_version = _as_str((profile or {}).get("api_version"))
     reasoning_effort = _as_str((model or {}).get("reasoning_effort")) or None
     active_extra_headers = _to_headers((profile or {}).get("extra_headers"))
