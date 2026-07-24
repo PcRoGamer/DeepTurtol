@@ -792,7 +792,7 @@ body[data-picker-open] .dt-mark-pulse {
 }
 
 /* ============================================================
-   Turtol Smooth Ocean Wave Sidebar Architecture & Animations
+   Turtol Original Staggered Multi-Layer Wave Wash System
    ============================================================ */
 
 /* Single Fixed Top-Left Toggle Button */
@@ -807,41 +807,42 @@ body[data-picker-open] .dt-mark-pulse {
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(8px);
   transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
 }
 
 .sand-fixed-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.38);
-  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.42);
+  transform: scale(1.08);
 }
 
 .sand-fixed-toggle-btn:active {
   transform: scale(0.95);
 }
 
-/* Smooth Wave Slide & Natural Shore-Wash Overshoot (No Genie Warping!) */
-.sand-wave-slide-in {
-  animation: waveNaturalShoreWash 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* --- LAYER 1: Smooth Bézier SVG Wave Shape & Crest --- */
+/* Expand: Seafoam Wave SVG rushes in first (0s delay) with 108% spring bounce */
+.sand-layer-wave-expand {
+  animation: sandWaveExpand 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) 0s both;
+}
+/* Collapse: Seafoam Wave SVG recoils and slides out last (0.12s delay) */
+.sand-layer-wave-collapse {
+  animation: sandWaveCollapse 0.42s cubic-bezier(0.34, 1.45, 0.64, 1) 0.12s both;
 }
 
-.sand-wave-slide-out {
-  animation: waveNaturalTideRecede 0.38s cubic-bezier(0.5, 0, 0.75, 0) forwards;
-}
-
-@keyframes waveNaturalShoreWash {
+@keyframes sandWaveExpand {
   0% {
     transform: translateX(-100%);
-    opacity: 0.4;
+    opacity: 0.3;
   }
-  70% {
-    /* Natural gentle wave wash overshoot onto sand */
-    transform: translateX(12px);
+  68% {
+    /* Wave crest spring bounce overshoot */
+    transform: translateX(18px);
     opacity: 1;
   }
   100% {
@@ -850,19 +851,51 @@ body[data-picker-open] .dt-mark-pulse {
   }
 }
 
-@keyframes waveNaturalTideRecede {
+@keyframes sandWaveCollapse {
   0% {
     transform: translateX(0);
     opacity: 1;
   }
-  30% {
-    /* Natural tidal pull back before receding */
-    transform: translateX(8px);
+  35% {
+    /* Wave recoil before receding */
+    transform: translateX(12px);
     opacity: 0.95;
   }
   100% {
     transform: translateX(-100%);
     opacity: 0;
+  }
+}
+
+/* --- LAYER 2: Sidebar Content (Text & Nav Links) --- */
+/* Expand: Content fades & slides in last (0.14s delay) */
+.sand-layer-content-expand {
+  animation: sandContentExpand 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+/* Collapse: Content fades & slides out first (0s delay) */
+.sand-layer-content-collapse {
+  animation: sandContentCollapse 0.22s cubic-bezier(0.4, 0, 1, 1) 0s both;
+}
+
+@keyframes sandContentExpand {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sandContentCollapse {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-24px);
   }
 }
 
@@ -872,7 +905,7 @@ body[data-picker-open] .dt-mark-pulse {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 260px;
+  width: 280px;
   background: linear-gradient(90deg, rgba(165, 135, 95, 0.42) 0%, rgba(185, 155, 115, 0.22) 75%, transparent 100%);
   pointer-events: none;
   z-index: 15;
@@ -881,6 +914,41 @@ body[data-picker-open] .dt-mark-pulse {
 
 .dark .sand-wet-wash {
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.2) 75%, transparent 100%);
+}
+
+/* Out-of-Phase Ambient Up-and-Down Swell Movement */
+.sand-ocean-body-ambient {
+  animation: oceanBodyAmbientSwell 5.4s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+.sand-seafoam-crest-ambient {
+  animation: seafoamCrestAmbientSwell 7.2s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes oceanBodyAmbientSwell {
+  0% {
+    transform: translateY(0px) scaleY(1);
+  }
+  50% {
+    transform: translateY(-12px) scaleY(1.025);
+  }
+  100% {
+    transform: translateY(8px) scaleY(0.975);
+  }
+}
+
+@keyframes seafoamCrestAmbientSwell {
+  0% {
+    transform: translateY(0px) scaleX(1);
+  }
+  50% {
+    transform: translateY(14px) scaleX(1.06);
+  }
+  100% {
+    transform: translateY(-10px) scaleX(0.94);
+  }
 }
 
 /* Dual-Layer Seafoam Wave Edge Container */

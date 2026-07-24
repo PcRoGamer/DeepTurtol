@@ -252,17 +252,17 @@ export function SidebarShell({
         style={{ opacity: collapsed ? 0.2 : 0.85 }}
       />
 
-      {/* 4. Smooth Bézier Ocean Wave Panel (Silky Curved Wave Edge, Zero Pointy Triangles!) */}
+      {/* 4. Smooth Bézier Ocean Wave Panel (Vast Ocean Extending Left Off-Screen with Out-of-Phase Ambient Swell) */}
       {!collapsed && (
         <aside
           className={`absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[265px] flex-col py-0 ${
-            collapsed ? "sand-wave-slide-out" : "sand-wave-slide-in"
+            collapsed ? "sand-layer-wave-collapse" : "sand-layer-wave-expand"
           }`}
         >
-          {/* Background SVG defining the smooth Bézier curved wave shape */}
+          {/* Extended Background SVG (Starts 335px off-screen to the left so no sand ever pokes through!) */}
           <svg
-            className="absolute inset-0 h-full w-full pointer-events-none drop-shadow-xl"
-            viewBox="0 0 265 800"
+            className="absolute top-0 bottom-0 -left-[335px] h-full w-[600px] pointer-events-none drop-shadow-xl overflow-visible"
+            viewBox="0 0 600 800"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -274,25 +274,31 @@ export function SidebarShell({
               </linearGradient>
             </defs>
 
-            {/* Solid Gradient Smooth Wave Body */}
+            {/* Layer 2: Solid Gradient Smooth Ocean Body (Deep Swell Ambient 5.4s) */}
             <path
-              d="M 0,0 L 225,0 C 248,60 205,120 232,180 C 258,240 210,300 238,360 C 262,420 205,480 232,540 C 258,600 210,660 238,720 C 252,760 228,790 225,800 L 0,800 Z"
+              className="sand-ocean-body-ambient"
+              d="M 0,0 L 560,0 C 583,60 540,120 567,180 C 593,240 545,300 573,360 C 597,420 540,480 567,540 C 593,600 545,660 573,720 C 587,760 563,790 560,800 L 0,800 Z"
               fill="url(#oceanWaveGrad)"
             />
 
-            {/* Glowing White Seafoam Crest Line Along Wave Edge */}
+            {/* Layer 1: Glowing White Seafoam Crest Line (Out-of-Phase Foam Crest Swell 7.2s) */}
             <path
-              d="M 225,0 C 248,60 205,120 232,180 C 258,240 210,300 238,360 C 262,420 205,480 232,540 C 258,600 210,660 238,720 C 252,760 228,790 225,800"
+              className="sand-seafoam-crest-ambient"
+              d="M 560,0 C 583,60 540,120 567,180 C 593,240 545,300 573,360 C 597,420 540,480 567,540 C 593,600 545,660 573,720 C 587,760 563,790 560,800"
               fill="none"
-              stroke="rgba(255, 255, 255, 0.9)"
-              strokeWidth="4"
+              stroke="rgba(255, 255, 255, 0.95)"
+              strokeWidth="4.5"
               strokeLinecap="round"
-              className="drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]"
+              className="drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"
             />
           </svg>
 
-          {/* Sidebar Content (Text & Nav links) */}
-          <div className="relative z-10 flex h-full w-[220px] flex-col pl-14 pt-3">
+          {/* Sidebar Content (Text & Nav links — Staggered Layer 2) */}
+          <div
+            className={`relative z-10 flex h-full w-[220px] flex-col pl-14 pt-3 ${
+              collapsed ? "sand-layer-content-collapse" : "sand-layer-content-expand"
+            }`}
+          >
             {/* Header: logo */}
             <div className="flex h-12 items-center px-2 mb-2">
               <Link href="/" className="group flex items-center gap-1.5">
