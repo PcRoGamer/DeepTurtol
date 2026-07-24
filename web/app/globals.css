@@ -844,23 +844,88 @@ body[data-picker-open] .dt-mark-pulse {
 
 .sand-wave-sidebar {
   position: relative;
-  background: linear-gradient(180deg, var(--secondary) 0%, rgba(245, 236, 224, 0.95) 100%);
-  border-right: 1px solid var(--border);
-  box-shadow: 2px 0 12px rgba(195, 176, 149, 0.12);
+  background: linear-gradient(180deg, #f4ecd8 0%, #ece2cd 50%, #e2d6be 100%);
+  border-right: none !important;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 6px 0 24px rgba(160, 130, 90, 0.18);
+  overflow: visible !important;
+  color: #3d3126;
 }
 
-.sand-wave-sidebar::after {
-  content: "";
+.dark .sand-wave-sidebar {
+  background: linear-gradient(180deg, #2a241f 0%, #221d19 50%, #1c1815 100%);
+  box-shadow: 6px 0 24px rgba(0, 0, 0, 0.45);
+  color: #e5dac6;
+}
+
+/* Dynamic Vertical Wave Edge SVG */
+.sand-wave-edge {
   position: absolute;
+  top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,90 350,-40 500,40 C650,120 900,10 1200,60 L1200,120 L0,120 Z' fill='%23028090' opacity='0.08'%3E%3C/path%3E%3Cpath d='M0,20 C200,100 450,10 700,70 C950,130 1100,30 1200,80 L1200,120 L0,120 Z' fill='%23e5dac6' opacity='0.25'%3E%3C/path%3E%3C/svg%3E");
-  background-size: cover;
-  background-repeat: no-repeat;
+  right: -23px;
+  width: 24px;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 20;
+  fill: #e2d6be;
+  filter: drop-shadow(4px 0 8px rgba(2, 128, 144, 0.15));
+  transition: fill 0.35s ease;
+}
+
+.dark .sand-wave-edge {
+  fill: #1c1815;
+  filter: drop-shadow(4px 0 8px rgba(0, 0, 0, 0.35));
+}
+
+/* Animated Liquid Wave Crest Effect */
+@keyframes waveCrestWash {
+  0% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-8px) scaleY(1.02);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.sand-wave-edge path {
+  animation: waveCrestWash 6s infinite ease-in-out;
+  transform-origin: center;
+}
+
+/* Tide Slide In / Slide Out Wave Effects */
+.sand-wave-sidebar-expanded {
+  animation: tideSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sand-wave-sidebar-collapsed {
+  animation: tideSlideOut 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tideSlideIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0.85;
+  }
+  60% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tideSlideOut {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-15px);
+  }
 }
 
 .pebble-item {

@@ -190,8 +190,8 @@ After `deeptutor start`, open the frontend URL printed in the terminal — by de
 For development against a checkout. Use **Python 3.11–3.13** and **Node.js 22 LTS** to match CI and Docker.
 
 ```bash
-git clone https://github.com/HKUDS/DeepTutor.git
-cd DeepTutor
+git clone https://github.com/PcRoGamer/DeepTurtol.git
+cd DeepTurtol
 
 # Create a venv (macOS/Linux). Windows PowerShell:
 #   py -3.11 -m venv .venv ; .\.venv\Scripts\Activate.ps1
