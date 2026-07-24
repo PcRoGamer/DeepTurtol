@@ -36,13 +36,13 @@ def _default_catalog() -> dict[str, Any]:
         "version": 1,
         "services": {
             "llm": {
-                "active_profile_id": "llm-profile-bigpickle",
+                "active_profile_id": "llm-profile-opencode",
                 "active_model_id": "llm-model-bigpickle",
                 "profiles": [
                     {
-                        "id": "llm-profile-bigpickle",
-                        "name": "Custom big-pickle",
-                        "binding": "openai",
+                        "id": "llm-profile-opencode",
+                        "name": "OpenCode Zen",
+                        "binding": "opencode",
                         "base_url": "https://opencode.ai/zen/v1",
                         "api_key": "public",
                         "api_version": "",

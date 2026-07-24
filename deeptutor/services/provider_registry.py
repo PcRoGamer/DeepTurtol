@@ -91,6 +91,8 @@ PROVIDER_ALIASES = {
     "atlas": "atlascloud",
     "atlas_cloud": "atlascloud",
     "atlas-cloud": "atlascloud",
+    "opencode-zen": "opencode",
+    "opencode_zen": "opencode",
 }
 
 
@@ -136,6 +138,16 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         is_direct=True,
     ),
     # === Gateways (detected by api_key / api_base, route any model) ========
+    ProviderSpec(
+        name="opencode",
+        keywords=("opencode", "opencode_zen", "zen"),
+        env_key="OPENCODE_API_KEY",
+        display_name="OpenCode Zen",
+        backend="openai_compat",
+        is_gateway=True,
+        detect_by_base_keyword="opencode",
+        default_api_base="https://opencode.ai/zen/v1",
+    ),
     ProviderSpec(
         name="openrouter",
         keywords=("openrouter",),
