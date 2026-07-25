@@ -164,15 +164,19 @@ export function SidebarShell({
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
-                  className="group flex h-9 items-center gap-2 rounded-xl border border-white/35 bg-white/20 px-2 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-[1.02] hover:bg-white/30 active:scale-[0.98] overflow-hidden cursor-pointer"
+                  className={`group flex h-9 items-center gap-2.5 transition-all duration-200 overflow-hidden cursor-pointer ${
+                    isExpanded
+                      ? "rounded-xl border border-white/25 bg-black/35 px-2.5 shadow-lg backdrop-blur-md hover:bg-black/45 hover:scale-[1.02] active:scale-[0.98]"
+                      : "pl-1 bg-transparent border border-transparent"
+                  }`}
                   onMouseEnter={(e) => spawnBubbles(e)}
                 >
                   <Image
                     src="/logo.png"
                     alt="DeepTurtol"
-                    width={24}
-                    height={24}
-                    className="h-[22px] w-[22px] shrink-0 object-contain transition-transform duration-200 group-hover:scale-105"
+                    width={26}
+                    height={26}
+                    className="h-[24px] w-[24px] shrink-0 object-contain transition-transform duration-200 group-hover:scale-105"
                   />
                   <motion.div
                     initial={false}
@@ -189,7 +193,7 @@ export function SidebarShell({
                       width={688}
                       height={152}
                       priority
-                      className="h-[18px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                      className="h-[19px] w-auto object-contain transition-transform duration-200 group-hover:scale-105 brightness-110"
                     />
                   </motion.div>
                 </Link>
