@@ -197,9 +197,9 @@ export function SidebarShell({
         expandedWidth={275}
         collapsedWidth={52}
       >
-        {(spawnBubbles) =>
-          collapsed ? (
-            /* ── Collapsed Rail Navigation ── */
+        {(spawnBubbles, isExpanded) =>
+          !isExpanded ? (
+            /* ── Collapsed Rail Navigation (Auto-expands on hover) ── */
             <div className="flex h-full w-[52px] flex-col items-center pt-3 pb-4 overflow-hidden">
               {/* Glassmorphic Expand Toggle Button absorbed into top of rail */}
               <button
@@ -213,7 +213,7 @@ export function SidebarShell({
               </button>
 
               {/* Primary Nav Icons */}
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-3 w-full px-1">
                 {PRIMARY_NAV.map((item) => {
                   const active = pathname.startsWith(item.href);
                   const locked = navLocked(item);
@@ -235,19 +235,17 @@ export function SidebarShell({
                           spawnBubbles(e);
                           if (item.href === "/home") handleHomeClick(e);
                         }}
-                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
+                        className={`relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-200 ${
                           active
                             ? "bg-white/25 border border-white/35 text-cyan-300 shadow-md backdrop-blur-md"
                             : "text-white/70 hover:bg-white/15 hover:text-white border border-transparent"
                         }`}
                       >
+                        {/* Glowing Cyan Indicator Bar matching ocean_sidebar (1) collapsed rail */}
                         {active && (
-                          <motion.div
-                            layoutId="activeCurrentCollapsed"
-                            className="absolute left-[-12px] w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
-                          />
+                          <div className="absolute left-[-16px] w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]" />
                         )}
-                        <item.icon size={20} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
+                        <item.icon size={21} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
                       </Link>
                     </Tooltip>
                   );
@@ -257,7 +255,7 @@ export function SidebarShell({
               <div className="my-3 w-6 border-t border-white/20" />
 
               {/* Secondary Nav Icons */}
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-3 w-full px-1">
                 {SECONDARY_NAV.map((item) => {
                   const active = pathname.startsWith(item.href);
                   return (
@@ -266,19 +264,16 @@ export function SidebarShell({
                         href={item.href}
                         onMouseEnter={(e) => spawnBubbles(e)}
                         onClick={(e) => spawnBubbles(e)}
-                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
+                        className={`relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-200 ${
                           active
                             ? "bg-white/25 border border-white/35 text-cyan-300 shadow-md backdrop-blur-md"
                             : "text-white/70 hover:bg-white/15 hover:text-white border border-transparent"
                         }`}
                       >
                         {active && (
-                          <motion.div
-                            layoutId="activeCurrentCollapsed"
-                            className="absolute left-[-12px] w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
-                          />
+                          <div className="absolute left-[-16px] w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]" />
                         )}
-                        <item.icon size={20} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
+                        <item.icon size={21} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
                       </Link>
                     </Tooltip>
                   );
@@ -325,8 +320,8 @@ export function SidebarShell({
               </div>
 
               {/* Primary nav */}
-              <nav className="px-2 pt-1">
-                <div className="space-y-1">
+              <nav className="px-3 pt-1">
+                <div className="space-y-1.5">
                   {PRIMARY_NAV.map((item) => {
                     const active = pathname.startsWith(item.href);
                     const locked = navLocked(item);
@@ -341,10 +336,10 @@ export function SidebarShell({
                           <div
                             aria-label={`${t(item.label)} — ${lockedTooltip}`}
                             aria-disabled
-                            className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3.5 py-2.5 text-[13.5px] text-white/40"
+                            className="flex cursor-not-allowed items-center gap-3.5 rounded-xl px-3.5 py-3 text-[14px] font-sans font-medium text-white/40"
                           >
-                            <item.icon size={18} strokeWidth={1.5} />
-                            <span className="whitespace-nowrap">{t(item.label)}</span>
+                            <item.icon size={20} strokeWidth={1.5} />
+                            <span className="whitespace-nowrap font-sans">{t(item.label)}</span>
                             <Lock size={13} strokeWidth={1.8} className="ml-auto" />
                           </div>
                         </Tooltip>
@@ -359,7 +354,7 @@ export function SidebarShell({
                           spawnBubbles(e);
                           if (item.href === "/home") handleHomeClick(e);
                         }}
-                        className={`group relative flex items-center space-x-3.5 px-3.5 py-2.5 rounded-xl transition-all duration-200 ${
+                        className={`group relative flex items-center space-x-4 px-3.5 py-3 rounded-xl transition-all duration-200 ${
                           active
                             ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
                             : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
@@ -369,17 +364,17 @@ export function SidebarShell({
                         {active && (
                           <motion.div
                             layoutId="activeCurrentExpanded"
-                            className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
+                            className="absolute left-0 w-1 h-10 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
                           />
                         )}
                         <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center">
                           <item.icon
-                            size={20}
+                            size={22}
                             className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
                             strokeWidth={active ? 2.1 : 1.6}
                           />
                         </div>
-                        <span className={`whitespace-nowrap font-medium text-[13.5px] ${active ? "text-cyan-300" : "text-white/80 group-hover:text-white"}`}>
+                        <span className={`whitespace-nowrap font-sans font-medium text-[14px] tracking-wide ${active ? "text-cyan-300 font-semibold" : "text-white/80 group-hover:text-white"}`}>
                           {t(item.label)}
                         </span>
                       </Link>
@@ -402,7 +397,7 @@ export function SidebarShell({
                       toggleRecents();
                     }}
                     onMouseEnter={(e) => spawnBubbles(e)}
-                    className="group/recents mx-2 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                    className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                     aria-expanded={!recentsCollapsed}
                     aria-label={
                       recentsCollapsed
@@ -422,7 +417,7 @@ export function SidebarShell({
                     />
                   </button>
                   {!recentsCollapsed && (
-                    <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-2 pt-0.5">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
                       <SessionList
                         sessions={sessions}
                         activeSessionId={activeSessionId}
@@ -445,42 +440,44 @@ export function SidebarShell({
                 recentsCollapsed) && <div className="flex-1" />}
 
               {/* Secondary nav + footer */}
-              <div className="border-t border-white/20 px-2 py-2">
-                {SECONDARY_NAV.map((item) => {
-                  const active = pathname.startsWith(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onMouseEnter={(e) => spawnBubbles(e)}
-                      onClick={(e) => spawnBubbles(e)}
-                      className={`group relative flex items-center space-x-3.5 px-3.5 py-2 rounded-xl transition-all duration-200 ${
-                        active
-                          ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
-                          : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
-                      }`}
-                    >
-                      {active && (
-                        <motion.div
-                          layoutId="activeCurrentExpanded"
-                          className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
-                        />
-                      )}
-                      <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center">
-                        <item.icon
-                          size={20}
-                          className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
-                          strokeWidth={active ? 2.1 : 1.6}
-                        />
-                      </div>
-                      <span className={`whitespace-nowrap font-medium text-[13.5px] ${active ? "text-cyan-300" : "text-white/80 group-hover:text-white"}`}>
-                        {t(item.label)}
-                      </span>
-                    </Link>
-                  );
-                })}
+              <div className="border-t border-white/20 px-3 py-2">
+                <div className="space-y-1">
+                  {SECONDARY_NAV.map((item) => {
+                    const active = pathname.startsWith(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onMouseEnter={(e) => spawnBubbles(e)}
+                        onClick={(e) => spawnBubbles(e)}
+                        className={`group relative flex items-center space-x-4 px-3.5 py-2.5 rounded-xl transition-all duration-200 ${
+                          active
+                            ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                            : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
+                        }`}
+                      >
+                        {active && (
+                          <motion.div
+                            layoutId="activeCurrentExpanded"
+                            className="absolute left-0 w-1 h-10 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
+                          />
+                        )}
+                        <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center">
+                          <item.icon
+                            size={22}
+                            className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
+                            strokeWidth={active ? 2.1 : 1.6}
+                          />
+                        </div>
+                        <span className={`whitespace-nowrap font-sans font-medium text-[14px] tracking-wide ${active ? "text-cyan-300 font-semibold" : "text-white/80 group-hover:text-white"}`}>
+                          {t(item.label)}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
                 {renderedFooter}
-                <div className="mt-0.5 flex items-center gap-0.5">
+                <div className="mt-1 flex items-center gap-0.5">
                   <VersionBadge />
                   <a
                     href={DOCS_URL}
