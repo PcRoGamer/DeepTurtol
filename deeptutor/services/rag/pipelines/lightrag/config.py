@@ -45,12 +45,11 @@ class LightRagNotConfiguredError(RuntimeError):
 
 
 def is_lightrag_available() -> bool:
-    """True when RAG-Anything (which bundles LightRAG) can be imported.
-
-    Opt-in extra: ``pip install 'deeptutor[rag-lightrag]'``. Until installed the
-    provider is hidden / blocked in the UI.
-    """
-    return importlib.util.find_spec("raganything") is not None
+    """True when LightRAG or RAG-Anything can be imported."""
+    return (
+        importlib.util.find_spec("raganything") is not None
+        or importlib.util.find_spec("lightrag") is not None
+    )
 
 
 def normalize_mode(mode: str | None) -> str:

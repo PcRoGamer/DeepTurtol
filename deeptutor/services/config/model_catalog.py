@@ -192,8 +192,19 @@ class ModelCatalogService:
                     existing_profiles = list(svc_data.get("profiles", []))
                     existing_pids = {p.get("id") for p in existing_profiles if p.get("id")}
                     for dp in def_profiles:
-                        if dp.get("id") and dp["id"] not in existing_pids:
+                        dpid = dp.get("id")
+                        if dpid and dpid not in existing_pids:
                             existing_profiles.append(deepcopy(dp))
+                        elif dpid:
+                            for ep in existing_profiles:
+                                if ep.get("id") == dpid:
+                                    ex_models = list(ep.get("models", []))
+                                    ex_model_keys = {m.get("model") or m.get("id") for m in ex_models}
+                                    for dm in dp.get("models", []):
+                                        m_key = dm.get("model") or dm.get("id")
+                                        if m_key and m_key not in ex_model_keys:
+                                            ex_models.append(deepcopy(dm))
+                                    ep["models"] = ex_models
                     catalog["services"][svc_name].update(svc_data)
                     catalog["services"][svc_name]["profiles"] = existing_profiles
                 else:
