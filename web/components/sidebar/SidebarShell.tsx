@@ -166,7 +166,7 @@ export function SidebarShell({
                   href="/"
                   className={`group flex h-9 items-center gap-2.5 transition-all duration-200 overflow-hidden cursor-pointer ${
                     isExpanded
-                      ? "rounded-xl border border-white/25 bg-black/35 px-2.5 shadow-lg backdrop-blur-md hover:bg-black/45 hover:scale-[1.02] active:scale-[0.98]"
+                      ? "rounded-xl border border-white/50 bg-[#FDF8EE] px-2.5 shadow-md hover:bg-[#FDF6E2] hover:scale-[1.02] active:scale-[0.98]"
                       : "pl-1 bg-transparent border border-transparent"
                   }`}
                   onMouseEnter={(e) => spawnBubbles(e)}
@@ -193,7 +193,7 @@ export function SidebarShell({
                       width={688}
                       height={152}
                       priority
-                      className="h-[19px] w-auto object-contain transition-transform duration-200 group-hover:scale-105 brightness-110"
+                      className="h-[19px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
                     />
                   </motion.div>
                 </Link>
