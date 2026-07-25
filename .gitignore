@@ -62,6 +62,7 @@ MANIFEST
 env/
 venv/
 ENV/
+models/
 .venv/
 env.bak/
 venv.bak/

@@ -72,15 +72,16 @@ class FastEmbedAdapter(BaseEmbeddingAdapter):
             supported_names = [m["model"] for m in TextEmbedding.list_supported_models()]
             if model_name not in supported_names:
                 dim = self.MODELS_INFO.get(model_name, self.dimensions or 1024)
+                pooling = getattr(PoolingType, "LAST_TOKEN", PoolingType.MEAN) if "qwen" in model_name.lower() else PoolingType.MEAN
                 TextEmbedding.add_custom_model(
                     model=model_name,
-                    pooling=PoolingType.MEAN,
+                    pooling=pooling,
                     normalization=True,
                     sources=ModelSource(hf=model_name),
                     dim=dim,
                     model_file="model.onnx",
                 )
-                logger.info(f"Registered model '{model_name}' (dim={dim}) into FastEmbed registry")
+                logger.info(f"Registered model '{model_name}' (dim={dim}, pooling={pooling}) into FastEmbed registry")
         except Exception as reg_err:
             logger.debug(f"Custom model registration hint for '{model_name}': {reg_err}")
 
