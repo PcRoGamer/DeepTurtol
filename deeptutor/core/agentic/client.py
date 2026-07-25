@@ -55,6 +55,8 @@ class LLMClientConfig:
 
 def build_openai_client(config: LLMClientConfig) -> Any:
     """Construct an ``AsyncOpenAI`` / ``AsyncAzureOpenAI`` client."""
+    from deeptutor.services.llm.utils import sanitize_url
+
     default_headers = config.extra_headers or None
     spec = find_by_name(config.binding)
     if spec:
@@ -65,17 +67,20 @@ def build_openai_client(config: LLMClientConfig) -> Any:
     http_client = None
     if load_system_settings()["disable_ssl_verify"]:
         http_client = httpx.AsyncClient(verify=False)  # nosec B501
+
+    sanitized_url = sanitize_url(config.base_url) if config.base_url else None
+
     if config.binding == "azure_openai" or (config.binding == "openai" and config.api_version):
         return AsyncAzureOpenAI(
             api_key=config.api_key or "sk-no-key-required",
-            azure_endpoint=config.base_url,
+            azure_endpoint=sanitized_url or config.base_url,
             api_version=config.api_version,
             http_client=http_client,
             default_headers=default_headers,
         )
     return AsyncOpenAI(
         api_key=config.api_key or "sk-no-key-required",
-        base_url=config.base_url or None,
+        base_url=sanitized_url or config.base_url or None,
         http_client=http_client,
         default_headers=default_headers,
     )

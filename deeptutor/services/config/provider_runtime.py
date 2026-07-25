@@ -673,6 +673,9 @@ def resolve_llm_runtime_config(
         api_key = "sk-no-key-required"
     extra_headers = active_extra_headers or ((mapped.extra_headers or {}) if mapped else {})
 
+    from deeptutor.services.llm.utils import sanitize_url
+    sanitized_effective = sanitize_url(api_base) if api_base else None
+
     return ResolvedLLMConfig(
         model=resolved_model,
         provider_name=spec.name,
@@ -681,7 +684,7 @@ def resolve_llm_runtime_config(
         binding=spec.name,
         api_key=api_key,
         base_url=api_base or None,
-        effective_url=api_base or None,
+        effective_url=sanitized_effective or api_base or None,
         api_version=api_version or None,
         extra_headers=extra_headers,
         reasoning_effort=reasoning_effort,
