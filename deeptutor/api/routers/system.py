@@ -19,6 +19,47 @@ from deeptutor.services.search import web_search
 router = APIRouter()
 
 
+class InstallPackageRequest(BaseModel):
+    engine_id: str
+
+
+@router.post("/install-package")
+async def install_package_endpoint(payload: InstallPackageRequest):
+    """
+    Executes 1-click background pip installation for RAG engine packages (GraphRAG / LightRAG).
+    """
+    import subprocess
+    import sys
+
+    engine_id = payload.engine_id.lower().strip()
+    target_package = None
+
+    if engine_id in ("graphrag", "deeptutor[graphrag]"):
+        target_package = "graphrag"
+    elif engine_id in ("lightrag", "rag-lightrag", "deeptutor[rag-lightrag]"):
+        target_package = "lightrag-hku"
+    else:
+        raise HTTPException(status_code=400, detail=f"Unsupported package target: {engine_id}")
+
+    try:
+        cmd = [sys.executable, "-m", "pip", "install", target_package]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        if proc.returncode == 0:
+            return {
+                "success": True,
+                "engine_id": engine_id,
+                "message": f"Successfully installed '{target_package}'. Engine is ready to use!",
+            }
+        else:
+            return {
+                "success": False,
+                "engine_id": engine_id,
+                "message": f"Pip install failed (code {proc.returncode}): {proc.stderr[:300]}",
+            }
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to install package '{target_package}': {exc}")
+
+
 @router.get("/hardware-recommendations")
 async def get_hardware_recommendations_endpoint():
     """

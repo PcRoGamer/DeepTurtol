@@ -185,7 +185,20 @@ class ModelCatalogService:
         if loaded:
             catalog = _default_catalog()
             catalog.update({k: v for k, v in loaded.items() if k != "services"})
-            catalog["services"].update(loaded.get("services", {}))
+            loaded_services = loaded.get("services", {})
+            for svc_name, svc_data in loaded_services.items():
+                if svc_name in catalog["services"]:
+                    def_profiles = catalog["services"][svc_name].get("profiles", [])
+                    existing_profiles = list(svc_data.get("profiles", []))
+                    existing_pids = {p.get("id") for p in existing_profiles if p.get("id")}
+                    for dp in def_profiles:
+                        if dp.get("id") and dp["id"] not in existing_pids:
+                            existing_profiles.append(deepcopy(dp))
+                    catalog["services"][svc_name].update(svc_data)
+                    catalog["services"][svc_name]["profiles"] = existing_profiles
+                else:
+                    catalog["services"][svc_name] = svc_data
+
             merged_defaults = catalog != loaded
             before = deepcopy(catalog)
             self._normalize(catalog)

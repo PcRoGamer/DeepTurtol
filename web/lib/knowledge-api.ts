@@ -856,3 +856,17 @@ export async function deleteKnowledgeBase(name: string): Promise<void> {
   }
   invalidateKnowledgeCaches();
 }
+
+export async function installEnginePackage(engineId: string): Promise<{ success: boolean; message: string }> {
+  const res = await apiFetch(apiUrl("/api/v1/system/install-package"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ engine_id: engineId }),
+  });
+  if (!res.ok) {
+    throw new Error(await readErrorDetail(res, "Package installation failed"));
+  }
+  invalidateKnowledgeCaches();
+  return (await res.json()) as { success: boolean; message: string };
+}
+

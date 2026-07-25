@@ -12,6 +12,7 @@ import {
   Cloud,
   Copy,
   Database,
+  Download,
   ExternalLink,
   KeyRound,
   Loader2,
@@ -32,6 +33,7 @@ import {
   getLightRagConfig,
   getLlamaIndexConfig,
   getPageIndexConfig,
+  installEnginePackage,
   setEngineActiveModel,
   updateGraphRagConfig,
   updateLightRagConfig,
@@ -1086,17 +1088,20 @@ function EnvRequirements({
   providerId,
   installHint,
   defaultOpen,
+  onChanged,
   onError,
 }: {
   providerId: string;
   installHint?: string;
   defaultOpen: boolean;
+  onChanged?: () => void;
   onError: (message: string) => void;
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(defaultOpen);
   const [report, setReport] = useState<EnginePreflight | null>(null);
   const [checking, setChecking] = useState(false);
+  const [installing, setInstalling] = useState(false);
   const prereq = ENGINE_PREREQUISITES[providerId];
 
   const runCheck = async () => {
@@ -1107,6 +1112,19 @@ function EnvRequirements({
       onError(err instanceof Error ? err.message : String(err));
     } finally {
       setChecking(false);
+    }
+  };
+
+  const handleInstall = async () => {
+    setInstalling(true);
+    try {
+      await installEnginePackage(providerId);
+      await runCheck();
+      if (onChanged) onChanged();
+    } catch (err) {
+      onError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setInstalling(false);
     }
   };
 
@@ -1135,7 +1153,28 @@ function EnvRequirements({
               {t(prereq)}
             </p>
           )}
-          {installHint && <CopyableCommand command={installHint} />}
+          {installHint && (
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+              <button
+                type="button"
+                onClick={() => void handleInstall()}
+                disabled={installing}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-[12.5px] font-medium text-[var(--primary-foreground)] shadow-xs transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {installing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                {installing
+                  ? t("Installing package...")
+                  : t(`Install ${providerId}`)}
+              </button>
+              <div className="min-w-0 flex-1">
+                <CopyableCommand command={installHint} />
+              </div>
+            </div>
+          )}
           <div className="flex items-center gap-2.5">
             <button
               type="button"
@@ -1239,6 +1278,7 @@ export default function EngineDetail({
           providerId={provider.id}
           installHint={installHint}
           defaultOpen={status !== "ready"}
+          onChanged={onChanged}
           onError={onError}
         />
 
