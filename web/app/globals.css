@@ -1,6 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..1000&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*,
+::before,
+::after,
+html,
+body,
+button,
+input,
+select,
+textarea,
+code,
+pre,
+kbd,
+samp {
+  font-family: 'Roboto Flex', var(--font-roboto-flex), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
 
 @layer base {
   /* ────────────────────────────────────────────────────────────────────────

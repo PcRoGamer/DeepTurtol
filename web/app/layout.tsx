@@ -32,7 +32,7 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body
-        className="font-sans bg-[var(--background)] text-[var(--foreground)]"
+        className="bg-[var(--background)] text-[var(--foreground)] font-sans antialiased"
         suppressHydrationWarning
       >
         <AppShellProvider>
