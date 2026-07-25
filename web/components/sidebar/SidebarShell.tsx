@@ -181,7 +181,7 @@ export function SidebarShell({
 
           return (
             <div className="flex h-full w-full flex-col pt-3 pb-4 overflow-hidden select-none">
-              {/* Header Row — Identical h-12 height in both states so nav items never jump vertically */}
+              {/* Header Row — Fixed h-12 height */}
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
@@ -238,8 +238,8 @@ export function SidebarShell({
                 </button>
               </div>
 
-              {/* Primary Nav — Identical h-11, px-1, space-y-1 in both collapsed and expanded states */}
-              <nav className="px-1.5 pt-1">
+              {/* Primary Nav — Anchored to top */}
+              <nav className="px-1.5 pt-1 shrink-0">
                 <div className="flex flex-col w-full space-y-1">
                   {PRIMARY_NAV.map((item) => {
                     const active = pathname.startsWith(item.href);
@@ -304,14 +304,12 @@ export function SidebarShell({
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
                         >
-                          {/* Glowing Cyan Indicator Pill — stays anchored at left-0 */}
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
                               className="absolute left-0 w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
                             />
                           )}
-                          {/* Icon Container — FIXED at 36px centered width */}
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center">
                             <item.icon
                               size={21}
@@ -323,7 +321,6 @@ export function SidebarShell({
                               strokeWidth={active ? 2.1 : 1.6}
                             />
                           </div>
-                          {/* Label — Fades and expands to the right without moving icon */}
                           <motion.span
                             initial={false}
                             animate={{
@@ -350,72 +347,11 @@ export function SidebarShell({
                 </div>
               </nav>
 
-              {/* Chat History Section — Only rendered when expanded so icon coordinates never shift */}
-              {isExpanded &&
-              showSessions &&
-              onSelectSession &&
-              onRenameSession &&
-              onDeleteSession ? (
-                <motion.section
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className={`mt-4 flex min-h-0 flex-col ${
-                    recentsCollapsed ? "" : "flex-1"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      spawnBubbles(e);
-                      toggleRecents();
-                    }}
-                    onMouseEnter={(e) => spawnBubbles(e)}
-                    className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-                    aria-expanded={!recentsCollapsed}
-                    aria-label={
-                      recentsCollapsed
-                        ? (t("Show recents") as string)
-                        : (t("Hide recents") as string)
-                    }
-                  >
-                    <span>{t("Recents")}</span>
-                    <ChevronDown
-                      size={13}
-                      strokeWidth={1.7}
-                      className={`transition-all duration-200 ${
-                        recentsCollapsed
-                          ? "-rotate-90 opacity-60"
-                          : "rotate-0 opacity-0 group-hover/recents:opacity-60"
-                      }`}
-                    />
-                  </button>
-                  {!recentsCollapsed && (
-                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
-                      <SessionList
-                        sessions={sessions}
-                        activeSessionId={activeSessionId}
-                        loading={loadingSessions}
-                        onSelect={onSelectSession}
-                        onRename={onRenameSession}
-                        onDelete={onDeleteSession}
-                        compact
-                      />
-                    </div>
-                  )}
-                </motion.section>
-              ) : null}
+              {/* Separator Divider */}
+              <div className="mx-2.5 my-2 border-t border-white/20 shrink-0" />
 
-              {/* Flexible spacer */}
-              {(!isExpanded ||
-                !showSessions ||
-                !onSelectSession ||
-                !onRenameSession ||
-                !onDeleteSession ||
-                recentsCollapsed) && <div className="flex-1" />}
-
-              {/* Secondary Nav & Footer */}
-              <div className="border-t border-white/20 px-1.5 py-2 shrink-0">
+              {/* Secondary Nav (Memory, Knowledge Center, Settings) — Anchored right under Primary Nav so Y coordinates NEVER shift */}
+              <div className="px-1.5 shrink-0">
                 <div className="flex flex-col w-full space-y-1">
                   {SECONDARY_NAV.map((item) => {
                     const active = pathname.startsWith(item.href);
@@ -479,8 +415,70 @@ export function SidebarShell({
                     );
                   })}
                 </div>
+              </div>
 
-                <div className="flex flex-col w-full space-y-1 mt-1">
+              {/* Chat History Section — Positioned below Secondary Nav when expanded */}
+              {isExpanded &&
+              showSessions &&
+              onSelectSession &&
+              onRenameSession &&
+              onDeleteSession ? (
+                <motion.section
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className={`mt-3 flex min-h-0 flex-col ${
+                    recentsCollapsed ? "" : "flex-1"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      spawnBubbles(e);
+                      toggleRecents();
+                    }}
+                    onMouseEnter={(e) => spawnBubbles(e)}
+                    className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-expanded={!recentsCollapsed}
+                    aria-label={
+                      recentsCollapsed
+                        ? (t("Show recents") as string)
+                        : (t("Hide recents") as string)
+                    }
+                  >
+                    <span>{t("Recents")}</span>
+                    <ChevronDown
+                      size={13}
+                      strokeWidth={1.7}
+                      className={`transition-all duration-200 ${
+                        recentsCollapsed
+                          ? "-rotate-90 opacity-60"
+                          : "rotate-0 opacity-0 group-hover/recents:opacity-60"
+                      }`}
+                    />
+                  </button>
+                  {!recentsCollapsed && (
+                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
+                      <SessionList
+                        sessions={sessions}
+                        activeSessionId={activeSessionId}
+                        loading={loadingSessions}
+                        onSelect={onSelectSession}
+                        onRename={onRenameSession}
+                        onDelete={onDeleteSession}
+                        compact
+                      />
+                    </div>
+                  )}
+                </motion.section>
+              ) : null}
+
+              {/* Spacer pushes footer down */}
+              <div className="flex-1 min-h-[8px]" />
+
+              {/* Footer Section */}
+              <div className="border-t border-white/20 px-1.5 py-2 shrink-0">
+                <div className="flex flex-col w-full space-y-1">
                   {renderedFooter}
                 </div>
 
