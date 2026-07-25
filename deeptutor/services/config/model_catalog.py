@@ -57,7 +57,29 @@ def _default_catalog() -> dict[str, Any]:
                     }
                 ]
             },
-            "embedding": _service_shell(),
+            "embedding": {
+                "active_profile_id": "embedding-profile-fastembed",
+                "active_model_id": "embedding-model-qwen3-06b",
+                "profiles": [
+                    {
+                        "id": "embedding-profile-fastembed",
+                        "name": "FastEmbed (Local NPU/ONNX)",
+                        "binding": "fastembed",
+                        "base_url": "http://localhost/fastembed",
+                        "api_key": "local",
+                        "api_version": "",
+                        "extra_headers": {},
+                        "models": [
+                            {
+                                "id": "embedding-model-qwen3-06b",
+                                "name": "Qwen/Qwen3-Embedding-0.6B",
+                                "model": "Qwen/Qwen3-Embedding-0.6B",
+                                "dimension": "1024",
+                            }
+                        ]
+                    }
+                ]
+            },
             "search": {
                 "active_profile_id": "search-profile-duckduckgo",
                 "profiles": [

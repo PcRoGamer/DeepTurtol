@@ -17,6 +17,7 @@ EMBEDDING_PROVIDER_ALIASES = {
 }
 
 EMBEDDING_PROVIDER_LABELS = {
+    "fastembed": "FastEmbed (Local NPU/ONNX)",
     "openai": "OpenAI",
     "gemini": "Gemini",
     "openrouter": "OpenRouter",
@@ -28,6 +29,7 @@ EMBEDDING_PROVIDER_LABELS = {
 }
 
 EMBEDDING_PROVIDER_DEFAULT_ENDPOINTS = {
+    "fastembed": "http://localhost/fastembed",
     "openai": "https://api.openai.com/v1/embeddings",
     "gemini": "https://generativelanguage.googleapis.com/v1beta/openai/embeddings",
     "openrouter": "https://openrouter.ai/api/v1/embeddings",

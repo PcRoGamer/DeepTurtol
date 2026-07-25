@@ -80,6 +80,16 @@ class EmbeddingProviderSpec:
 
 
 EMBEDDING_PROVIDERS: dict[str, EmbeddingProviderSpec] = {
+    "fastembed": EmbeddingProviderSpec(
+        label="FastEmbed (Local NPU/ONNX)",
+        adapter="fastembed",
+        mode="local",
+        default_api_base=EMBEDDING_PROVIDER_DEFAULT_ENDPOINTS["fastembed"],
+        keywords=("fastembed", "qwen3-embedding", "qwen", "bge", "onnx", "qnn"),
+        is_local=True,
+        default_model="Qwen/Qwen3-Embedding-0.6B",
+        default_dim=1024,
+    ),
     "openai": EmbeddingProviderSpec(
         label="OpenAI",
         default_api_base=EMBEDDING_PROVIDER_DEFAULT_ENDPOINTS["openai"],
