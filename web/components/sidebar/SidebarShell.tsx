@@ -189,32 +189,87 @@ export function SidebarShell({
   /* ---- Turtol Smooth Ocean Wave Architecture ---- */
   return (
     <div className="relative flex h-screen shrink-0 overflow-visible">
-      {/* 1. Single Static Toggle Button ALWAYS Fixed at Top-Left */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="sand-fixed-toggle-btn"
-        aria-label={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
-        title={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
-      >
-        {collapsed ? (
-          <PanelLeftOpen size={18} strokeWidth={2.2} />
-        ) : (
-          <PanelLeftClose size={18} strokeWidth={2.2} />
-        )}
-      </button>
-
-      {/* 3. Physics-based Ocean Wave Sidebar (powered by ocean-sidebar submodule) */}
+      {/* Physics-based Ocean Wave Sidebar (powered by ocean-sidebar submodule) */}
       <OceanSidebar
         collapsed={collapsed}
         onToggle={() => setCollapsed(!collapsed)}
         expandedWidth={275}
         collapsedWidth={52}
       >
-        {/* Sidebar Content — only visible when expanded */}
-        {!collapsed && (
+        {collapsed ? (
+          /* ── Collapsed Rail Navigation ── */
+          <div className="flex h-full w-[52px] flex-col items-center pt-16 pb-4 overflow-hidden">
+            {/* Primary Nav Icons */}
+            <div className="flex flex-col items-center gap-3">
+              {PRIMARY_NAV.map((item) => {
+                const active = pathname.startsWith(item.href);
+                const locked = navLocked(item);
+                if (locked) {
+                  return (
+                    <Tooltip key={item.href} label={t(item.label)} description={lockedTooltip} side="right">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 cursor-not-allowed">
+                        <item.icon size={17} strokeWidth={1.5} />
+                      </div>
+                    </Tooltip>
+                  );
+                }
+                return (
+                  <Tooltip key={item.href} label={t(item.label)} side="right">
+                    <Link
+                      href={item.href}
+                      onClick={item.href === "/home" ? handleHomeClick : undefined}
+                      className={`relative flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 ${
+                        active
+                          ? "bg-white/30 text-white shadow-md ring-1 ring-white/50"
+                          : "text-white/80 hover:bg-white/20 hover:text-white"
+                      }`}
+                    >
+                      {active && (
+                        <div className="absolute left-[-6px] w-1 h-5 bg-cyan-300 rounded-r-full shadow-[0_0_8px_rgba(103,232,249,0.8)]" />
+                      )}
+                      <item.icon size={17} strokeWidth={active ? 2.1 : 1.6} />
+                    </Link>
+                  </Tooltip>
+                );
+              })}
+            </div>
+
+            <div className="my-3 w-6 border-t border-white/20" />
+
+            {/* Secondary Nav Icons */}
+            <div className="flex flex-col items-center gap-3">
+              {SECONDARY_NAV.map((item) => {
+                const active = pathname.startsWith(item.href);
+                return (
+                  <Tooltip key={item.href} label={t(item.label)} side="right">
+                    <Link
+                      href={item.href}
+                      className={`relative flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 ${
+                        active
+                          ? "bg-white/30 text-white shadow-md ring-1 ring-white/50"
+                          : "text-white/80 hover:bg-white/20 hover:text-white"
+                      }`}
+                    >
+                      {active && (
+                        <div className="absolute left-[-6px] w-1 h-5 bg-cyan-300 rounded-r-full shadow-[0_0_8px_rgba(103,232,249,0.8)]" />
+                      )}
+                      <item.icon size={17} strokeWidth={active ? 2.1 : 1.6} />
+                    </Link>
+                  </Tooltip>
+                );
+              })}
+            </div>
+
+            <div className="flex-1" />
+
+            {/* Footer Slot in Collapsed Mode */}
+            {renderedFooter}
+          </div>
+        ) : (
+          /* ── Expanded Full Sidebar ── */
           <div className="flex h-full w-full flex-col pt-3 overflow-hidden">
-            {/* Header: logo */}
-            <div className="flex h-12 items-center px-4 mb-2">
+            {/* Header: logo (offset to leave room for the top-left toggle button) */}
+            <div className="flex h-12 items-center pl-14 pr-4 mb-2">
               <Link href="/" className="group flex items-center gap-1.5">
                 <Image
                   src="/logo.png"
