@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { register, checkIsFirstUser, fetchAuthStatus } from "@/lib/auth";
 
@@ -54,11 +55,22 @@ export default function RegisterPage() {
   return (
     <div className="w-full max-w-sm">
       {/* Logo / Title */}
-      <div className="text-center mb-8">
-        <h1 className="font-serif text-2xl font-semibold text-[var(--foreground)] tracking-tight">
-          DeepTutor
-        </h1>
-        <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+      <div className="text-center mb-8 flex flex-col items-center">
+        <Image
+          src="/logo.png"
+          alt="DeepTurtol"
+          width={48}
+          height={48}
+          className="h-12 w-12 object-contain mb-3"
+        />
+        <Image
+          src="/banner.png"
+          alt="DeepTurtol"
+          width={180}
+          height={48}
+          className="h-8 w-auto object-contain"
+        />
+        <p className="mt-2 text-sm text-[var(--muted-foreground)]">
           {t("Create your account")}
         </p>
       </div>
