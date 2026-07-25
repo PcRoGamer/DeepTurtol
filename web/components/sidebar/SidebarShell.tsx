@@ -164,34 +164,34 @@ export function SidebarShell({
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
-                  className="group flex items-center gap-1.5 overflow-hidden pl-1"
+                  className="group flex items-center overflow-hidden pl-1"
                   onMouseEnter={(e) => spawnBubbles(e)}
                 >
-                  <Image
-                    src="/logo.png"
-                    alt="DeepTurtol"
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] shrink-0 transition-transform duration-200 group-hover:scale-105"
-                  />
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      opacity: isExpanded ? 1 : 0,
-                      width: isExpanded ? "auto" : 0,
-                    }}
-                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
+                  {!isExpanded ? (
                     <Image
-                      src="/banner.png"
+                      src="/logo.png"
                       alt="DeepTurtol"
-                      width={897}
-                      height={236}
-                      priority
-                      className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
+                      width={28}
+                      height={28}
+                      className="h-7 w-7 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105"
                     />
-                  </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden flex items-center"
+                    >
+                      <Image
+                        src="/banner.png"
+                        alt="DeepTurtol"
+                        width={1024}
+                        height={558}
+                        priority
+                        className="h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                      />
+                    </motion.div>
+                  )}
                 </Link>
 
                 <button
