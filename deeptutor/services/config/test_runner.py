@@ -229,6 +229,17 @@ class ConfigTestRunner:
             "info", f"Resolved model `{llm_config.model}` with binding `{llm_config.binding}`."
         )
         run.emit("info", f"Request target: {llm_config.base_url}")
+
+        if llm_config.binding in ("ollama", "local"):
+            try:
+                from deeptutor.services.local_slm_launcher import ensure_local_slm_running
+                slm_status = ensure_local_slm_running(
+                    model_name=llm_config.model or "phi4-mini",
+                    host_url=llm_config.effective_url or llm_config.base_url or "http://localhost:11434",
+                )
+                run.emit("info", f"Local SLM Health: {slm_status['message']}")
+            except Exception as slm_err:
+                run.emit("info", f"Local SLM Launcher hint: {slm_err}")
         # Reasoning models spend part of the budget on internal thinking;
         # too tight a cap makes them return empty content. Configurable
         # via diagnostics.llm_probe.max_tokens in agents.yaml.
