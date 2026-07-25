@@ -48,11 +48,24 @@ def _default_catalog() -> dict[str, Any]:
                         "api_version": "",
                         "extra_headers": {},
                         "models": [
-                            {
-                                "id": "llm-model-bigpickle",
-                                "name": "big-pickle",
-                                "model": "big-pickle"
-                            }
+                            {"id": "llm-model-bigpickle", "name": "big-pickle (Default)", "model": "big-pickle"},
+                            {"id": "llm-model-deepseek-v4-flash-free", "name": "deepseek-v4-flash-free", "model": "deepseek-v4-flash-free"},
+                            {"id": "llm-model-mimo-v25-free", "name": "mimo-v2.5-free", "model": "mimo-v2.5-free"},
+                            {"id": "llm-model-ling-30-flash-free", "name": "ling-3.0-flash-free", "model": "ling-3.0-flash-free"},
+                            {"id": "llm-model-nemotron-3-ultra-free", "name": "nemotron-3-ultra-free", "model": "nemotron-3-ultra-free"},
+                            {"id": "llm-model-north-mini-code-free", "name": "north-mini-code-free", "model": "north-mini-code-free"},
+                            {"id": "llm-model-laguna-s-21-free", "name": "laguna-s-2.1-free", "model": "laguna-s-2.1-free"},
+                            {"id": "llm-model-claude-sonnet-5", "name": "claude-sonnet-5", "model": "claude-sonnet-5"},
+                            {"id": "llm-model-claude-opus-5", "name": "claude-opus-5", "model": "claude-opus-5"},
+                            {"id": "llm-model-gemini-36-flash", "name": "gemini-3.6-flash", "model": "gemini-3.6-flash"},
+                            {"id": "llm-model-gpt-56-sol", "name": "gpt-5.6-sol", "model": "gpt-5.6-sol"},
+                            {"id": "llm-model-gpt-55-pro", "name": "gpt-5.5-pro", "model": "gpt-5.5-pro"},
+                            {"id": "llm-model-grok-45", "name": "grok-4.5", "model": "grok-4.5"},
+                            {"id": "llm-model-deepseek-v4-pro", "name": "deepseek-v4-pro", "model": "deepseek-v4-pro"},
+                            {"id": "llm-model-glm-52", "name": "glm-5.2", "model": "glm-5.2"},
+                            {"id": "llm-model-minimax-m3", "name": "minimax-m3", "model": "minimax-m3"},
+                            {"id": "llm-model-kimi-k27-code", "name": "kimi-k2.7-code", "model": "kimi-k2.7-code"},
+                            {"id": "llm-model-qwen36-plus", "name": "qwen3.6-plus", "model": "qwen3.6-plus"},
                         ]
                     },
                     {
