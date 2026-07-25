@@ -286,7 +286,7 @@ export function SidebarShell({
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className="absolute left-0 w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
+                              className="absolute left-0 top-0 bottom-0 w-1 h-full bg-cyan-300 rounded-full shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20"
                             />
                           )}
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center">
@@ -356,7 +356,7 @@ export function SidebarShell({
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className="absolute left-0 w-1 h-7 bg-cyan-300 rounded-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
+                              className="absolute left-0 top-0 bottom-0 w-1 h-full bg-cyan-300 rounded-full shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20"
                             />
                           )}
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center">
