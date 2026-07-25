@@ -99,7 +99,7 @@ const SECONDARY_NAV: NavEntry[] = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-const GITHUB_REPO_URL = "https://github.com/HKUDS/DeepTutor";
+const GITHUB_REPO_URL = "https://github.com/PcRoGamer/DeepTurtol";
 const DOCS_URL = "https://deeptutor.info/";
 
 interface SidebarShellProps {
@@ -164,15 +164,15 @@ export function SidebarShell({
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
-                  className="group flex items-center gap-2 overflow-hidden pl-1"
+                  className="group flex h-9 items-center gap-2 rounded-xl border border-white/35 bg-white/20 px-2 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-[1.02] hover:bg-white/30 active:scale-[0.98] overflow-hidden cursor-pointer"
                   onMouseEnter={(e) => spawnBubbles(e)}
                 >
                   <Image
                     src="/logo.png"
                     alt="DeepTurtol"
-                    width={26}
-                    height={26}
-                    className="h-[26px] w-[26px] shrink-0 object-contain transition-transform duration-200 group-hover:scale-105"
+                    width={24}
+                    height={24}
+                    className="h-[22px] w-[22px] shrink-0 object-contain transition-transform duration-200 group-hover:scale-105"
                   />
                   <motion.div
                     initial={false}
@@ -189,7 +189,7 @@ export function SidebarShell({
                       width={688}
                       height={152}
                       priority
-                      className="h-[22px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                      className="h-[18px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
                     />
                   </motion.div>
                 </Link>
