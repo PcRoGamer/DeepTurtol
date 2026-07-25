@@ -200,7 +200,18 @@ export function SidebarShell({
         {(spawnBubbles) =>
           collapsed ? (
             /* ── Collapsed Rail Navigation ── */
-            <div className="flex h-full w-[52px] flex-col items-center pt-16 pb-4 overflow-hidden">
+            <div className="flex h-full w-[52px] flex-col items-center pt-3 pb-4 overflow-hidden">
+              {/* Glassmorphic Expand Toggle Button absorbed into top of rail */}
+              <button
+                onClick={() => setCollapsed(false)}
+                onMouseEnter={(e) => spawnBubbles(e)}
+                className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-white/35 bg-white/20 text-white/90 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/30 hover:text-white active:scale-95 cursor-pointer"
+                aria-label={t("Expand sidebar") as string}
+                title={t("Expand sidebar") as string}
+              >
+                <PanelLeftOpen size={18} strokeWidth={2.2} />
+              </button>
+
               {/* Primary Nav Icons */}
               <div className="flex flex-col items-center gap-3">
                 {PRIMARY_NAV.map((item) => {
@@ -209,8 +220,8 @@ export function SidebarShell({
                   if (locked) {
                     return (
                       <Tooltip key={item.href} label={t(item.label)} description={lockedTooltip} side="right">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl text-white/40 cursor-not-allowed">
-                          <item.icon size={18} strokeWidth={1.5} />
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl text-white/40 cursor-not-allowed">
+                          <item.icon size={20} strokeWidth={1.5} />
                         </div>
                       </Tooltip>
                     );
@@ -224,19 +235,19 @@ export function SidebarShell({
                           spawnBubbles(e);
                           if (item.href === "/home") handleHomeClick(e);
                         }}
-                        className={`relative flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 ${
+                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
                           active
-                            ? "bg-white/25 text-cyan-300 shadow-md"
-                            : "text-white/80 hover:bg-white/15 hover:text-white"
+                            ? "bg-white/25 border border-white/35 text-cyan-300 shadow-md backdrop-blur-md"
+                            : "text-white/70 hover:bg-white/15 hover:text-white border border-transparent"
                         }`}
                       >
                         {active && (
                           <motion.div
                             layoutId="activeCurrentCollapsed"
-                            className="absolute left-[-10px] w-1.5 h-6 bg-cyan-300 rounded-r-full shadow-[0_0_10px_rgba(103,232,249,0.9)]"
+                            className="absolute left-[-12px] w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
                           />
                         )}
-                        <item.icon size={19} className={active ? "text-cyan-300" : "text-white/80"} strokeWidth={active ? 2.1 : 1.6} />
+                        <item.icon size={20} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
                       </Link>
                     </Tooltip>
                   );
@@ -255,19 +266,19 @@ export function SidebarShell({
                         href={item.href}
                         onMouseEnter={(e) => spawnBubbles(e)}
                         onClick={(e) => spawnBubbles(e)}
-                        className={`relative flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 ${
+                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
                           active
-                            ? "bg-white/25 text-cyan-300 shadow-md"
-                            : "text-white/80 hover:bg-white/15 hover:text-white"
+                            ? "bg-white/25 border border-white/35 text-cyan-300 shadow-md backdrop-blur-md"
+                            : "text-white/70 hover:bg-white/15 hover:text-white border border-transparent"
                         }`}
                       >
                         {active && (
                           <motion.div
                             layoutId="activeCurrentCollapsed"
-                            className="absolute left-[-10px] w-1.5 h-6 bg-cyan-300 rounded-r-full shadow-[0_0_10px_rgba(103,232,249,0.9)]"
+                            className="absolute left-[-12px] w-1 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
                           />
                         )}
-                        <item.icon size={19} className={active ? "text-cyan-300" : "text-white/80"} strokeWidth={active ? 2.1 : 1.6} />
+                        <item.icon size={20} className={active ? "text-cyan-300" : "text-white/70"} strokeWidth={active ? 2.1 : 1.6} />
                       </Link>
                     </Tooltip>
                   );
@@ -282,8 +293,8 @@ export function SidebarShell({
           ) : (
             /* ── Expanded Full Sidebar ── */
             <div className="flex h-full w-full flex-col pt-3 overflow-hidden">
-              {/* Header: logo (offset to leave room for the top-left toggle button) */}
-              <div className="flex h-12 items-center pl-14 pr-4 mb-2">
+              {/* Header: Logo + Banner on left, Glassmorphic Collapse Toggle Button absorbed on right */}
+              <div className="flex h-12 items-center justify-between px-3.5 mb-2">
                 <Link href="/" className="group flex items-center gap-1.5" onMouseEnter={(e) => spawnBubbles(e)}>
                   <Image
                     src="/logo.png"
@@ -301,6 +312,16 @@ export function SidebarShell({
                     className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
                   />
                 </Link>
+
+                <button
+                  onClick={() => setCollapsed(true)}
+                  onMouseEnter={(e) => spawnBubbles(e)}
+                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/35 bg-white/20 text-white/90 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/30 hover:text-white active:scale-95 cursor-pointer"
+                  aria-label={t("Collapse sidebar") as string}
+                  title={t("Collapse sidebar") as string}
+                >
+                  <PanelLeftClose size={17} strokeWidth={2.2} />
+                </button>
               </div>
 
               {/* Primary nav */}
@@ -320,9 +341,9 @@ export function SidebarShell({
                           <div
                             aria-label={`${t(item.label)} — ${lockedTooltip}`}
                             aria-disabled
-                            className="flex cursor-not-allowed items-center gap-2.5 rounded-xl px-3 py-2 text-[13.5px] text-white/40"
+                            className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3.5 py-2.5 text-[13.5px] text-white/40"
                           >
-                            <item.icon size={17} strokeWidth={1.5} />
+                            <item.icon size={18} strokeWidth={1.5} />
                             <span className="whitespace-nowrap">{t(item.label)}</span>
                             <Lock size={13} strokeWidth={1.8} className="ml-auto" />
                           </div>
@@ -338,21 +359,29 @@ export function SidebarShell({
                           spawnBubbles(e);
                           if (item.href === "/home") handleHomeClick(e);
                         }}
-                        className={`relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-[13.5px] font-medium transition-colors ${
+                        className={`group relative flex items-center space-x-3.5 px-3.5 py-2.5 rounded-xl transition-all duration-200 ${
                           active
-                            ? "bg-white/15 text-cyan-300 font-semibold shadow-sm"
-                            : "text-white/90 hover:bg-white/10 hover:text-white"
+                            ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                            : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                         }`}
                       >
-                        {/* Glowing Cyan Indicator Bar */}
+                        {/* Glowing Cyan Indicator Bar matching ocean_sidebar (1) */}
                         {active && (
                           <motion.div
                             layoutId="activeCurrentExpanded"
-                            className="absolute left-0 w-1.5 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_10px_rgba(103,232,249,0.85)]"
+                            className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
                           />
                         )}
-                        <item.icon size={18} className={active ? "text-cyan-300" : "text-white/80"} strokeWidth={active ? 2.1 : 1.6} />
-                        <span className="whitespace-nowrap">{t(item.label)}</span>
+                        <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center">
+                          <item.icon
+                            size={20}
+                            className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
+                            strokeWidth={active ? 2.1 : 1.6}
+                          />
+                        </div>
+                        <span className={`whitespace-nowrap font-medium text-[13.5px] ${active ? "text-cyan-300" : "text-white/80 group-hover:text-white"}`}>
+                          {t(item.label)}
+                        </span>
                       </Link>
                     );
                   })}
@@ -425,20 +454,28 @@ export function SidebarShell({
                       href={item.href}
                       onMouseEnter={(e) => spawnBubbles(e)}
                       onClick={(e) => spawnBubbles(e)}
-                      className={`relative flex items-center gap-3 rounded-xl px-3.5 py-2 text-[13.5px] font-medium transition-colors ${
+                      className={`group relative flex items-center space-x-3.5 px-3.5 py-2 rounded-xl transition-all duration-200 ${
                         active
-                          ? "bg-white/15 text-cyan-300 font-semibold shadow-sm"
-                          : "text-white/90 hover:bg-white/10 hover:text-white"
+                          ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                          : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                       }`}
                     >
                       {active && (
                         <motion.div
                           layoutId="activeCurrentExpanded"
-                          className="absolute left-0 w-1.5 h-7 bg-cyan-300 rounded-r-full shadow-[0_0_10px_rgba(103,232,249,0.85)]"
+                          className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-r-full shadow-[0_0_12px_rgba(103,232,249,0.9)]"
                         />
                       )}
-                      <item.icon size={18} className={active ? "text-cyan-300" : "text-white/80"} strokeWidth={active ? 2.1 : 1.6} />
-                      <span className="whitespace-nowrap">{t(item.label)}</span>
+                      <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center">
+                        <item.icon
+                          size={20}
+                          className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
+                          strokeWidth={active ? 2.1 : 1.6}
+                        />
+                      </div>
+                      <span className={`whitespace-nowrap font-medium text-[13.5px] ${active ? "text-cyan-300" : "text-white/80 group-hover:text-white"}`}>
+                        {t(item.label)}
+                      </span>
                     </Link>
                   );
                 })}
