@@ -1,3 +1,6 @@
 [submodule "web/components/sidebar/ocean-sidebar"]
 	path = web/components/sidebar/ocean-sidebar
 	url = https://github.com/PcRoGamer/ocean-sidebar.git
+[submodule "libs/fastembed-qnn"]
+	path = libs/fastembed-qnn
+	url = https://github.com/PcRoGamer/fastembed-qnn.git
