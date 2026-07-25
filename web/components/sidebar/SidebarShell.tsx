@@ -184,7 +184,7 @@ export function SidebarShell({
                     className="overflow-hidden flex items-center"
                   >
                     <Image
-                      src="/banner.png"
+                      src="/wordmark.png"
                       alt="DeepTurtol"
                       width={688}
                       height={152}

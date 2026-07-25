@@ -61,7 +61,7 @@ function LoginPageContent() {
           className="h-12 w-12 object-contain mb-3"
         />
         <Image
-          src="/banner.png"
+          src="/wordmark.png"
           alt="DeepTurtol"
           width={180}
           height={48}
