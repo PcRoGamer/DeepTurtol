@@ -49,80 +49,16 @@ class FastEmbedAdapter(BaseEmbeddingAdapter):
             return _FASTEMBED_MODEL_CACHE[cache_key]
 
         try:
-            from fastembed import TextEmbedding
-            from fastembed.common.model_description import ModelSource, PoolingType
-        except ImportError as err:
-            raise ImportError(
-                "fastembed library is required for FastEmbedAdapter. "
-                "Install it with `pip install fastembed`."
-            ) from err
-
-        # Filter requested execution providers against host ONNX Runtime capabilities
-        try:
-            import onnxruntime as ort
-            available_providers = set(ort.get_available_providers())
-            valid_providers = [p for p in self.DEFAULT_PROVIDERS if p in available_providers]
-            if not valid_providers:
-                valid_providers = ["CPUExecutionProvider"]
-        except Exception:
-            valid_providers = ["CPUExecutionProvider"]
-
-        # Dynamically register custom model if not in FastEmbed's default supported list
-        try:
-            supported_names = [m["model"] for m in TextEmbedding.list_supported_models()]
-            if model_name not in supported_names:
-                dim = self.MODELS_INFO.get(model_name, self.dimensions or 1024)
-                pooling = getattr(PoolingType, "LAST_TOKEN", PoolingType.MEAN) if "qwen" in model_name.lower() else PoolingType.MEAN
-                hf_source = "shawnw3i/Qwen3-Embedding-0.6B-ONNX" if "qwen3-embedding-0.6b" in model_name.lower() else model_name
-                TextEmbedding.add_custom_model(
-                    model=model_name,
-                    pooling=pooling,
-                    normalization=True,
-                    sources=ModelSource(hf=hf_source),
-                    dim=dim,
-                    model_file="model.onnx",
-                )
-                logger.info(f"Registered model '{model_name}' -> '{hf_source}' (dim={dim}, pooling={pooling}) into FastEmbed registry")
-        except Exception as reg_err:
-            logger.debug(f"Custom model registration hint for '{model_name}': {reg_err}")
-
-        logger.info(
-            f"Initializing FastEmbed TextEmbedding model '{model_name}' "
-            f"with valid providers={valid_providers}"
-        )
-        try:
-            model = TextEmbedding(
-                model_name=model_name,
-                providers=valid_providers,
-            )
-        except Exception as exc:
-            logger.warning(
-                f"Failed to initialize FastEmbed with providers {valid_providers}: {exc}. "
-                "Falling back to default TextEmbedding initialization."
-            )
-        # Auto-patch _preprocess_onnx_input for causal ONNX models requiring position_ids
-        try:
-            if hasattr(model, "model") and hasattr(model.model, "_preprocess_onnx_input"):
-                import numpy as np
-                inner_model = model.model
-                orig_preprocess = inner_model._preprocess_onnx_input
-
-                def _patched_preprocess(onnx_input: dict, **kwargs):
-                    onnx_input = orig_preprocess(onnx_input, **kwargs)
-                    if hasattr(inner_model, "model") and hasattr(inner_model.model, "get_inputs"):
-                        input_names = {node.name for node in inner_model.model.get_inputs()}
-                        if "position_ids" in input_names and "position_ids" not in onnx_input:
-                            input_ids = onnx_input["input_ids"]
-                            seq_len = input_ids.shape[1]
-                            batch_size = input_ids.shape[0]
-                            onnx_input["position_ids"] = np.tile(
-                                np.arange(seq_len, dtype=np.int64), (batch_size, 1)
-                            )
-                    return onnx_input
-
-                inner_model._preprocess_onnx_input = _patched_preprocess
-        except Exception as patch_err:
-            logger.debug(f"Position_ids patch hint: {patch_err}")
+            from fastembed_qnn import QNNTextEmbedding
+            model = QNNTextEmbedding(model_name=model_name)
+        except ImportError:
+            try:
+                from fastembed import TextEmbedding
+                model = TextEmbedding(model_name=model_name)
+            except ImportError as err:
+                raise ImportError(
+                    "fastembed or fastembed-qnn library is required for FastEmbedAdapter."
+                ) from err
 
         _FASTEMBED_MODEL_CACHE[cache_key] = model
         return model

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastembed-qnn"
+version = "0.1.0"
+description = "Native Qualcomm QNN NPU hardware acceleration for FastEmbed & ONNX Runtime on Snapdragon X Elite"
+readme = "README.md"
+authors = [
+    { name = "PcRoGamer & DeepTurtol Team" }
+]
+license = { text = "Apache-2.0" }
+keywords = ["fastembed", "qnn", "qualcomm", "npu", "onnxruntime", "embeddings", "qwen", "snapdragon"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastembed>=0.8.0",
+    "onnxruntime-qnn>=2.4.0",
+    "numpy>=1.26.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/PcRoGamer/fastembed-qnn"
+Repository = "https://github.com/PcRoGamer/fastembed-qnn.git"
+Issues = "https://github.com/PcRoGamer/fastembed-qnn/issues"
