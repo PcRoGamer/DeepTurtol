@@ -278,7 +278,7 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md overflow-hidden"
                                 : "text-cyan-300"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
@@ -286,7 +286,9 @@ export function SidebarShell({
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className="absolute left-0 top-0 bottom-0 w-1 h-full bg-cyan-300 rounded-full shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20"
+                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20 ${
+                                isExpanded ? "rounded-l-xl" : "rounded-full"
+                              }`}
                             />
                           )}
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center">
@@ -348,7 +350,7 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md overflow-hidden"
                                 : "text-cyan-300"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
@@ -356,7 +358,9 @@ export function SidebarShell({
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className="absolute left-0 top-0 bottom-0 w-1 h-full bg-cyan-300 rounded-full shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20"
+                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20 ${
+                                isExpanded ? "rounded-l-xl" : "rounded-full"
+                              }`}
                             />
                           )}
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center">
