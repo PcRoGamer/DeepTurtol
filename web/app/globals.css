@@ -769,7 +769,7 @@ body[data-picker-open] .dt-mark-pulse {
 
 .theme-beach {
   color-scheme: light;
-  --background: #faf6ee;
+  --background: #FDF8EE;
   --foreground: #2d2621;
   --card: #ffffff;
   --card-foreground: #2d2621;
@@ -789,6 +789,12 @@ body[data-picker-open] .dt-mark-pulse {
   --input: #dfd4c1;
   --ring: #028090;
   --overlay: rgba(45, 38, 33, 0.42);
+}
+
+body.theme-beach,
+html.theme-beach body,
+.theme-beach main {
+  background: linear-gradient(135deg, #FDF8EE 0%, #E6D5B8 100%) !important;
 }
 
 /* ============================================================
