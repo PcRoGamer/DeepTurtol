@@ -3,7 +3,7 @@
  * Handles light/dark theme with localStorage fallback and system preference detection
  */
 
-export type Theme = "light" | "dark" | "glass" | "snow";
+export type Theme = "ocean" | "light" | "dark" | "glass" | "snow";
 
 export const THEME_STORAGE_KEY = "deeptutor-theme";
 
@@ -36,6 +36,7 @@ export function getStoredTheme(): Theme | null {
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (
+      stored === "ocean" ||
       stored === "light" ||
       stored === "dark" ||
       stored === "glass" ||
@@ -67,15 +68,10 @@ export function saveThemeToStorage(theme: Theme): boolean {
 
 /**
  * Get system preference for theme.
- * Light systems get "snow" (the pure-white Default theme); dark systems
- * get "dark". Must stay in sync with the inline ThemeScript fallback.
+ * Defaults to "ocean" (Ocean Beach Theme).
  */
 export function getSystemTheme(): Theme {
-  if (typeof window === "undefined") return "snow";
-
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "snow";
+  return "ocean";
 }
 
 /**
@@ -86,9 +82,11 @@ export function applyThemeToDocument(theme: Theme): void {
 
   const html = document.documentElement;
 
-  html.classList.remove("dark", "theme-glass", "theme-snow");
+  html.classList.remove("dark", "theme-glass", "theme-snow", "theme-ocean");
 
-  if (theme === "dark") {
+  if (theme === "ocean") {
+    html.classList.add("theme-ocean");
+  } else if (theme === "dark") {
     html.classList.add("dark");
   } else if (theme === "glass") {
     html.classList.add("dark", "theme-glass");
@@ -99,7 +97,7 @@ export function applyThemeToDocument(theme: Theme): void {
 
 /**
  * Initialize theme on app startup
- * Priority: localStorage > system preference (snow on light systems, dark on dark)
+ * Priority: localStorage > default ("ocean")
  */
 export function initializeTheme(): Theme {
   // Check localStorage first
@@ -109,11 +107,11 @@ export function initializeTheme(): Theme {
     return stored;
   }
 
-  // Fall back to system preference
-  const systemTheme = getSystemTheme();
-  applyThemeToDocument(systemTheme);
-  saveThemeToStorage(systemTheme);
-  return systemTheme;
+  // Fall back to default ocean theme
+  const defaultTheme: Theme = "ocean";
+  applyThemeToDocument(defaultTheme);
+  saveThemeToStorage(defaultTheme);
+  return defaultTheme;
 }
 
 /**

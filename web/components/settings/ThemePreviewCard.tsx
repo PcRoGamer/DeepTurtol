@@ -23,8 +23,15 @@ type Palette = {
 };
 
 const PALETTES: Record<Theme, Palette> = {
-  // theme id "light" applies no class → :root Cream palette (warm parchment,
-  // the default; renamed from generic "Light" to honestly signal its warmth)
+  ocean: {
+    bg: "#FDF8EE",
+    fg: "#0f172a",
+    card: "rgba(255,255,255,0.4)",
+    primary: "#06b6d4",
+    muted: "rgba(255,255,255,0.25)",
+    border: "rgba(255,255,255,0.35)",
+    glass: true,
+  },
   light: {
     bg: "#fdfcf9",
     fg: "#1c1816",
@@ -33,8 +40,6 @@ const PALETTES: Record<Theme, Palette> = {
     muted: "#f1ede2",
     border: "#e6decc",
   },
-  // theme id "snow" applies the .theme-snow class → "Default": pure-white
-  // neutral palette, grey surfaces, blue primary (Codex-style chrome)
   snow: {
     bg: "#ffffff",
     fg: "#0d0d0d",

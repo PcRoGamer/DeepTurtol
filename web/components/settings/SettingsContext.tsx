@@ -106,7 +106,7 @@ export type Catalog = {
 };
 
 export type UiSettings = {
-  theme: "light" | "dark" | "glass" | "snow";
+  theme: "ocean" | "light" | "dark" | "glass" | "snow";
   language: "en" | "zh";
   code_block_theme: string;
   code_block_show_line_numbers: boolean;
@@ -536,7 +536,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   } = useAppShell();
 
   const [status, setStatus] = useState<SystemStatus | null>(null);
-  const [theme, setTheme] = useState<UiSettings["theme"]>("snow");
+  const [theme, setTheme] = useState<UiSettings["theme"]>("ocean");
   const [language, setLanguage] = useState<UiSettings["language"]>("en");
   const [catalog, setCatalog] = useState<Catalog>(defaultCatalog());
   const [draft, setDraft] = useState<Catalog>(defaultCatalog());
