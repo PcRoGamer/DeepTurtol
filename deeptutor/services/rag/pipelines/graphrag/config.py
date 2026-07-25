@@ -106,7 +106,10 @@ def _model_entry(*, model: str, api_base: str | None, api_key: str | None) -> di
         "auth_method": "api_key",
     }
     if api_base:
-        entry["api_base"] = api_base
+        clean_url = str(api_base).rstrip("/")
+        if "11434" in clean_url and not clean_url.endswith("/v1"):
+            clean_url = f"{clean_url}/v1"
+        entry["api_base"] = clean_url
     # GraphRAG validates that a key is present for ``auth_method: api_key``; local
     # OpenAI-compatible servers accept a placeholder.
     entry["api_key"] = api_key or "sk-no-key-required"
