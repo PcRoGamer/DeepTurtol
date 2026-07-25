@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { useAppShell } from "@/context/AppShellContext";
+import { OceanSidebar } from "@/components/sidebar/ocean-sidebar/OceanSidebar";
 import {
   BookOpen,
   BookText,
@@ -202,107 +203,18 @@ export function SidebarShell({
         )}
       </button>
 
-      {/* 2. Persistent Underneath Rail (always visible when collapsed) */}
-      <div className="sand-rail-container pt-14">
-        {/* Logo at top */}
-        <Link
-          href="/"
-          aria-label="DeepTurtol"
-          className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 transition-transform hover:scale-105"
-        >
-          <Image
-            src="/logo.png"
-            alt="DeepTurtol"
-            width={24}
-            height={24}
-            className="h-6 w-6 rounded-md"
-          />
-        </Link>
-
-        {/* Sine-Wave Staggered Pebble Rocks on Rail */}
-        <div className="flex flex-1 flex-col items-center gap-3.5 pt-1">
-          {PRIMARY_NAV.slice(0, 5).map((item, idx) => {
-            const active = pathname.startsWith(item.href);
-            return (
-              <Tooltip
-                key={item.href}
-                label={t(item.label)}
-                side="right"
-              >
-                <Link
-                  href={item.href}
-                  onClick={item.href === "/home" ? handleHomeClick : undefined}
-                  className={`sand-rail-rock-${idx} relative flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200 ${
-                    active
-                      ? "bg-white text-[#028090] shadow-md ring-2 ring-white/60"
-                      : "bg-white/30 text-white hover:bg-white/50"
-                  }`}
-                >
-                  <item.icon size={15} strokeWidth={active ? 2.2 : 1.7} />
-                </Link>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 3. Wet Sand Texture Layer on Shore (revealed as water recedes) */}
-      <div
-        className="sand-wet-wash"
-        style={{ opacity: collapsed ? 0.2 : 0.85 }}
-      />
-
-      {/* 4. Smooth Ocean Wave Panel (Extends Far Beyond Viewport Bounds Top/Bottom/Left, Seafoam Underneath Water) */}
-      {!collapsed && (
-        <aside
-          className={`absolute left-0 top-0 bottom-0 z-30 flex h-screen w-[275px] flex-col py-0 ${
-            collapsed ? "sand-layer-wave-collapse" : "sand-layer-wave-expand"
-          }`}
-        >
-          {/* Extended Background SVG (Starts 140px above top, 140px below bottom, and 600px off-screen left!) */}
-          <svg
-            className="absolute -top-[140px] -bottom-[140px] -left-[600px] h-[calc(100vh+280px)] w-[900px] pointer-events-none drop-shadow-2xl overflow-visible"
-            viewBox="0 0 900 1000"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient id="oceanWaveGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2A9D8F" />
-                <stop offset="45%" stopColor="#00a896" />
-                <stop offset="100%" stopColor="#05668d" />
-              </linearGradient>
-
-              {/* Seafoam texture blur filter */}
-              <filter id="seafoamGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3" />
-              </filter>
-            </defs>
-
-            {/* Layer 1 (UNDERNEATH): Soft White Seafoam Foam Body (Rendered BEHIND water, peeking 18px out onto shore) */}
-            <path
-              className="sand-seafoam-underlayer-ambient"
-              d="M 0,0 L 878,0 C 904,75 855,150 886,225 C 916,300 862,375 894,450 C 922,525 855,600 886,675 C 916,750 862,825 894,900 C 910,950 882,985 878,1000 L 0,1000 Z"
-              fill="rgba(255, 255, 255, 0.75)"
-              filter="url(#seafoamGlow)"
-            />
-
-            {/* Layer 2 (ON TOP OF SEAFOAM): Solid Ocean Water Body (Deep Swell Ambient 5.4s) */}
-            <path
-              className="sand-ocean-body-ambient"
-              d="M 0,0 L 860,0 C 883,75 840,150 867,225 C 893,300 845,375 873,450 C 897,525 840,600 867,675 C 893,750 845,825 873,900 C 887,950 863,985 860,1000 L 0,1000 Z"
-              fill="url(#oceanWaveGrad)"
-            />
-          </svg>
-
-          {/* Sidebar Content (Text & Nav links — Staggered Layer 2) */}
-          <div
-            className={`relative z-10 flex h-full w-[220px] flex-col pl-14 pt-3 ${
-              collapsed ? "sand-layer-content-collapse" : "sand-layer-content-expand"
-            }`}
-          >
+      {/* 3. Physics-based Ocean Wave Sidebar (powered by ocean-sidebar submodule) */}
+      <OceanSidebar
+        collapsed={collapsed}
+        onToggle={() => setCollapsed(!collapsed)}
+        expandedWidth={275}
+        collapsedWidth={52}
+      >
+        {/* Sidebar Content — only visible when expanded */}
+        {!collapsed && (
+          <div className="flex h-full w-full flex-col pt-3 overflow-hidden">
             {/* Header: logo */}
-            <div className="flex h-12 items-center px-2 mb-2">
+            <div className="flex h-12 items-center px-4 mb-2">
               <Link href="/" className="group flex items-center gap-1.5">
                 <Image
                   src="/logo.png"
@@ -464,8 +376,8 @@ export function SidebarShell({
               </div>
             </div>
           </div>
-        </aside>
-      )}
+        )}
+      </OceanSidebar>
     </div>
   );
 }
