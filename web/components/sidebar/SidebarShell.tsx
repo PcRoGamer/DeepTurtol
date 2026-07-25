@@ -12,7 +12,6 @@ import {
   BookText,
   Bot,
   Brain,
-  ChevronDown,
   Github,
   HeartHandshake,
   House,
@@ -26,7 +25,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import SessionList from "@/components/SessionList";
 import { VersionBadge } from "@/components/sidebar/VersionBadge";
 import type { SessionSummary } from "@/lib/session-api";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -103,7 +101,6 @@ const SECONDARY_NAV: NavEntry[] = [
 
 const GITHUB_REPO_URL = "https://github.com/HKUDS/DeepTutor";
 const DOCS_URL = "https://deeptutor.info/";
-const RECENTS_COLLAPSED_KEY = "deeptutor.sidebar.recentsCollapsed";
 
 interface SidebarShellProps {
   sessions?: SessionSummary[];
@@ -138,24 +135,6 @@ export function SidebarShell({
   const navLocked = (item: NavEntry) =>
     item.requires ? !has(item.requires) : false;
   const lockedTooltip = t("Locked — contact your administrator to get access.");
-  const [recentsCollapsed, setRecentsCollapsed] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setRecentsCollapsed(
-      window.localStorage.getItem(RECENTS_COLLAPSED_KEY) === "1",
-    );
-  }, []);
-
-  const toggleRecents = () => {
-    setRecentsCollapsed((prev) => {
-      const next = !prev;
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(RECENTS_COLLAPSED_KEY, next ? "1" : "0");
-      }
-      return next;
-    });
-  };
 
   const handleHomeClick = (event: React.MouseEvent) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1)
@@ -181,7 +160,7 @@ export function SidebarShell({
 
           return (
             <div className="flex h-full w-full flex-col pt-3 pb-4 overflow-hidden select-none">
-              {/* Header Row — Fixed h-12 height */}
+              {/* Header Row */}
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
@@ -238,7 +217,7 @@ export function SidebarShell({
                 </button>
               </div>
 
-              {/* Primary Nav — Anchored to top */}
+              {/* Primary Nav */}
               <nav className="px-1.5 pt-1 shrink-0">
                 <div className="flex flex-col w-full space-y-1">
                   {PRIMARY_NAV.map((item) => {
@@ -350,7 +329,7 @@ export function SidebarShell({
               {/* Separator Divider */}
               <div className="mx-2.5 my-2 border-t border-white/20 shrink-0" />
 
-              {/* Secondary Nav (Memory, Knowledge Center, Settings) — Anchored right under Primary Nav so Y coordinates NEVER shift */}
+              {/* Secondary Nav (Memory, Knowledge Center, Settings) */}
               <div className="px-1.5 shrink-0">
                 <div className="flex flex-col w-full space-y-1">
                   {SECONDARY_NAV.map((item) => {
@@ -417,64 +396,8 @@ export function SidebarShell({
                 </div>
               </div>
 
-              {/* Chat History Section — Positioned below Secondary Nav when expanded */}
-              {isExpanded &&
-              showSessions &&
-              onSelectSession &&
-              onRenameSession &&
-              onDeleteSession ? (
-                <motion.section
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className={`mt-3 flex min-h-0 flex-col ${
-                    recentsCollapsed ? "" : "flex-1"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      spawnBubbles(e);
-                      toggleRecents();
-                    }}
-                    onMouseEnter={(e) => spawnBubbles(e)}
-                    className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-                    aria-expanded={!recentsCollapsed}
-                    aria-label={
-                      recentsCollapsed
-                        ? (t("Show recents") as string)
-                        : (t("Hide recents") as string)
-                    }
-                  >
-                    <span>{t("Recents")}</span>
-                    <ChevronDown
-                      size={13}
-                      strokeWidth={1.7}
-                      className={`transition-all duration-200 ${
-                        recentsCollapsed
-                          ? "-rotate-90 opacity-60"
-                          : "rotate-0 opacity-0 group-hover/recents:opacity-60"
-                      }`}
-                    />
-                  </button>
-                  {!recentsCollapsed && (
-                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
-                      <SessionList
-                        sessions={sessions}
-                        activeSessionId={activeSessionId}
-                        loading={loadingSessions}
-                        onSelect={onSelectSession}
-                        onRename={onRenameSession}
-                        onDelete={onDeleteSession}
-                        compact
-                      />
-                    </div>
-                  )}
-                </motion.section>
-              ) : null}
-
-              {/* Spacer pushes footer down */}
-              <div className="flex-1 min-h-[8px]" />
+              {/* Flexible spacer */}
+              <div className="flex-1" />
 
               {/* Footer Section */}
               <div className="border-t border-white/20 px-1.5 py-2 shrink-0">
