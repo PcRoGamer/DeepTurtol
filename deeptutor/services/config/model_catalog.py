@@ -54,6 +54,22 @@ def _default_catalog() -> dict[str, Any]:
                                 "model": "big-pickle"
                             }
                         ]
+                    },
+                    {
+                        "id": "llm-profile-phi4-mini",
+                        "name": "Phi-4 Mini (Local SLM / Ollama)",
+                        "binding": "ollama",
+                        "base_url": "http://localhost:11434",
+                        "api_key": "local",
+                        "api_version": "",
+                        "extra_headers": {},
+                        "models": [
+                            {
+                                "id": "llm-model-phi4-mini",
+                                "name": "phi4-mini",
+                                "model": "phi4-mini",
+                            }
+                        ],
                     }
                 ]
             },
