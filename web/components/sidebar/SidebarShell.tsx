@@ -58,10 +58,6 @@ const PRIMARY_NAV: NavEntry[] = [
     requires: "llm",
   },
   {
-    // My Agents is its own top-level feature (pulled out of the Learning
-    // Space): connect a live local Claude Code / Codex to consult in chat,
-    // and manage imported agent conversations. Ungated — managing connections
-    // and imports needs no per-user model grant.
     href: "/agents",
     label: "My Agents",
     icon: Bot,
@@ -91,18 +87,12 @@ const PRIMARY_NAV: NavEntry[] = [
 
 const SECONDARY_NAV: NavEntry[] = [
   {
-    // Memory is its own top-level console (pulled out of the Learning Space):
-    // a place to inspect and curate the tutor's long-term memory, not a daily
-    // workspace. Never gated — memory has no per-user model requirement.
     href: "/memory",
     label: "Memory",
     icon: Brain,
     tooltipKey: "Memory tooltip",
   },
   {
-    // Knowledge Center sits just above Settings: it's a console for managing
-    // KBs and retrieval engines, not a daily workspace. Never gated — embedding
-    // / search are shared admin infrastructure, no per-user model grant needed.
     href: "/knowledge",
     label: "Knowledge Center",
     icon: BookOpen,
@@ -110,6 +100,7 @@ const SECONDARY_NAV: NavEntry[] = [
   },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
+
 const GITHUB_REPO_URL = "https://github.com/HKUDS/DeepTutor";
 const DOCS_URL = "https://deeptutor.info/";
 const RECENTS_COLLAPSED_KEY = "deeptutor.sidebar.recentsCollapsed";
@@ -119,16 +110,10 @@ interface SidebarShellProps {
   activeSessionId?: string | null;
   loadingSessions?: boolean;
   showSessions?: boolean;
-  /** Clicking the Chat nav item resets to a fresh session via this handler. */
   onNewChat?: () => void;
   onSelectSession?: (sessionId: string) => void | Promise<void>;
   onRenameSession?: (sessionId: string, title: string) => void | Promise<void>;
   onDeleteSession?: (sessionId: string) => void | Promise<void>;
-  /**
-   * Footer content rendered below the nav. Pass a render function to receive
-   * the current ``collapsed`` state so footer items (e.g. Admin / Sign out) can
-   * switch to their icon-only variant when the rail is collapsed.
-   */
   footerSlot?: ReactNode | ((collapsed: boolean) => ReactNode);
 }
 
@@ -153,14 +138,10 @@ export function SidebarShell({
   const navLocked = (item: NavEntry) =>
     item.requires ? !has(item.requires) : false;
   const lockedTooltip = t("Locked — contact your administrator to get access.");
-  const renderedFooter =
-    typeof footerSlot === "function" ? footerSlot(collapsed) : footerSlot;
   const [recentsCollapsed, setRecentsCollapsed] = useState(false);
 
-  // Hydrate Recents collapse from localStorage after first render to stay SSR-safe.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRecentsCollapsed(
       window.localStorage.getItem(RECENTS_COLLAPSED_KEY) === "1",
     );
@@ -177,9 +158,6 @@ export function SidebarShell({
   };
 
   const handleHomeClick = (event: React.MouseEvent) => {
-    // Always reset to a fresh session (mirrors the old "New Chat" affordance);
-    // let modifier-clicks fall through to default Link behavior so middle-click
-    // open-in-new-tab still works.
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1)
       return;
     event.preventDefault();
@@ -187,7 +165,6 @@ export function SidebarShell({
     router.push("/home");
   };
 
-  /* ---- Turtol Smooth Ocean Wave Architecture ---- */
   return (
     <div className="relative flex h-screen shrink-0 overflow-visible">
       <OceanSidebar
@@ -196,275 +173,332 @@ export function SidebarShell({
         expandedWidth={275}
         collapsedWidth={52}
       >
-        {(spawnBubbles, isExpanded) => (
-          <div className="flex h-full w-full flex-col pt-3 pb-4 overflow-hidden">
-            {/* Header Row: Logo & Banner on left, Absorbed Glassmorphic Toggle Button on right */}
-            <div className="flex h-12 items-center justify-between px-3 mb-2 shrink-0">
-              <Link
-                href="/"
-                className="group flex items-center gap-1.5 overflow-hidden"
-                onMouseEnter={(e) => spawnBubbles(e)}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="DeepTurtol"
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] shrink-0 transition-transform duration-200 group-hover:scale-105"
-                />
-                <motion.div
-                  initial={false}
-                  animate={{
-                    opacity: isExpanded ? 1 : 0,
-                    width: isExpanded ? "auto" : 0,
-                  }}
-                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
+        {(spawnBubbles, isExpanded) => {
+          // Compute footer dynamically based on actual expansion state
+          const renderedFooter =
+            typeof footerSlot === "function"
+              ? footerSlot(!isExpanded)
+              : footerSlot;
+
+          return (
+            <div className="flex h-full w-full flex-col pt-3 pb-4 overflow-hidden">
+              {/* Header Row */}
+              <div className="flex h-12 items-center justify-between px-3 mb-2 shrink-0">
+                <Link
+                  href="/"
+                  className="group flex items-center gap-1.5 overflow-hidden"
+                  onMouseEnter={(e) => spawnBubbles(e)}
                 >
                   <Image
-                    src="/banner.png"
+                    src="/logo.png"
                     alt="DeepTurtol"
-                    width={897}
-                    height={236}
-                    priority
-                    className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
+                    width={22}
+                    height={22}
+                    className="h-[22px] w-[22px] shrink-0 transition-transform duration-200 group-hover:scale-105"
                   />
-                </motion.div>
-              </Link>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      opacity: isExpanded ? 1 : 0,
+                      width: isExpanded ? "auto" : 0,
+                    }}
+                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <Image
+                      src="/banner.png"
+                      alt="DeepTurtol"
+                      width={897}
+                      height={236}
+                      priority
+                      className="h-[22px] w-auto transition-transform duration-200 group-hover:scale-105"
+                    />
+                  </motion.div>
+                </Link>
 
-              {/* Absorbed Glassmorphic Expand / Collapse Toggle Button */}
-              <button
-                onClick={() => setCollapsed(!collapsed)}
-                onMouseEnter={(e) => spawnBubbles(e)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/35 bg-white/20 text-white/90 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/30 hover:text-white active:scale-95 cursor-pointer"
-                aria-label={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
-                title={collapsed ? (t("Expand sidebar") as string) : (t("Collapse sidebar") as string)}
-              >
-                {collapsed ? (
-                  <PanelLeftOpen size={17} strokeWidth={2.2} />
-                ) : (
-                  <PanelLeftClose size={17} strokeWidth={2.2} />
-                )}
-              </button>
-            </div>
-
-            {/* Primary Nav — Single Unified List for Seamless Icon Transition */}
-            <nav className="px-2 pt-1">
-              <div className="space-y-1">
-                {PRIMARY_NAV.map((item) => {
-                  const active = pathname.startsWith(item.href);
-                  const locked = navLocked(item);
-                  if (locked) {
-                    return (
-                      <Tooltip key={item.href} label={t(item.label)} description={lockedTooltip} side="right">
-                        <div className="flex h-11 items-center rounded-xl px-2 text-white/40 cursor-not-allowed">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center">
-                            <item.icon size={20} strokeWidth={1.5} />
-                          </div>
-                          {isExpanded && (
-                            <span className="whitespace-nowrap font-sans text-[14px] ml-2.5">{t(item.label)}</span>
-                          )}
-                          {isExpanded && <Lock size={13} strokeWidth={1.8} className="ml-auto" />}
-                        </div>
-                      </Tooltip>
-                    );
-                  }
-                  return (
-                    <Tooltip key={item.href} label={!isExpanded ? t(item.label) : ""} side="right">
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onMouseEnter={(e) => spawnBubbles(e)}
-                        onClick={(e) => {
-                          spawnBubbles(e);
-                          if (item.href === "/home") handleHomeClick(e);
-                        }}
-                        className={`group relative flex h-11 items-center rounded-xl px-1.5 transition-all duration-200 ${
-                          active
-                            ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
-                            : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
-                        }`}
-                      >
-                        {/* Symmetrical Glowing Cyan Indicator Pill matching ocean_sidebar (1) */}
-                        {active && (
-                          <motion.div
-                            layoutId="activeCurrentIndicator"
-                            className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
-                          />
-                        )}
-                        {/* Icon Container: ALWAYS fixed in the exact same position */}
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center pl-1">
-                          <item.icon
-                            size={21}
-                            className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
-                            strokeWidth={active ? 2.1 : 1.6}
-                          />
-                        </div>
-                        {/* Label: Smoothly slides/fades in when expanded */}
-                        <motion.span
-                          initial={false}
-                          animate={{
-                            opacity: isExpanded ? 1 : 0,
-                            width: isExpanded ? "auto" : 0,
-                            marginLeft: isExpanded ? 10 : 0,
-                          }}
-                          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                          className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
-                            active ? "text-cyan-300 font-semibold" : "text-white/80 group-hover:text-white"
-                          }`}
-                        >
-                          {t(item.label)}
-                        </motion.span>
-                      </Link>
-                    </Tooltip>
-                  );
-                })}
-              </div>
-            </nav>
-
-            {/* Chat history — visible when expanded */}
-            {isExpanded && showSessions && onSelectSession && onRenameSession && onDeleteSession ? (
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2 }}
-                className={`mt-4 flex min-h-0 flex-col ${
-                  recentsCollapsed ? "" : "flex-1"
-                }`}
-              >
                 <button
-                  type="button"
-                  onClick={(e) => {
-                    spawnBubbles(e);
-                    toggleRecents();
-                  }}
+                  onClick={() => setCollapsed(!collapsed)}
                   onMouseEnter={(e) => spawnBubbles(e)}
-                  className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-                  aria-expanded={!recentsCollapsed}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/35 bg-white/20 text-white/90 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/30 hover:text-white active:scale-95 cursor-pointer"
                   aria-label={
-                    recentsCollapsed
-                      ? (t("Show recents") as string)
-                      : (t("Hide recents") as string)
+                    collapsed
+                      ? (t("Expand sidebar") as string)
+                      : (t("Collapse sidebar") as string)
+                  }
+                  title={
+                    collapsed
+                      ? (t("Expand sidebar") as string)
+                      : (t("Collapse sidebar") as string)
                   }
                 >
-                  <span>{t("Recents")}</span>
-                  <ChevronDown
-                    size={13}
-                    strokeWidth={1.7}
-                    className={`transition-all duration-200 ${
-                      recentsCollapsed
-                        ? "-rotate-90 opacity-60"
-                        : "rotate-0 opacity-0 group-hover/recents:opacity-60"
-                    }`}
-                  />
+                  {collapsed ? (
+                    <PanelLeftOpen size={17} strokeWidth={2.2} />
+                  ) : (
+                    <PanelLeftClose size={17} strokeWidth={2.2} />
+                  )}
                 </button>
-                {!recentsCollapsed && (
-                  <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
-                    <SessionList
-                      sessions={sessions}
-                      activeSessionId={activeSessionId}
-                      loading={loadingSessions}
-                      onSelect={onSelectSession}
-                      onRename={onRenameSession}
-                      onDelete={onDeleteSession}
-                      compact
-                    />
-                  </div>
-                )}
-              </motion.section>
-            ) : null}
-
-            {/* Filler */}
-            {(!isExpanded ||
-              !showSessions ||
-              !onSelectSession ||
-              !onRenameSession ||
-              !onDeleteSession ||
-              recentsCollapsed) && <div className="flex-1" />}
-
-            {/* Secondary nav + footer */}
-            <div className="border-t border-white/20 px-2 py-2 shrink-0">
-              <div className="space-y-1">
-                {SECONDARY_NAV.map((item) => {
-                  const active = pathname.startsWith(item.href);
-                  return (
-                    <Tooltip key={item.href} label={!isExpanded ? t(item.label) : ""} side="right">
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onMouseEnter={(e) => spawnBubbles(e)}
-                        onClick={(e) => spawnBubbles(e)}
-                        className={`group relative flex h-11 items-center rounded-xl px-1.5 transition-all duration-200 ${
-                          active
-                            ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
-                            : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
-                        }`}
-                      >
-                        {active && (
-                          <motion.div
-                            layoutId="activeCurrentIndicator"
-                            className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
-                          />
-                        )}
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center pl-1">
-                          <item.icon
-                            size={21}
-                            className={active ? "text-cyan-300" : "text-white/70 group-hover:text-white"}
-                            strokeWidth={active ? 2.1 : 1.6}
-                          />
-                        </div>
-                        <motion.span
-                          initial={false}
-                          animate={{
-                            opacity: isExpanded ? 1 : 0,
-                            width: isExpanded ? "auto" : 0,
-                            marginLeft: isExpanded ? 10 : 0,
-                          }}
-                          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                          className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
-                            active ? "text-cyan-300 font-semibold" : "text-white/80 group-hover:text-white"
-                          }`}
-                        >
-                          {t(item.label)}
-                        </motion.span>
-                      </Link>
-                    </Tooltip>
-                  );
-                })}
               </div>
 
-              {renderedFooter}
-
-              {isExpanded && (
-                <div className="mt-1 flex items-center gap-0.5">
-                  <VersionBadge />
-                  <a
-                    href={DOCS_URL}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    title={t("Docs") as string}
-                    aria-label={t("Docs") as string}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/15 hover:text-white"
-                    onMouseEnter={(e) => spawnBubbles(e)}
-                  >
-                    <BookText size={14} strokeWidth={1.6} />
-                  </a>
-                  <a
-                    href={GITHUB_REPO_URL}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    title="GitHub"
-                    aria-label="GitHub"
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/15 hover:text-white"
-                    onMouseEnter={(e) => spawnBubbles(e)}
-                  >
-                    <Github size={14} strokeWidth={1.6} />
-                  </a>
+              {/* Primary Nav — Strictly 1 Vertical Column */}
+              <nav className="px-2 pt-1">
+                <div className="flex flex-col w-full space-y-1">
+                  {PRIMARY_NAV.map((item) => {
+                    const active = pathname.startsWith(item.href);
+                    const locked = navLocked(item);
+                    if (locked) {
+                      return (
+                        <Tooltip
+                          key={item.href}
+                          label={t(item.label)}
+                          description={lockedTooltip}
+                          side="right"
+                        >
+                          <div className="flex h-11 w-full items-center rounded-xl px-2 text-white/40 cursor-not-allowed">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center">
+                              <item.icon size={20} strokeWidth={1.5} />
+                            </div>
+                            {isExpanded && (
+                              <span className="whitespace-nowrap font-sans text-[14px] ml-2.5">
+                                {t(item.label)}
+                              </span>
+                            )}
+                            {isExpanded && (
+                              <Lock
+                                size={13}
+                                strokeWidth={1.8}
+                                className="ml-auto"
+                              />
+                            )}
+                          </div>
+                        </Tooltip>
+                      );
+                    }
+                    return (
+                      <Tooltip
+                        key={item.href}
+                        label={!isExpanded ? t(item.label) : ""}
+                        side="right"
+                      >
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onMouseEnter={(e) => spawnBubbles(e)}
+                          onClick={(e) => {
+                            spawnBubbles(e);
+                            if (item.href === "/home") handleHomeClick(e);
+                          }}
+                          className={`group relative flex h-11 w-full items-center rounded-xl px-1.5 transition-all duration-200 ${
+                            active
+                              ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                              : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
+                          }`}
+                        >
+                          {active && (
+                            <motion.div
+                              layoutId="activeCurrentIndicator"
+                              className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
+                            />
+                          )}
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center pl-1">
+                            <item.icon
+                              size={21}
+                              className={
+                                active
+                                  ? "text-cyan-300"
+                                  : "text-white/70 group-hover:text-white"
+                              }
+                              strokeWidth={active ? 2.1 : 1.6}
+                            />
+                          </div>
+                          <motion.span
+                            initial={false}
+                            animate={{
+                              opacity: isExpanded ? 1 : 0,
+                              width: isExpanded ? "auto" : 0,
+                              marginLeft: isExpanded ? 10 : 0,
+                            }}
+                            transition={{
+                              duration: 0.2,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                            className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
+                              active
+                                ? "text-cyan-300 font-semibold"
+                                : "text-white/80 group-hover:text-white"
+                            }`}
+                          >
+                            {t(item.label)}
+                          </motion.span>
+                        </Link>
+                      </Tooltip>
+                    );
+                  })}
                 </div>
-              )}
+              </nav>
+
+              {/* Chat history section */}
+              {isExpanded &&
+              showSessions &&
+              onSelectSession &&
+              onRenameSession &&
+              onDeleteSession ? (
+                <motion.section
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className={`mt-4 flex min-h-0 flex-col ${
+                    recentsCollapsed ? "" : "flex-1"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      spawnBubbles(e);
+                      toggleRecents();
+                    }}
+                    onMouseEnter={(e) => spawnBubbles(e)}
+                    className="group/recents mx-3 flex items-center justify-between rounded-md px-2 py-1 text-left text-[11.5px] font-normal text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-expanded={!recentsCollapsed}
+                    aria-label={
+                      recentsCollapsed
+                        ? (t("Show recents") as string)
+                        : (t("Hide recents") as string)
+                    }
+                  >
+                    <span>{t("Recents")}</span>
+                    <ChevronDown
+                      size={13}
+                      strokeWidth={1.7}
+                      className={`transition-all duration-200 ${
+                        recentsCollapsed
+                          ? "-rotate-90 opacity-60"
+                          : "rotate-0 opacity-0 group-hover/recents:opacity-60"
+                      }`}
+                    />
+                  </button>
+                  {!recentsCollapsed && (
+                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-2 pt-0.5">
+                      <SessionList
+                        sessions={sessions}
+                        activeSessionId={activeSessionId}
+                        loading={loadingSessions}
+                        onSelect={onSelectSession}
+                        onRename={onRenameSession}
+                        onDelete={onDeleteSession}
+                        compact
+                      />
+                    </div>
+                  )}
+                </motion.section>
+              ) : null}
+
+              {/* Filler space when history collapsed */}
+              {(!isExpanded ||
+                !showSessions ||
+                !onSelectSession ||
+                !onRenameSession ||
+                !onDeleteSession ||
+                recentsCollapsed) && <div className="flex-1" />}
+
+              {/* Secondary Nav & Footer — Strictly 1 Vertical Column */}
+              <div className="border-t border-white/20 px-2 py-2 shrink-0">
+                <div className="flex flex-col w-full space-y-1">
+                  {SECONDARY_NAV.map((item) => {
+                    const active = pathname.startsWith(item.href);
+                    return (
+                      <Tooltip
+                        key={item.href}
+                        label={!isExpanded ? t(item.label) : ""}
+                        side="right"
+                      >
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onMouseEnter={(e) => spawnBubbles(e)}
+                          onClick={(e) => spawnBubbles(e)}
+                          className={`group relative flex h-11 w-full items-center rounded-xl px-1.5 transition-all duration-200 ${
+                            active
+                              ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md"
+                              : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
+                          }`}
+                        >
+                          {active && (
+                            <motion.div
+                              layoutId="activeCurrentIndicator"
+                              className="absolute left-0 w-1 h-8 bg-cyan-300 rounded-full shadow-[0_0_12px_rgba(103,232,249,0.95)]"
+                            />
+                          )}
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center pl-1">
+                            <item.icon
+                              size={21}
+                              className={
+                                active
+                                  ? "text-cyan-300"
+                                  : "text-white/70 group-hover:text-white"
+                              }
+                              strokeWidth={active ? 2.1 : 1.6}
+                            />
+                          </div>
+                          <motion.span
+                            initial={false}
+                            animate={{
+                              opacity: isExpanded ? 1 : 0,
+                              width: isExpanded ? "auto" : 0,
+                              marginLeft: isExpanded ? 10 : 0,
+                            }}
+                            transition={{
+                              duration: 0.2,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                            className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
+                              active
+                                ? "text-cyan-300 font-semibold"
+                                : "text-white/80 group-hover:text-white"
+                            }`}
+                          >
+                            {t(item.label)}
+                          </motion.span>
+                        </Link>
+                      </Tooltip>
+                    );
+                  })}
+                </div>
+
+                <div className="flex flex-col w-full space-y-1 mt-1">
+                  {renderedFooter}
+                </div>
+
+                {isExpanded && (
+                  <div className="mt-1 flex items-center gap-0.5 px-1">
+                    <VersionBadge />
+                    <a
+                      href={DOCS_URL}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      title={t("Docs") as string}
+                      aria-label={t("Docs") as string}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+                      onMouseEnter={(e) => spawnBubbles(e)}
+                    >
+                      <BookText size={14} strokeWidth={1.6} />
+                    </a>
+                    <a
+                      href={GITHUB_REPO_URL}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      title="GitHub"
+                      aria-label="GitHub"
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+                      onMouseEnter={(e) => spawnBubbles(e)}
+                    >
+                      <Github size={14} strokeWidth={1.6} />
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        }}
       </OceanSidebar>
     </div>
   );
