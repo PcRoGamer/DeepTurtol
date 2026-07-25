@@ -74,26 +74,9 @@ def _default_catalog() -> dict[str, Any]:
                 ]
             },
             "embedding": {
-                "active_profile_id": "embedding-profile-opencode",
-                "active_model_id": "embedding-model-opencode",
+                "active_profile_id": None,
+                "active_model_id": None,
                 "profiles": [
-                    {
-                        "id": "embedding-profile-opencode",
-                        "name": "OpenCode Zen Embeddings (Zero Setup)",
-                        "binding": "opencode",
-                        "base_url": "https://opencode.ai/zen/v1",
-                        "api_key": "public",
-                        "api_version": "",
-                        "extra_headers": {},
-                        "models": [
-                            {
-                                "id": "embedding-model-opencode",
-                                "name": "text-embedding-v3",
-                                "model": "text-embedding-v3",
-                                "dimension": "1024",
-                            }
-                        ]
-                    },
                     {
                         "id": "embedding-profile-fastembed",
                         "name": "FastEmbed (Local NPU/ONNX)",
