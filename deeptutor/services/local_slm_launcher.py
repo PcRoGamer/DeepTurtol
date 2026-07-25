@@ -140,3 +140,35 @@ def ensure_local_slm_running(
             logger.info(result["message"])
 
     return result
+
+
+def install_local_slm_runtime(model_name: str = "phi4-mini") -> Dict[str, Any]:
+    """
+    Installs Ollama locally using winget / silent installer and pulls target model weights.
+    """
+    logger.info("Initiating local Ollama installation via winget...")
+    try:
+        cmd = [
+            "winget", "install", "--id", "Ollama.Ollama",
+            "--accept-source-agreements", "--accept-package-agreements",
+            "--silent"
+        ]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        logger.info(f"Winget install stdout: {proc.stdout}")
+    except Exception as err:
+        logger.error(f"Winget installation attempt encountered error: {err}")
+
+    # Re-check status after installation attempt
+    status = ensure_local_slm_running(model_name=model_name)
+    if status.get("server_running"):
+        exe_path = status.get("executable_path") or "ollama"
+        logger.info(f"Pulling model '{model_name}' via {exe_path}...")
+        try:
+            pull_proc = subprocess.run([exe_path, "pull", model_name], capture_output=True, text=True, timeout=600)
+            logger.info(f"Ollama pull stdout: {pull_proc.stdout}")
+            status = ensure_local_slm_running(model_name=model_name)
+        except Exception as pull_err:
+            logger.error(f"Failed to pull model '{model_name}': {pull_err}")
+
+    return status
+

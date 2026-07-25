@@ -19,6 +19,15 @@ from deeptutor.services.search import web_search
 router = APIRouter()
 
 
+@router.get("/hardware-recommendations")
+async def get_hardware_recommendations_endpoint():
+    """
+    Returns hardware capability detection and auto-installation prompt recommendations.
+    """
+    from deeptutor.services.hardware_detection import get_hardware_recommendations
+    return get_hardware_recommendations()
+
+
 class TestResponse(BaseModel):
     success: bool
     message: str
