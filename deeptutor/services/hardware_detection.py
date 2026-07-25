@@ -44,7 +44,7 @@ def detect_hardware_capabilities() -> Dict[str, Any]:
     ollama_installed = bool(exe_path)
     ollama_running = is_ollama_server_running() if ollama_installed else False
     installed_models = get_installed_ollama_models() if ollama_running else []
-    phi4_installed = any("phi4-mini" in m.lower() for m in installed_models)
+    gemma_installed = any("gemma-4-e2b-it" in m.lower() for m in installed_models)
 
     return {
         "os": system_os,
@@ -56,7 +56,7 @@ def detect_hardware_capabilities() -> Dict[str, Any]:
         "qnn_available": qnn_available,
         "ollama_installed": ollama_installed,
         "ollama_running": ollama_running,
-        "phi4_installed": phi4_installed,
+        "gemma_installed": gemma_installed,
         "installed_models": installed_models,
     }
 
@@ -71,7 +71,7 @@ def get_hardware_recommendations() -> Dict[str, Any]:
     has_high_ram = caps["total_ram_gb"] >= 8.0
     has_adequate_hardware = has_npu or (has_high_ram and caps["cpu_count"] >= 4)
 
-    prompt_recommended = has_adequate_hardware and (not caps["ollama_installed"] or not caps["phi4_installed"])
+    prompt_recommended = has_adequate_hardware and (not caps["ollama_installed"] or not caps["gemma_installed"])
 
     recommendations = []
     if has_npu and caps["qnn_available"]:
@@ -84,19 +84,15 @@ def get_hardware_recommendations() -> Dict[str, Any]:
 
     if has_adequate_hardware:
         recommendations.append({
-            "id": "ollama_phi4_mini",
-            "title": "Install Local SLM (Ollama + Phi-4 Mini)",
-            "description": "Adequate hardware detected (8GB+ RAM). Enable 100% offline LLM reasoning at ~28 tok/sec.",
-            "status": "installed" if caps["phi4_installed"] else "prompt_available",
+            "id": "ollama_gemma4_e2b",
+            "title": "Install Local SLM (Ollama + Qualcomm Gemma-4-E2B-it)",
+            "description": "Adequate hardware detected (8GB+ RAM). Enable 100% offline LLM reasoning at ~35 tok/sec with Qualcomm Gemma-4-E2B-it.",
+            "status": "installed" if caps["gemma_installed"] else "prompt_available",
         })
 
     return {
-        "has_adequate_hardware": has_adequate_hardware,
+        "adequate_hardware": has_adequate_hardware,
         "prompt_recommended": prompt_recommended,
-        "hardware_summary": {
-            "npu_detected": has_npu,
-            "ram_gb": caps["total_ram_gb"],
-            "cpu_cores": caps["cpu_count"],
-        },
         "recommendations": recommendations,
+        "hardware_caps": caps,
     }
