@@ -50,24 +50,52 @@ class FastEmbedAdapter(BaseEmbeddingAdapter):
 
         try:
             from fastembed import TextEmbedding
+            from fastembed.common.model_description import ModelSource, PoolingType
         except ImportError as err:
             raise ImportError(
                 "fastembed library is required for FastEmbedAdapter. "
                 "Install it with `pip install fastembed`."
             ) from err
 
+        # Filter requested execution providers against host ONNX Runtime capabilities
+        try:
+            import onnxruntime as ort
+            available_providers = set(ort.get_available_providers())
+            valid_providers = [p for p in self.DEFAULT_PROVIDERS if p in available_providers]
+            if not valid_providers:
+                valid_providers = ["CPUExecutionProvider"]
+        except Exception:
+            valid_providers = ["CPUExecutionProvider"]
+
+        # Dynamically register custom model if not in FastEmbed's default supported list
+        try:
+            supported_names = [m["model"] for m in TextEmbedding.list_supported_models()]
+            if model_name not in supported_names:
+                dim = self.MODELS_INFO.get(model_name, self.dimensions or 1024)
+                TextEmbedding.add_custom_model(
+                    model=model_name,
+                    pooling=PoolingType.MEAN,
+                    normalization=True,
+                    sources=ModelSource(hf=model_name),
+                    dim=dim,
+                    model_file="model.onnx",
+                )
+                logger.info(f"Registered model '{model_name}' (dim={dim}) into FastEmbed registry")
+        except Exception as reg_err:
+            logger.debug(f"Custom model registration hint for '{model_name}': {reg_err}")
+
         logger.info(
             f"Initializing FastEmbed TextEmbedding model '{model_name}' "
-            f"with providers={self.DEFAULT_PROVIDERS}"
+            f"with valid providers={valid_providers}"
         )
         try:
             model = TextEmbedding(
                 model_name=model_name,
-                providers=self.DEFAULT_PROVIDERS,
+                providers=valid_providers,
             )
         except Exception as exc:
             logger.warning(
-                f"Failed to initialize FastEmbed with providers {self.DEFAULT_PROVIDERS}: {exc}. "
+                f"Failed to initialize FastEmbed with providers {valid_providers}: {exc}. "
                 "Falling back to default TextEmbedding initialization."
             )
             model = TextEmbedding(model_name=model_name)
@@ -82,12 +110,17 @@ class FastEmbedAdapter(BaseEmbeddingAdapter):
             )
 
         texts = request.texts
-        if not texts:
-            return EmbeddingResponse(embeddings=[], model=request.model or self.model)
-
         model_name = request.model or self.model or self.DEFAULT_MODEL
-        model = self._get_or_create_model(model_name)
+        if not texts:
+            dim = self.MODELS_INFO.get(model_name, self.dimensions or 1024)
+            return EmbeddingResponse(
+                embeddings=[],
+                model=model_name,
+                dimensions=dim,
+                usage={"prompt_tokens": 0, "total_tokens": 0},
+            )
 
+        model = self._get_or_create_model(model_name)
         loop = asyncio.get_running_loop()
 
         def _run_embedding():
@@ -95,11 +128,23 @@ class FastEmbedAdapter(BaseEmbeddingAdapter):
             return [e.tolist() for e in embeddings_generator]
 
         embeddings = await loop.run_in_executor(None, _run_embedding)
-
+        dim = len(embeddings[0]) if embeddings else (self.dimensions or 1024)
+        total_tokens = sum(len(t.split()) for t in texts)
         return EmbeddingResponse(
             embeddings=embeddings,
             model=model_name,
+            dimensions=dim,
+            usage={"prompt_tokens": total_tokens, "total_tokens": total_tokens},
         )
+
+    def get_model_info(self) -> Dict[str, Any]:
+        model_name = self.model or self.DEFAULT_MODEL
+        return {
+            "model": model_name,
+            "dimensions": self.MODELS_INFO.get(model_name, self.dimensions or 1024),
+            "provider": "fastembed",
+            "is_local": True,
+        }
 
     async def health_check(self) -> Dict[str, Any]:
         model_name = self.model or self.DEFAULT_MODEL
