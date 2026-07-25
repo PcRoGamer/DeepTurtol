@@ -164,10 +164,10 @@ export function SidebarShell({
               <div className="flex h-12 items-center justify-between px-2 mb-2 shrink-0">
                 <Link
                   href="/"
-                  className={`group flex h-9 items-center gap-2.5 transition-all duration-200 overflow-hidden cursor-pointer ${
+                  className={`group flex h-9 items-center gap-2.5 transition-all duration-200 cursor-pointer ${
                     isExpanded
-                      ? "rounded-xl border border-white/50 bg-[#FDF8EE] px-2.5 shadow-md hover:bg-[#FDF6E2] hover:scale-[1.02] active:scale-[0.98]"
-                      : "pl-1 bg-transparent border border-transparent"
+                      ? "rounded-xl border border-white/50 bg-[#FDF8EE] px-3 shadow-md hover:bg-[#FDF6E2] hover:scale-[1.02] active:scale-[0.98] overflow-visible"
+                      : "pl-1 bg-transparent border border-transparent overflow-hidden"
                   }`}
                   onMouseEnter={(e) => spawnBubbles(e)}
                 >
@@ -185,7 +185,7 @@ export function SidebarShell({
                       width: isExpanded ? "auto" : 0,
                     }}
                     transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden flex items-center"
+                    className="flex items-center overflow-visible pr-0.5"
                   >
                     <Image
                       src="/wordmark.png"
