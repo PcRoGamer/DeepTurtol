@@ -427,6 +427,15 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         is_local=True,
         default_api_base="http://localhost:8000/v3",
     ),
+    ProviderSpec(
+        name="geniex_npu",
+        keywords=("geniex", "geniex_npu", "qualcomm_npu"),
+        env_key="",
+        display_name="Qualcomm GenieX (Hexagon NPU)",
+        backend="geniex_npu",
+        is_local=True,
+        default_api_base="http://localhost/geniex",
+    ),
     # === Auxiliary ==========================================================
     ProviderSpec(
         name="nvidia_nim",

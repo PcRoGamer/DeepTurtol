@@ -7,6 +7,7 @@ from deeptutor.services.llm.provider_core import (
     AnthropicProvider,
     AzureOpenAIProvider,
     GenerationSettings,
+    GenieXNPUProvider,
     GitHubCopilotProvider,
     LLMProvider,
     OpenAICodexProvider,
@@ -26,8 +27,10 @@ def get_runtime_provider(config: LLMConfig | None = None) -> LLMProvider:
     raw_base = getattr(llm_config, "effective_url", None) or getattr(llm_config, "base_url", None) or None
     sanitized_base = sanitize_url(raw_base) if raw_base else None
 
-    if backend == "openai_codex":
-        provider: LLMProvider = OpenAICodexProvider(default_model=getattr(llm_config, "model", None))
+    if backend == "geniex_npu":
+        provider: LLMProvider = GenieXNPUProvider(default_model=getattr(llm_config, "model", None))
+    elif backend == "openai_codex":
+        provider = OpenAICodexProvider(default_model=getattr(llm_config, "model", None))
     elif backend == "github_copilot":
         provider = GitHubCopilotProvider(default_model=getattr(llm_config, "model", None))
     elif backend == "azure_openai":

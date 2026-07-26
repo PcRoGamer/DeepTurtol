@@ -106,18 +106,34 @@ def _default_catalog() -> dict[str, Any]:
                         ]
                     },
                     {
-                        "id": "llm-profile-gemma4-e2b",
-                        "name": "Qualcomm Gemma-4-E2B-it (Local SLM / Ollama)",
-                        "binding": "ollama",
-                        "base_url": "http://localhost:11434",
+                        "id": "llm-profile-geniex-npu-gemma4",
+                        "name": "Qualcomm Gemma-4-E2B QAT (Hexagon NPU)",
+                        "binding": "geniex_npu",
+                        "base_url": "http://localhost/geniex",
                         "api_key": "local",
                         "api_version": "",
                         "extra_headers": {},
                         "models": [
                             {
-                                "id": "llm-model-gemma4-e2b",
-                                "name": "gemma-4-e2b-it",
-                                "model": "gemma-4-e2b-it",
+                                "id": "llm-model-geniex-gemma4-e2b-qat",
+                                "name": "local/gemma4-e2b-qat (NPU)",
+                                "model": "local/gemma4-e2b-qat",
+                            }
+                        ],
+                    },
+                    {
+                        "id": "llm-profile-gemma4-e2b",
+                        "name": "Qualcomm Gemma-4-E2B-it (Local SLM / Ollama QAT)",
+                        "binding": "ollama",
+                        "base_url": "http://localhost:11434/v1",
+                        "api_key": "local",
+                        "api_version": "",
+                        "extra_headers": {},
+                        "models": [
+                            {
+                                "id": "llm-model-gemma4-e2b-qat",
+                                "name": "gemma4-e2b-qat",
+                                "model": "gemma4-e2b-qat",
                             }
                         ],
                     },
@@ -125,7 +141,7 @@ def _default_catalog() -> dict[str, Any]:
                         "id": "llm-profile-phi4-mini",
                         "name": "Phi-4 Mini (Local SLM / Ollama)",
                         "binding": "ollama",
-                        "base_url": "http://localhost:11434",
+                        "base_url": "http://localhost:11434/v1",
                         "api_key": "local",
                         "api_version": "",
                         "extra_headers": {},
