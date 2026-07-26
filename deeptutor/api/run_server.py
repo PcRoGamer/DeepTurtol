@@ -40,6 +40,26 @@ def main() -> None:
 
     set_mode(RunMode.SERVER)
     configure_logging()
+
+    # Start the LLM HTTP server (GenieX bridge or Ollama fallback) so
+    # GraphRAG's LiteLLM integration can reach a working endpoint.
+    try:
+        from deeptutor.services.llm.llm_server_manager import get_llm_server_manager
+        _llm_manager = get_llm_server_manager()
+        _llm_endpoint = _llm_manager.start()
+        if _llm_endpoint:
+            import logging as _log
+            _log.getLogger(__name__).info(
+                "LLM server manager: endpoint=%s backend=%s",
+                _llm_endpoint,
+                _llm_manager.backend,
+            )
+    except Exception as _exc:
+        import logging as _log
+        _log.getLogger(__name__).warning(
+            "LLM server manager failed to start: %s", _exc
+        )
+
     backend_port = get_backend_port(project_root)
 
     # Configure reload_excludes to skip directories that shouldn't trigger reloads

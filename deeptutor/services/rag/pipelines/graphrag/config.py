@@ -151,7 +151,20 @@ def build_settings(*, llm_cfg: Any = None, embedding_cfg: Any = None) -> dict[st
             "Settings → Catalog before creating a GraphRAG knowledge base."
         )
 
-    llm_base = getattr(llm_cfg, "effective_url", None) or getattr(llm_cfg, "base_url", None)
+    # Prefer the managed LLM server endpoint (GenieX bridge or Ollama) over
+    # the static config URL.  The manager is started once at backend boot.
+    try:
+        from deeptutor.services.llm.llm_server_manager import get_llm_server_manager
+        _mgr = get_llm_server_manager()
+        _managed_url = _mgr.endpoint_url
+    except Exception:
+        _managed_url = None
+
+    llm_base = (
+        _managed_url
+        or getattr(llm_cfg, "effective_url", None)
+        or getattr(llm_cfg, "base_url", None)
+    )
     embed_base = getattr(embedding_cfg, "effective_url", None) or getattr(
         embedding_cfg, "base_url", None
     )
