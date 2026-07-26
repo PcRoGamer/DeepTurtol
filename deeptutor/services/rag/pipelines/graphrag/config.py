@@ -177,8 +177,8 @@ def build_settings(*, llm_cfg: Any = None, embedding_cfg: Any = None) -> dict[st
         "input": {"type": "text", "file_pattern": r".*\.txt$"},
         "input_storage": {"type": "file", "base_dir": "input"},
         "output_storage": {"type": "file", "base_dir": "output"},
-        "cache": {"type": "file", "storage": {"type": "file", "base_dir": "cache"}},
-        "reporting": {"type": "file", "base_dir": "logs"},
+        "cache": {"type": "json", "storage": {"type": "file", "base_dir": "cache"}},
+        "reporting": {"base_dir": "logs"},
         # GraphRAG/LanceDB defaults to 3072 dimensions; DeepTutor must stamp the
         # active embedding dimension so Qwen-4096 and other non-default models work.
         "vector_store": {
@@ -197,8 +197,15 @@ def write_settings(root_dir: Path, *, llm_cfg: Any = None, embedding_cfg: Any = 
     root_dir.mkdir(parents=True, exist_ok=True)
     settings = build_settings(llm_cfg=llm_cfg, embedding_cfg=embedding_cfg)
     path = root_dir / SETTINGS_FILENAME
-    with open(path, "w", encoding="utf-8") as handle:
-        yaml.safe_dump(settings, handle, sort_keys=False, allow_unicode=True)
+
+    # GraphRAG's ``load_config`` runs ``string.Template(text).substitute(os.environ)``
+    # on the raw YAML text.  Any literal ``$`` that isn't a valid env-var
+    # placeholder (e.g. ``$`` at end of a regex like ``.*\.txt$``) causes a
+    # ``ValueError: Invalid placeholder``.  Doubling ``$`` → ``$$`` makes
+    # ``string.Template`` emit a literal ``$`` after substitution.
+    text = yaml.safe_dump(settings, sort_keys=False, allow_unicode=True)
+    text = text.replace("$", "$$")
+    path.write_text(text, encoding="utf-8")
     return path
 
 

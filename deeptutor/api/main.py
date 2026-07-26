@@ -4,6 +4,7 @@ import sys
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from deeptutor.logging import configure_logging
@@ -250,9 +251,31 @@ if not any(getattr(h, "_deeptutor_access_handler", False) for h in _access_logge
     _access_logger.propagate = False
 
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    """Catch-all: ensure ALL unhandled exceptions return JSON, not plain text.
+
+    Without this handler, Starlette's default ServerErrorMiddleware returns
+    plain-text ``"Internal Server Error"`` for unhandled exceptions, which
+    breaks frontend ``response.json()`` calls (``Unexpected token 'I'``).
+    """
+    logger.error("Unhandled exception on %s %s: %s", request.method, request.url.path, exc)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc) or "Internal Server Error"},
+    )
+
+
 @app.middleware("http")
 async def selective_access_log(request, call_next):
-    response = await call_next(request)
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        logger.error("Middleware exception on %s %s: %s", request.method, request.url.path, exc)
+        return JSONResponse(
+            status_code=500,
+            content={"detail": str(exc) or "Internal Server Error"},
+        )
     if response.status_code != 200:
         _access_logger.info(
             '%s - "%s %s HTTP/%s" %d',

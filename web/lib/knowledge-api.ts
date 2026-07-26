@@ -170,12 +170,19 @@ export async function listKnowledgeBases(options?: { force?: boolean }) {
       const response = await apiFetch(apiUrl("/api/v1/knowledge/list"), {
         cache: "no-store",
       });
-      const data = await response.json();
-      return Array.isArray(data)
-        ? data
-        : Array.isArray(data?.knowledge_bases)
-          ? data.knowledge_bases
-          : [];
+      if (!response.ok) {
+        return [];
+      }
+      try {
+        const data = await response.json();
+        return Array.isArray(data)
+          ? data
+          : Array.isArray(data?.knowledge_bases)
+            ? data.knowledge_bases
+            : [];
+      } catch {
+        return [];
+      }
     },
     {
       force: options?.force,
@@ -193,8 +200,15 @@ export async function listRagProviders(options?: { force?: boolean }) {
           cache: "no-store",
         },
       );
-      const data = await response.json();
-      return Array.isArray(data?.providers) ? data.providers : [];
+      if (!response.ok) {
+        return [];
+      }
+      try {
+        const data = await response.json();
+        return Array.isArray(data?.providers) ? data.providers : [];
+      } catch {
+        return [];
+      }
     },
     {
       force: options?.force,
@@ -212,8 +226,15 @@ export async function getKnowledgeUploadPolicy(options?: { force?: boolean }) {
           cache: "no-store",
         },
       );
-      const data = await response.json();
-      return normalizeUploadPolicy(data);
+      if (!response.ok) {
+        return normalizeUploadPolicy(null);
+      }
+      try {
+        const data = await response.json();
+        return normalizeUploadPolicy(data);
+      } catch {
+        return normalizeUploadPolicy(null);
+      }
     },
     {
       force: options?.force,
