@@ -66,6 +66,10 @@ class ProviderSpec:
         return "standard"
 
     @property
+    def auth_mode(self) -> str:
+        return "oauth" if self.is_oauth else "api_key"
+
+    @property
     def label(self) -> str:
         return self.display_name or self.name.title()
 
@@ -93,6 +97,7 @@ PROVIDER_ALIASES = {
     "atlas-cloud": "atlascloud",
     "opencode-zen": "opencode",
     "opencode_zen": "opencode",
+    "eden_ai": "edenai",
 }
 
 
@@ -159,6 +164,16 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         detect_by_base_keyword="openrouter",
         default_api_base="https://openrouter.ai/api/v1",
         supports_prompt_caching=True,
+    ),
+    ProviderSpec(
+        name="edenai",
+        keywords=("edenai",),
+        env_key="EDENAI_API_KEY",
+        display_name="Eden AI",
+        backend="openai_compat",
+        is_gateway=True,
+        detect_by_base_keyword="edenai",
+        default_api_base="https://api.edenai.run/v3",
     ),
     ProviderSpec(
         name="aihubmix",
