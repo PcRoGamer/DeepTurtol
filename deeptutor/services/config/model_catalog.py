@@ -86,6 +86,10 @@ def _default_catalog() -> dict[str, Any]:
             "llm": {
                 "active_profile_id": "llm-profile-opencode",
                 "active_model_id": "llm-model-bigpickle",
+                "rag_completion": {
+                    "profile_id": "llm-profile-opencode",
+                    "model_id": "llm-model-deepseek-v4-flash-free",
+                },
                 "profiles": [
                     {
                         "id": "llm-profile-opencode",
@@ -104,54 +108,6 @@ def _default_catalog() -> dict[str, Any]:
                             {"id": "llm-model-north-mini-code-free", "name": "north-mini-code-free", "model": "north-mini-code-free"},
                             {"id": "llm-model-laguna-s-21-free", "name": "laguna-s-2.1-free", "model": "laguna-s-2.1-free"},
                         ]
-                    },
-                    {
-                        "id": "llm-profile-geniex-npu-gemma4",
-                        "name": "Qualcomm Gemma-4-E2B QAT (Hexagon NPU)",
-                        "binding": "geniex_npu",
-                        "base_url": "http://localhost/geniex",
-                        "api_key": "local",
-                        "api_version": "",
-                        "extra_headers": {},
-                        "models": [
-                            {
-                                "id": "llm-model-geniex-gemma4-e2b-qat",
-                                "name": "local/gemma4-e2b-qat (NPU)",
-                                "model": "local/gemma4-e2b-qat",
-                            }
-                        ],
-                    },
-                    {
-                        "id": "llm-profile-gemma4-e2b",
-                        "name": "Qualcomm Gemma-4-E2B-it (Local SLM / Ollama QAT)",
-                        "binding": "ollama",
-                        "base_url": "http://localhost:11434/v1",
-                        "api_key": "local",
-                        "api_version": "",
-                        "extra_headers": {},
-                        "models": [
-                            {
-                                "id": "llm-model-gemma4-e2b-qat",
-                                "name": "gemma4-e2b-qat",
-                                "model": "gemma4-e2b-qat",
-                            }
-                        ],
-                    },
-                    {
-                        "id": "llm-profile-phi4-mini",
-                        "name": "Phi-4 Mini (Local SLM / Ollama)",
-                        "binding": "ollama",
-                        "base_url": "http://localhost:11434/v1",
-                        "api_key": "local",
-                        "api_version": "",
-                        "extra_headers": {},
-                        "models": [
-                            {
-                                "id": "llm-model-phi4-mini",
-                                "name": "phi4-mini",
-                                "model": "phi4-mini",
-                            }
-                        ],
                     }
                 ]
             },
@@ -392,4 +348,23 @@ def get_model_catalog_service() -> ModelCatalogService:
     return ModelCatalogService.get_instance(get_path_service().get_settings_file("model_catalog"))
 
 
-__all__ = ["CATALOG_PATH", "ModelCatalogService", "get_model_catalog_service"]
+def get_rag_completion_selection() -> dict[str, str] | None:
+    """Read the ``rag_completion`` override from the active catalog.
+
+    Returns a dict with ``profile_id`` and ``model_id`` keys, or ``None``
+    when the catalog has no RAG-specific override.  RAG pipelines
+    (GraphRAG / LightRAG) pass this to ``resolve_llm_runtime_config`` so
+    indexing uses a different model than interactive chat.
+    """
+    try:
+        catalog = get_model_catalog_service().load()
+        llm = catalog.get("services", {}).get("llm", {})
+        rag = llm.get("rag_completion")
+        if rag and rag.get("profile_id") and rag.get("model_id"):
+            return {"profile_id": rag["profile_id"], "model_id": rag["model_id"]}
+    except Exception:
+        pass
+    return None
+
+
+__all__ = ["CATALOG_PATH", "ModelCatalogService", "get_model_catalog_service", "get_rag_completion_selection"]

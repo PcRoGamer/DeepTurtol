@@ -24,7 +24,7 @@ from deeptutor.services.rag.factory import (
 from deeptutor.services.rag.index_versioning import resolve_storage_dir_for_read
 from deeptutor.services.rag.pipelines.graphrag import config as gr_config
 from deeptutor.services.rag.pipelines.graphrag import engine, ingestion, storage
-from deeptutor.services.rag.pipelines.graphrag.pipeline import GraphRagPipeline, _context_to_sources
+from deeptutor.services.rag.pipelines.graphrag.pipeline import GraphRagPipeline, _extract_rich_context
 
 # --------------------------------------------------------------------------- #
 # factory routing
@@ -414,16 +414,21 @@ def test_delete_removes_kb_dir(tmp_path, monkeypatch) -> None:
     assert not (tmp_path / "kb").exists()
 
 
-def test_context_to_sources_prefers_concrete_records() -> None:
-    sources = _context_to_sources(
+def test_extract_rich_context_maps_records() -> None:
+    context = _extract_rich_context(
         {
             "sources": [{"id": "u1", "text": "unit text"}],
             "reports": [{"title": "Community 0", "content": "summary"}],
         }
     )
-    assert len(sources) == 1
-    assert sources[0]["chunk_id"] == "u1"
-    assert sources[0]["content"] == "unit text"
+    # The legacy sources field falls back to text units (concrete provenance)
+    assert len(context["sources"]) == 1
+    assert context["sources"][0]["chunk_id"] == "u1"
+    assert context["sources"][0]["content"] == "unit text"
+
+    # But it also keeps the communities intact
+    assert len(context["communities"]) == 1
+    assert context["communities"][0]["content"] == "summary"
 
 
 # --------------------------------------------------------------------------- #

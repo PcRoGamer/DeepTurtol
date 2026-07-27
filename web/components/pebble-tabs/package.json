@@ -1,0 +1,14 @@
+{
+  "name": "@turtol/pebble-tabs",
+  "version": "1.0.0",
+  "description": "3D Organic Stone & Quartz Pebble Tabs Component for Conversation Switcher",
+  "main": "index.ts",
+  "keywords": ["react", "pebble", "tabs", "conversation-switcher", "stone-ui"],
+  "author": "DeepTurtol Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "lucide-react": "^0.400.0 || ^0.500.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  }
+}

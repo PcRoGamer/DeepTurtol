@@ -85,10 +85,32 @@ def build_llm_model_func():
     """Wrap DeepTutor's unified LLM callable for LightRAG.
 
     Drops LightRAG's internal kwargs while preserving explicit ``messages``.
+    Uses the RAG-specific model override if configured (e.g. deepseek for
+    indexing) instead of the interactive chat model.
     """
-    from deeptutor.services.llm import get_llm_client
+    from deeptutor.services.config import resolve_llm_runtime_config
+    from deeptutor.services.config.model_catalog import get_rag_completion_selection
+    from deeptutor.services.llm.client import LLMClient
+    from deeptutor.services.llm.config import LLMConfig
 
-    base = get_llm_client().get_model_func()
+    rag_sel = get_rag_completion_selection()
+    if rag_sel:
+        # Build a dedicated LLM client for RAG indexing
+        resolved = resolve_llm_runtime_config(llm_selection=rag_sel)
+        rag_config = LLMConfig(
+            model=resolved.model,
+            api_key=resolved.api_key or "sk-no-key-required",
+            base_url=resolved.effective_url or resolved.base_url,
+            effective_url=resolved.effective_url,
+            binding=resolved.binding,
+            api_version=resolved.api_version,
+            extra_headers=resolved.extra_headers,
+        )
+        rag_client = LLMClient(rag_config)
+        base = rag_client.get_model_func()
+    else:
+        from deeptutor.services.llm import get_llm_client
+        base = get_llm_client().get_model_func()
 
     async def llm_model_func(
         prompt="",

@@ -4,3 +4,7 @@
 [submodule "libs/fastembed-qnn"]
 	path = libs/fastembed-qnn
 	url = https://github.com/PcRoGamer/fastembed-qnn.git
+[submodule "web/components/pebble-tabs"]
+	path = web/components/pebble-tabs
+	url = https://github.com/PcRoGamer/pebble-tabs.git
+

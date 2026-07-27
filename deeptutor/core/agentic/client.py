@@ -86,15 +86,6 @@ def build_openai_client(config: LLMClientConfig) -> Any:
     )
 
 
-def _build_geniex_npu_adapter(config: LLMClientConfig, spec: Any) -> Any:
-    from deeptutor.services.llm.provider_core import GenieXNPUProvider
-
-    geniex_provider = GenieXNPUProvider(
-        default_model=config.model or "local/gemma4-e2b-qat",
-    )
-    return _ProviderOpenAIAdapter(geniex_provider)
-
-
 def _build_anthropic_adapter(config: LLMClientConfig, spec: Any) -> Any:
     from deeptutor.services.llm.provider_core import AnthropicProvider
 
@@ -127,7 +118,6 @@ def _build_copilot_adapter(config: LLMClientConfig, spec: Any) -> Any:
 
 
 _NATIVE_ADAPTER_BUILDERS: dict[str, Callable[[LLMClientConfig, Any], Any]] = {
-    "geniex_npu": _build_geniex_npu_adapter,
     "anthropic": _build_anthropic_adapter,
     "openai_codex": _build_codex_adapter,
     "github_copilot": _build_copilot_adapter,

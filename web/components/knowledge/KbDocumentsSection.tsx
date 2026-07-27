@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2, RefreshCw, Upload } from "lucide-react";
+import { Loader2, RefreshCw, Timer, Upload } from "lucide-react";
 import type { KnowledgeUploadPolicy } from "@/lib/knowledge-api";
 import {
   kbIsUploadable,
@@ -17,6 +17,28 @@ import type { HistoryEntry } from "@/hooks/useKnowledgeHistory";
 import ProcessLogs from "@/components/common/ProcessLogs";
 import FileDropZone from "./FileDropZone";
 import KbUpdateHistory from "./KbUpdateHistory";
+
+function useElapsedTimer(active: boolean): string {
+  const [elapsed, setElapsed] = useState(0);
+  const startRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (active) {
+      if (!startRef.current) startRef.current = Date.now();
+      const id = setInterval(() => {
+        setElapsed(Math.floor((Date.now() - (startRef.current ?? Date.now())) / 1000));
+      }, 1000);
+      return () => clearInterval(id);
+    }
+    startRef.current = null;
+    setElapsed(0);
+  }, [active]);
+
+  if (!active || elapsed === 0) return "";
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
 
 interface KbDocumentsSectionProps {
   kb: KnowledgeBase;
@@ -109,6 +131,9 @@ export default function KbDocumentsSection({
   };
 
   const percent = resolveProgressPercent(kb.progress);
+  const isExecuting = task?.executing ?? false;
+  const stageMessage = kb.progress?.message ?? "";
+  const elapsed = useElapsedTimer(isExecuting);
   const showTaskLogs =
     task?.kind === "upload" ||
     task?.kind === "create" ||
@@ -201,12 +226,28 @@ export default function KbDocumentsSection({
                 {task.label}
                 {task.taskId ? ` · ${task.taskId}` : ""}
               </span>
-              {task.executing && percent > 0 && (
-                <span className="font-medium text-[var(--foreground)]">
-                  {percent}%
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {elapsed && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[var(--muted-foreground)]">
+                    <Timer className="h-3 w-3" />
+                    {elapsed}
+                  </span>
+                )}
+                {task.executing && percent > 0 && (
+                  <span className="font-medium text-[var(--foreground)]">
+                    {percent}%
+                  </span>
+                )}
+              </div>
             </div>
+            {task.executing && stageMessage && (
+              <div className="rounded-md bg-[var(--muted)]/50 px-2.5 py-1.5 text-[11px] text-[var(--foreground)]">
+                <span className="inline-flex items-center gap-1.5">
+                  <Loader2 className="h-3 w-3 animate-spin text-[var(--primary)]" />
+                  {stageMessage}
+                </span>
+              </div>
+            )}
             <ProcessLogs
               logs={task.logs}
               executing={task.executing}

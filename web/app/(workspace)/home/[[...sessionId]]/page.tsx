@@ -1806,6 +1806,7 @@ export default function ChatPage() {
                   type="button"
                   onClick={startSessionTitleEdit}
                   disabled={!canRenameSession}
+                  suppressHydrationWarning
                   title={
                     canRenameSession
                       ? t("Click to rename session")
@@ -2187,6 +2188,7 @@ function HeaderActionButton({
       <button
         onClick={onClick}
         disabled={disabled}
+        suppressHydrationWarning
         aria-label={label}
         aria-pressed={active}
         className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-[background-color,color,transform] duration-150 active:scale-90 disabled:cursor-not-allowed disabled:opacity-40 ${

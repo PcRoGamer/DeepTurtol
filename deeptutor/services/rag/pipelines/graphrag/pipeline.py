@@ -16,7 +16,7 @@ import logging
 from pathlib import Path
 import shutil
 import traceback
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from deeptutor.runtime.home import get_runtime_data_root
 from deeptutor.services.rag.index_versioning import (
@@ -74,17 +74,33 @@ class GraphRagPipeline:
         self._ensure_available()
         kb_dir = resolve_kb_dir(self.kb_base_dir, kb_name)
         root_dir = resolve_storage_dir_for_rebuild(kb_dir, None)
+        progress_callback: Optional[Callable[[int, int, str], None]] = kwargs.get(
+            "progress_callback"
+        )
+
+        def _cb(cur: int, tot: int, msg: str) -> None:
+            if progress_callback is not None:
+                try:
+                    progress_callback(cur, tot, msg)
+                except Exception:
+                    pass
+
         self.logger.info(
             "Initializing KB '%s' with %d file(s) using GraphRAG", kb_name, len(file_paths)
         )
         try:
             gr_config.write_settings(root_dir)
-            count = await ingestion.prepare_input(file_paths, root_dir)
+            _cb(0, len(file_paths) + 2, "Parsing documents for GraphRAG…")
+            count = await ingestion.prepare_input(
+                file_paths, root_dir, progress_callback=progress_callback
+            )
             if count == 0:
                 self.logger.error("GraphRAG: no extractable documents for '%s'", kb_name)
                 self._cleanup_failed_version_dir(root_dir)
                 return False
+            _cb(count, count + 2, "Building graph index (entity extraction, communities, embeddings)…")
             await self._build(root_dir, is_update=False)
+            _cb(count + 2, count + 2, "Finalizing index…")
             storage.write_meta(root_dir)
             self.logger.info("KB '%s' initialized with GraphRAG (%d docs)", kb_name, count)
             return True
@@ -102,6 +118,16 @@ class GraphRagPipeline:
         root_dir = (
             existing if existing is not None else resolve_storage_dir_for_rebuild(kb_dir, None)
         )
+        progress_callback: Optional[Callable[[int, int, str], None]] = kwargs.get(
+            "progress_callback"
+        )
+
+        def _cb(cur: int, tot: int, msg: str) -> None:
+            if progress_callback is not None:
+                try:
+                    progress_callback(cur, tot, msg)
+                except Exception:
+                    pass
 
         self.logger.info(
             "Adding %d document(s) to GraphRAG KB '%s' (update=%s)",
@@ -112,11 +138,16 @@ class GraphRagPipeline:
         try:
             # Refresh settings so a changed model/endpoint is picked up.
             gr_config.write_settings(root_dir)
-            count = await ingestion.prepare_input(file_paths, root_dir)
+            _cb(0, len(file_paths) + 2, "Parsing new documents…")
+            count = await ingestion.prepare_input(
+                file_paths, root_dir, progress_callback=progress_callback
+            )
             if count == 0:
                 self.logger.warning("GraphRAG: no extractable documents to add for '%s'", kb_name)
                 return False
+            _cb(count, count + 2, "Building graph index (entity extraction, communities, embeddings)…")
             await self._build(root_dir, is_update=is_update)
+            _cb(count + 2, count + 2, "Finalizing index…")
             storage.write_meta(root_dir)
             self.logger.info("Added %d doc(s) to GraphRAG KB '%s'", count, kb_name)
             return True
@@ -167,9 +198,9 @@ class GraphRagPipeline:
             "query": query,
             "answer": response,
             "content": response,
-            "sources": _context_to_sources(context_data),
             "provider": storage.PROVIDER,
             "mode": mode,
+            **_extract_rich_context(context_data)
         }
 
     def _error_result(self, query: str, exc: Exception, *, error_type: str) -> Dict[str, Any]:
@@ -193,34 +224,53 @@ class GraphRagPipeline:
         return False
 
 
-def _context_to_sources(context_data: dict[str, Any]) -> list[dict[str, Any]]:
-    """Map GraphRAG context records into DeepTutor's source-citation shape."""
-    sources: list[dict[str, Any]] = []
+def _extract_rich_context(context_data: dict[str, Any]) -> dict[str, Any]:
+    """Map GraphRAG context records into DeepTutor's rich RetrievalContext shape."""
+    empty_ctx = {"sources": [], "entities": [], "relationships": [], "communities": [], "reasoning_paths": []}
     if not isinstance(context_data, dict):
-        return sources
-    # ``sources`` are the text units; ``reports`` are community summaries. Prefer
-    # the most concrete provenance available.
-    for key in ("sources", "reports", "entities"):
+        return empty_ctx
+
+    def _map_records(key: str, content_keys: tuple[str, ...], truncate: bool = False) -> list[dict[str, Any]]:
+        mapped = []
         records = context_data.get(key)
         if not isinstance(records, list):
-            continue
+            return mapped
         for rec in records:
             if not isinstance(rec, dict):
                 continue
-            text = str(rec.get("text") or rec.get("content") or rec.get("description") or "")
-            sources.append(
+            text = ""
+            for ck in content_keys:
+                if rec.get(ck):
+                    text = str(rec[ck])
+                    break
+            if truncate:
+                text = text[:200]
+            mapped.append(
                 {
                     "title": str(rec.get("title") or rec.get("name") or f"GraphRAG {key}"),
-                    "content": text[:200],
-                    "source": str(rec.get("source") or ""),
+                    "content": text,
+                    "source": str(rec.get("source") or rec.get("target") or ""),
                     "page": "",
                     "chunk_id": str(rec.get("id") or ""),
                     "score": rec.get("rank") or rec.get("score") or "",
                 }
             )
-        if sources:
-            break
-    return sources
+        return mapped
+
+    # Legacy fallback behavior for `sources`: find the most concrete provenance
+    sources = _map_records("sources", ("text", "content", "description"), truncate=True)
+    if not sources:
+        sources = _map_records("reports", ("text", "content", "description"), truncate=True)
+    if not sources:
+        sources = _map_records("entities", ("text", "content", "description"), truncate=True)
+
+    return {
+        "sources": sources,
+        "entities": _map_records("entities", ("description", "content", "text")),
+        "relationships": _map_records("relationships", ("description", "content", "text")),
+        "communities": _map_records("reports", ("content", "text", "description")),
+        "reasoning_paths": [],
+    }
 
 
 __all__ = ["GraphRagPipeline"]

@@ -1035,6 +1035,7 @@ export default memo(function ChatComposer({
                     type="button"
                     onClick={handleManualSend}
                     disabled={!(hasContent || hasReferences) || isStreaming}
+                    suppressHydrationWarning
                     title={
                       isConfigBlocked
                         ? t("Confirm settings on the right to send.")

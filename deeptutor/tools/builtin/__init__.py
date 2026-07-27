@@ -116,6 +116,29 @@ class RAGTool(_PromptHintsMixin, BaseTool):
             **extra_kwargs,
         )
         content = result.get("answer") or result.get("content", "")
+
+        extra_blocks = []
+        communities = result.get("communities")
+        if communities:
+            extra_blocks.append("### Community Reports")
+            for c in communities:
+                extra_blocks.append(f"- **{c.get('title', 'Report')}**: {c.get('content', '')}")
+
+        entities = result.get("entities")
+        if entities:
+            extra_blocks.append("### Key Entities")
+            for e in entities:
+                extra_blocks.append(f"- **{e.get('title', 'Entity')}**: {e.get('content', '')}")
+
+        reasoning_paths = result.get("reasoning_paths")
+        if reasoning_paths:
+            extra_blocks.append("### Reasoning Paths")
+            for rp in reasoning_paths:
+                extra_blocks.append(f"- {rp}")
+
+        if extra_blocks:
+            content += "\n\n" + "\n".join(extra_blocks)
+
         return ToolResult(
             content=content,
             sources=[{"type": "rag", "query": query, "kb_name": kb_name}],

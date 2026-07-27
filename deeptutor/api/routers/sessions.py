@@ -59,6 +59,13 @@ class QuizResultsRequest(BaseModel):
     turn_id: str = ""
 
 
+class SubjectDiscoveryRequest(BaseModel):
+    title: str = ""
+    last_message: str = ""
+    existing_subjects: list[str] = Field(default_factory=list)
+
+
+
 def _format_quiz_results_message(answers: list[QuizResultItem]) -> str:
     total = len(answers)
     correct = sum(1 for item in answers if item.is_correct)
@@ -228,3 +235,52 @@ async def record_quiz_results(session_id: str, payload: QuizResultsRequest):
         "notebook_count": notebook_count,
         "content": content,
     }
+
+
+@router.post("/discover-subject")
+async def discover_subject_endpoint(payload: SubjectDiscoveryRequest):
+    """Dynamically discover or assign a subject and emoji for a session using LLM."""
+    title = payload.title.strip()
+    last_message = payload.last_message.strip()
+    existing_subjects = [s.strip() for s in payload.existing_subjects if s.strip()]
+
+    if not title and not last_message:
+        return {"subject": "General", "emoji": "🐚"}
+
+    system_prompt = (
+        "You are an academic and educational domain classifier for a learning companion app.\n"
+        "Classify the conversation session into a concise, high-level subject category (2-4 words, title case).\n"
+        "Examples: 'Computing & Interaction Design', 'Quantum Mechanics', 'French Literature', 'Data Structures', 'Macroeconomics'.\n\n"
+        "Rules:\n"
+        "1. If the conversation fits under one of the CURRENT EXISTING SUBJECTS, REUSE THAT EXACT SUBJECT STRING.\n"
+        "2. If it represents a distinct new topic of study, create a concise, natural, specific subject title.\n"
+        "3. Choose a relevant single emoji icon representing the subject.\n"
+        "4. Respond strictly with a valid JSON object: {\"subject\": \"...\", \"emoji\": \"...\"}"
+    )
+
+    existing_str = ", ".join(f'"{s}"' for s in existing_subjects) if existing_subjects else "None"
+    prompt = (
+        f"CURRENT EXISTING SUBJECTS: [{existing_str}]\n"
+        f"SESSION TITLE: {title}\n"
+        f"LAST MESSAGE PREVIEW: {last_message[:200]}\n\n"
+        "Return JSON format: {\"subject\": \"...\", \"emoji\": \"...\"}"
+    )
+
+    try:
+        from deeptutor.services.llm import complete
+        import json
+        import re
+
+        response_text = await complete(prompt, system_prompt=system_prompt)
+        cleaned = re.sub(r"^```(json)?|```$", "", response_text.strip(), flags=re.MULTILINE).strip()
+        data = json.loads(cleaned)
+        subject = str(data.get("subject") or "").strip()
+        emoji = str(data.get("emoji") or "").strip()
+        if subject:
+            return {"subject": subject, "emoji": emoji or "🐚"}
+    except Exception as exc:
+        logger.warning("LLM subject discovery failed: %s, falling back to title", exc)
+
+    fallback_subject = title[:24].title() if title and title != "New conversation" else "General"
+    return {"subject": fallback_subject, "emoji": "🐚"}
+

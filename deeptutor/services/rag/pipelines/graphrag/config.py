@@ -125,8 +125,12 @@ def build_settings(*, llm_cfg: Any = None, embedding_cfg: Any = None) -> dict[st
     """
     if llm_cfg is None:
         from deeptutor.services.config import resolve_llm_runtime_config
+        from deeptutor.services.config.model_catalog import get_rag_completion_selection
 
-        llm_cfg = resolve_llm_runtime_config()
+        # Use the RAG-specific model override if configured (e.g. deepseek for
+        # indexing) instead of the interactive chat model.
+        rag_sel = get_rag_completion_selection()
+        llm_cfg = resolve_llm_runtime_config(llm_selection=rag_sel)
     if embedding_cfg is None:
         from deeptutor.services.embedding import get_embedding_config
 
@@ -151,7 +155,7 @@ def build_settings(*, llm_cfg: Any = None, embedding_cfg: Any = None) -> dict[st
             "Settings → Catalog before creating a GraphRAG knowledge base."
         )
 
-    # Prefer the managed LLM server endpoint (GenieX bridge or Ollama) over
+    # Prefer the managed LLM server endpoint over the static config URL.
     # the static config URL.  The manager is started once at backend boot.
     try:
         from deeptutor.services.llm.llm_server_manager import get_llm_server_manager

@@ -20,7 +20,7 @@ import logging
 from pathlib import Path
 import shutil
 import traceback
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from deeptutor.runtime.home import get_runtime_data_root
 from deeptutor.services.rag.index_versioning import (
@@ -72,7 +72,13 @@ class LightRagPipeline:
         except Exception as exc:  # pragma: no cover - best-effort
             self.logger.warning("Could not clean up failed version dir %s: %s", root_dir, exc)
 
-    async def _ingest(self, rag: Any, file_paths: List[str]) -> int:
+    async def _ingest(
+        self,
+        rag: Any,
+        file_paths: List[str],
+        *,
+        progress_callback: Optional[Callable[[int, int, str], None]] = None,
+    ) -> int:
         """Parse each file via the shared parse layer and insert it into LightRAG.
 
         Returns the number of documents successfully inserted. Per-file failures
@@ -82,8 +88,18 @@ class LightRagPipeline:
 
         parse_service = get_parse_service()
         inserted = 0
-        for file_path in file_paths:
+        total = len(file_paths)
+
+        def _cb(cur: int, msg: str) -> None:
+            if progress_callback is not None:
+                try:
+                    progress_callback(cur, total, msg)
+                except Exception:
+                    pass
+
+        for idx, file_path in enumerate(file_paths, 1):
             path = Path(file_path)
+            _cb(idx, f"Parsing {path.name} ({idx}/{total})…")
             try:
                 doc = parse_service.parse(path)
             except ParserError as exc:
@@ -97,6 +113,7 @@ class LightRagPipeline:
                 self.logger.warning("LightRAG: empty document skipped: %s", path.name)
                 continue
 
+            _cb(idx, f"Extracting entities & building graph: {path.name} ({idx}/{total})…")
             await engine.insert(
                 rag,
                 content_list,
@@ -107,6 +124,7 @@ class LightRagPipeline:
             if doc_error:
                 raise RuntimeError(f"{path.name}: {doc_error}")
             inserted += 1
+            _cb(idx, f"Inserted {path.name} ({idx}/{total})")
             self.logger.info("LightRAG: inserted %s", path.name)
         return inserted
 
@@ -116,12 +134,27 @@ class LightRagPipeline:
         self._ensure_available()
         kb_dir = resolve_kb_dir(self.kb_base_dir, kb_name)
         root_dir = resolve_storage_dir_for_rebuild(kb_dir, None)
+        progress_callback: Optional[Callable[[int, int, str], None]] = kwargs.get(
+            "progress_callback"
+        )
+
+        def _cb(cur: int, tot: int, msg: str) -> None:
+            if progress_callback is not None:
+                try:
+                    progress_callback(cur, tot, msg)
+                except Exception:
+                    pass
+
         self.logger.info(
             "Initializing KB '%s' with %d file(s) using LightRAG", kb_name, len(file_paths)
         )
         try:
+            _cb(0, len(file_paths), "Building LightRAG instance…")
             rag = engine.build_rag(storage.working_dir(root_dir))
-            count = await self._ingest(rag, file_paths)
+            _cb(0, len(file_paths), f"Parsing and inserting {len(file_paths)} document(s)…")
+            count = await self._ingest(
+                rag, file_paths, progress_callback=progress_callback
+            )
             if count == 0:
                 self.logger.error("LightRAG: no extractable documents for '%s'", kb_name)
                 self._cleanup_failed_version_dir(root_dir)
@@ -134,6 +167,7 @@ class LightRagPipeline:
                 self.logger.error(message)
                 self._cleanup_failed_version_dir(root_dir)
                 raise RuntimeError(message)
+            _cb(count, count, "Finalizing index…")
             storage.write_meta(root_dir)
             self.logger.info("KB '%s' initialized with LightRAG (%d docs)", kb_name, count)
             return True
@@ -149,6 +183,16 @@ class LightRagPipeline:
         existing = resolve_storage_dir_for_read(kb_dir, None)
         is_update = existing is not None and storage.has_output(existing)
         root_dir = existing if is_update else resolve_storage_dir_for_rebuild(kb_dir, None)
+        progress_callback: Optional[Callable[[int, int, str], None]] = kwargs.get(
+            "progress_callback"
+        )
+
+        def _cb(cur: int, tot: int, msg: str) -> None:
+            if progress_callback is not None:
+                try:
+                    progress_callback(cur, tot, msg)
+                except Exception:
+                    pass
 
         self.logger.info(
             "Adding %d document(s) to LightRAG KB '%s' (update=%s)",
@@ -157,8 +201,12 @@ class LightRagPipeline:
             is_update,
         )
         try:
+            _cb(0, len(file_paths), "Building LightRAG instance…")
             rag = engine.build_rag(storage.working_dir(root_dir))
-            count = await self._ingest(rag, file_paths)
+            _cb(0, len(file_paths), f"Parsing and inserting {len(file_paths)} document(s)…")
+            count = await self._ingest(
+                rag, file_paths, progress_callback=progress_callback
+            )
             if count == 0:
                 self.logger.warning("LightRAG: no extractable documents to add for '%s'", kb_name)
                 return False
@@ -171,6 +219,7 @@ class LightRagPipeline:
                 if not is_update:
                     self._cleanup_failed_version_dir(root_dir)
                 raise RuntimeError(message)
+            _cb(count, count, "Finalizing index…")
             storage.write_meta(root_dir)
             self.logger.info("Added %d doc(s) to LightRAG KB '%s'", count, kb_name)
             return True
@@ -216,6 +265,10 @@ class LightRagPipeline:
             "answer": answer,
             "content": answer,
             "sources": [],
+            "entities": [],
+            "relationships": [],
+            "reasoning_paths": [],
+            "communities": [],
             "provider": storage.PROVIDER,
             "mode": mode,
         }
@@ -226,6 +279,10 @@ class LightRagPipeline:
             "answer": str(exc),
             "content": "",
             "sources": [],
+            "entities": [],
+            "relationships": [],
+            "reasoning_paths": [],
+            "communities": [],
             "provider": storage.PROVIDER,
             "error_type": error_type,
         }

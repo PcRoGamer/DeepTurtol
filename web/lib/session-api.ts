@@ -230,3 +230,29 @@ export async function updateBranchSelection(
   );
   await expectJson<{ selected_branches: Record<string, number> }>(response);
 }
+
+export async function discoverSessionSubject(
+  title: string,
+  lastMessage?: string,
+  existingSubjects: string[] = [],
+): Promise<{ subject: string; emoji: string }> {
+  try {
+    const response = await apiFetch(apiUrl("/api/v1/sessions/discover-subject"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        last_message: lastMessage || "",
+        existing_subjects: existingSubjects,
+      }),
+    });
+    return await expectJson<{ subject: string; emoji: string }>(response);
+  } catch (error) {
+    console.warn("Failed to invoke discoverSessionSubject endpoint", error);
+    return {
+      subject: title.slice(0, 24).trim() || "General",
+      emoji: "🐚",
+    };
+  }
+}
+

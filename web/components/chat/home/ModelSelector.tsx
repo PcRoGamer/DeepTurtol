@@ -182,6 +182,7 @@ export default function ModelSelector({
       <button
         type="button"
         disabled={disabled}
+        suppressHydrationWarning
         onClick={() => setOpen((current) => !current)}
         aria-label={t("Select model")}
         aria-expanded={open}

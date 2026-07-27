@@ -126,6 +126,24 @@ async def lifespan(app: FastAPI):
     # Validate configuration consistency
     validate_tool_consistency()
 
+    # Ensure the LLM backend is reachable (Ollama local or remote provider)
+    # so GraphRAG's LiteLLM integration can reach a working endpoint.
+    try:
+        from deeptutor.services.llm.llm_server_manager import get_llm_server_manager
+
+        _llm_mgr = get_llm_server_manager()
+        _llm_endpoint = _llm_mgr.start()
+        if _llm_endpoint:
+            logger.info(
+                "LLM server manager: endpoint=%s backend=%s",
+                _llm_endpoint,
+                _llm_mgr.backend,
+            )
+        else:
+            logger.warning("LLM server manager: no backend available")
+    except Exception as _exc:
+        logger.warning("LLM server manager failed to start: %s", _exc)
+
     # Initialize LLM client early so OPENAI_* env vars are available before
     # any downstream provider integrations start.
     try:
@@ -188,6 +206,14 @@ async def lifespan(app: FastAPI):
 
     # Execute on shutdown
     logger.info("Application shutdown")
+
+    # Stop LLM server manager
+    try:
+        from deeptutor.services.llm.llm_server_manager import get_llm_server_manager
+
+        get_llm_server_manager().stop()
+    except Exception as e:
+        logger.warning(f"Failed to stop LLM server manager: {e}")
 
     # Stop cron scheduler
     try:

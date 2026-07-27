@@ -10,8 +10,22 @@ optional methods with ``hasattr`` to stay tolerant of partial implementations.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Protocol, runtime_checkable
+from typing import Any, Dict, List, Optional, Protocol, TypedDict, runtime_checkable
 
+class RetrievalContext(TypedDict, total=False):
+    """Rich knowledge-context return shape for RAG queries."""
+    query: str
+    answer: str
+    content: str
+    provider: str
+    sources: List[Dict[str, Any]]
+    entities: List[Dict[str, Any]]
+    relationships: List[Dict[str, Any]]
+    reasoning_paths: List[str]
+    communities: List[Dict[str, Any]]
+    mode: str
+    error_type: Optional[str]
+    needs_reindex: bool
 
 @runtime_checkable
 class RAGPipeline(Protocol):
@@ -25,11 +39,12 @@ class RAGPipeline(Protocol):
         """Incrementally add ``file_paths`` to ``kb_name``'s existing index."""
         ...
 
-    async def search(self, query: str, kb_name: str, **kwargs: Any) -> Dict[str, Any]:
+    async def search(self, query: str, kb_name: str, **kwargs: Any) -> RetrievalContext:
         """Retrieve grounded context for ``query`` from ``kb_name``.
 
         Returns a dict with at least ``query``, ``content``/``answer``,
-        ``sources`` and ``provider`` keys.
+        ``sources`` and ``provider`` keys. Richer graph pipelines may populate
+        ``entities``, ``relationships``, or ``reasoning_paths``.
         """
         ...
 
@@ -38,4 +53,4 @@ class RAGPipeline(Protocol):
         ...
 
 
-__all__ = ["RAGPipeline"]
+__all__ = ["RAGPipeline", "RetrievalContext"]

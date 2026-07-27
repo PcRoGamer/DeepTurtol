@@ -2282,10 +2282,11 @@ async def run_reindex_task(kb_name: str, base_dir: str, task_id: str, signature_
             # that provider rather than forcing the default pipeline.
             rag_service = RAGService(kb_base_dir=str(base_path), provider=None)
 
-            def _on_progress(batch_num: int, total_batches: int) -> None:
+            def _on_progress(batch_num: int, total_batches: int, message: str = "") -> None:
+                msg = message or f"Processing batch {batch_num}/{total_batches}…"
                 progress_tracker.update(
                     ProgressStage.PROCESSING_DOCUMENTS,
-                    f"Embedding batches: {batch_num}/{total_batches}",
+                    msg,
                     current=batch_num,
                     total=total_batches,
                 )
@@ -2589,6 +2590,11 @@ async def websocket_progress(websocket: WebSocket, kb_name: str):
                         },
                     }
                 )
+            return
+
+        # If the task is already completed or errored, close immediately to stop client polling loops
+        if initial_progress and initial_progress.get("stage") in ("completed", "error"):
+            await websocket.send_json({"type": "progress", "data": initial_progress})
             return
 
         if initial_progress:

@@ -15,7 +15,8 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Iterable
+from collections.abc import Callable
+from typing import Iterable, Optional
 
 from deeptutor.services.rag.file_routing import FileTypeRouter
 
@@ -57,7 +58,12 @@ def _extract_parser_text(path: Path) -> str:
     return ""
 
 
-async def prepare_input(file_paths: Iterable[str], root_dir: Path) -> int:
+async def prepare_input(
+    file_paths: Iterable[str],
+    root_dir: Path,
+    *,
+    progress_callback: Optional[Callable[[int, int, str], None]] = None,
+) -> int:
     """Write parsed text for each supported file into ``root_dir/input``.
 
     Returns the number of non-empty text documents written. Parser-backed files
@@ -74,13 +80,30 @@ async def prepare_input(file_paths: Iterable[str], root_dir: Path) -> int:
     used: set[str] = {p.name for p in target_dir.glob("*.txt")}
     written = 0
 
+    all_files = list(classification.parser_files) + list(classification.text_files)
+    total = len(all_files)
+    file_idx = 0
+
+    def _emit(msg: str) -> None:
+        if progress_callback is not None:
+            try:
+                progress_callback(file_idx, total, msg)
+            except Exception:
+                pass
+
+    _emit(f"Parsing {total} document(s)…")
+
     for file_path_str in classification.parser_files:
         path = Path(file_path_str)
+        file_idx += 1
+        _emit(f"Parsing {path.name} ({file_idx}/{total})")
         text = _extract_parser_text(path)
         written += _write_doc(target_dir, path, text, used)
 
     for file_path_str in classification.text_files:
         path = Path(file_path_str)
+        file_idx += 1
+        _emit(f"Reading {path.name} ({file_idx}/{total})")
         try:
             text = await FileTypeRouter.read_text_file(str(path))
         except Exception as exc:  # pragma: no cover - defensive

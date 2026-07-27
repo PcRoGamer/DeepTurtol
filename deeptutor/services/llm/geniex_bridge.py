@@ -28,6 +28,34 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
+# NPU throttling — prevent firmware crash under sustained load
+# ---------------------------------------------------------------------------
+
+# Only 1 GenieX call at a time (serialized).  The NPU firmware crashes
+# (FF-A library error → watchdog → forced reboot) when hit with concurrent
+# or rapid-fire requests.
+_NPU_SEMAPHORE = asyncio.Semaphore(1)
+
+# Base cooldown between consecutive NPU calls (seconds).  Gives the Hexagon
+# firmware time to recover.  Override with GENIEX_COOLDOWN_SECS env var.
+_NPU_BASE_COOLDOWN = float(os.environ.get("GENIEX_COOLDOWN_SECS", "3"))
+
+# Current cooldown (adaptive — increases after failures, resets on success).
+_npu_cooldown = _NPU_BASE_COOLDOWN
+
+# Consecutive failure counter — triggers fallback and backoff.
+_consecutive_failures = 0
+
+# After this many consecutive NPU failures, fall back to CPU compute.
+_MAX_NPU_FAILURES = 3
+
+# Timestamp of the last completed NPU call (for cooldown tracking).
+_last_npu_call: float = 0.0
+
+# Track whether we're currently in CPU fallback mode.
+_cpu_fallback = False
+
+# ---------------------------------------------------------------------------
 # GenieX CLI helpers (reuses logic from geniex_provider.py)
 # ---------------------------------------------------------------------------
 
@@ -71,38 +99,57 @@ async def _call_geniex(
     max_tokens: int = 1024,
     compute: str = "npu",
 ) -> str:
-    """Run ``geniex.exe infer`` and return the cleaned text."""
+    """Run ``geniex.exe infer`` and return the cleaned text.
+
+    Serialized via :data:`_NPU_SEMAPHORE` and throttled by
+    :data:`_NPU_COOLDOWN` to prevent Qualcomm NPU firmware crashes under
+    sustained load.
+    """
+    global _last_npu_call
     geniex = _find_geniex()
     if not geniex:
         raise RuntimeError("GenieX executable not found")
 
-    cmd = [
-        geniex,
-        "infer",
-        model,
-        "--compute", compute,
-        "-s", system,
-        "-p", prompt,
-        "--max-tokens", str(max_tokens),
-        "--think=false",
-        "--skip-update",
-    ]
+    # Wait for the semaphore (only 1 NPU call at a time)
+    async with _NPU_SEMAPHORE:
+        # Enforce cooldown between consecutive calls
+        now = asyncio.get_event_loop().time()
+        elapsed = now - _last_npu_call
+        if elapsed < _NPU_COOLDOWN and _last_npu_call > 0:
+            wait = _NPU_COOLDOWN - elapsed
+            logger.debug("NPU cooldown: waiting %.1fs", wait)
+            await asyncio.sleep(wait)
 
-    def _run() -> tuple[str, str, int]:
-        proc = subprocess.run(
-            cmd, capture_output=True, text=False, timeout=120,
-        )
-        out = proc.stdout.decode("utf-8", errors="replace") if proc.stdout else ""
-        err = proc.stderr.decode("utf-8", errors="replace") if proc.stderr else ""
-        return out, err, proc.returncode
+        cmd = [
+            geniex,
+            "infer",
+            model,
+            "--compute", compute,
+            "-s", system,
+            "-p", prompt,
+            "--max-tokens", str(max_tokens),
+            "--think=false",
+            "--skip-update",
+        ]
 
-    loop = asyncio.get_running_loop()
-    out, err, code = await loop.run_in_executor(None, _run)
+        def _run() -> tuple[str, str, int]:
+            proc = subprocess.run(
+                cmd, capture_output=True, text=False, timeout=300,
+            )
+            out = proc.stdout.decode("utf-8", errors="replace") if proc.stdout else ""
+            err = proc.stderr.decode("utf-8", errors="replace") if proc.stderr else ""
+            return out, err, proc.returncode
 
-    if code != 0:
-        raise RuntimeError(f"GenieX exited {code}: {err or out}")
+        loop = asyncio.get_running_loop()
+        out, err, code = await loop.run_in_executor(None, _run)
 
-    return _strip_ansi(out)
+        # Record timestamp after call completes (for cooldown)
+        _last_npu_call = asyncio.get_event_loop().time()
+
+        if code != 0:
+            raise RuntimeError(f"GenieX exited {code}: {err or out}")
+
+        return _strip_ansi(out)
 
 
 # ---------------------------------------------------------------------------

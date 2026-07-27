@@ -2,11 +2,10 @@
 
 GraphRAG (via LiteLLM) needs an OpenAI-compatible HTTP server.  This manager:
 
-1. Detects the active LLM provider.
-2. If ``geniex_npu``: starts the GenieX HTTP bridge subprocess.
-3. If GenieX unavailable: falls back to Ollama via ``ensure_local_slm_running``.
-4. Exposes the active endpoint URL for downstream consumers (GraphRAG config).
-5. Handles graceful shutdown.
+1. If the active provider is local (Ollama), ensures Ollama is running.
+2. If the active provider is remote (OpenCode Zen, etc.), no local server needed.
+3. Exposes the active endpoint URL for downstream consumers (GraphRAG config).
+4. Handles graceful shutdown.
 
 Singleton pattern: use :func:`get_llm_server_manager` for a process-wide instance.
 """
@@ -16,18 +15,11 @@ from __future__ import annotations
 import atexit
 import logging
 import os
-import subprocess
-import sys
 import threading
-import time
 import urllib.request
-from pathlib import Path
-from typing import Any
 
 logger = logging.getLogger(__name__)
 
-# Default ports
-GENIEX_BRIDGE_PORT = int(os.environ.get("GENIEX_BRIDGE_PORT", "18080"))
 OLLAMA_PORT = 11434
 
 
@@ -43,24 +35,17 @@ def _is_server_alive(url: str, timeout: float = 2.0) -> bool:
         return False
 
 
-def _is_geniex_available() -> bool:
-    """Check if the GenieX CLI executable exists."""
-    from deeptutor.services.llm.geniex_bridge import _find_geniex
-
-    return _find_geniex() is not None
-
-
 class LLMServerManager:
-    """Manages the lifecycle of the LLM HTTP server used by GraphRAG.
+    """Manages the lifecycle of local LLM servers used by GraphRAG.
 
-    The manager tries GenieX bridge first, then falls back to Ollama.
-    Only one backend is active at a time.
+    For remote providers (OpenCode Zen, etc.) no local server is needed —
+    the endpoint URL is used directly.  For local providers (Ollama),
+    ensures the server is running.
     """
 
     def __init__(self) -> None:
         self._endpoint_url: str | None = None
-        self._process: subprocess.Popen | None = None
-        self._backend: str | None = None  # "geniex_bridge" or "ollama"
+        self._backend: str | None = None
         self._lock = threading.Lock()
         self._started = False
 
@@ -71,11 +56,11 @@ class LLMServerManager:
 
     @property
     def backend(self) -> str | None:
-        """Which backend is active: 'geniex_bridge', 'ollama', or None."""
+        """Which backend is active: 'ollama', 'remote', or None."""
         return self._backend
 
     def start(self) -> str | None:
-        """Start the LLM server, return the base URL.
+        """Start/ensure the LLM server, return the base URL.
 
         Returns the URL string on success, or None if no backend could start.
         """
@@ -83,128 +68,68 @@ class LLMServerManager:
             if self._started:
                 return self._endpoint_url
 
-            # --- Strategy 1: GenieX Bridge ---
-            if _is_geniex_available():
-                url = self._start_geniex_bridge()
+            # Determine the active provider type from the model catalog
+            provider_type, base_url = self._resolve_active_provider()
+
+            if provider_type == "local":
+                # Local provider (Ollama) — ensure it's running
+                url = self._start_ollama(base_url)
                 if url:
                     self._endpoint_url = url
-                    self._backend = "geniex_bridge"
+                    self._backend = "ollama"
                     self._started = True
-                    logger.info(
-                        "LLM server started: GenieX bridge at %s", url
-                    )
+                    logger.info("LLM server started: Ollama at %s", url)
                     return url
-                logger.warning("GenieX bridge failed to start, trying Ollama...")
+                logger.warning("Ollama could not be started")
+                return None
             else:
-                logger.info("GenieX not available, trying Ollama fallback...")
-
-            # --- Strategy 2: Ollama ---
-            url = self._start_ollama()
-            if url:
-                self._endpoint_url = url
-                self._backend = "ollama"
-                self._started = True
-                logger.info("LLM server started: Ollama at %s", url)
-                return url
-
-            logger.warning(
-                "No LLM HTTP server could be started. "
-                "GraphRAG indexing will fail with a connection error."
-            )
-            return None
+                # Remote provider (OpenCode Zen, etc.) — no local server needed
+                if base_url:
+                    self._endpoint_url = base_url
+                    self._backend = "remote"
+                    self._started = True
+                    logger.info("LLM server: using remote endpoint %s", base_url)
+                    return base_url
+                logger.warning("No LLM endpoint configured")
+                return None
 
     def stop(self) -> None:
-        """Shut down the managed server process."""
+        """Shut down the managed server process (if any)."""
         with self._lock:
-            if self._process and self._process.poll() is None:
-                logger.info(
-                    "Shutting down %s LLM server (pid=%s)",
-                    self._backend,
-                    self._process.pid,
-                )
-                try:
-                    self._process.terminate()
-                    self._process.wait(timeout=5)
-                except Exception:
-                    try:
-                        self._process.kill()
-                    except Exception:
-                        pass
-                self._process = None
             self._endpoint_url = None
             self._backend = None
             self._started = False
 
     # -- Private helpers --
 
-    def _start_geniex_bridge(self) -> str | None:
-        """Launch the GenieX bridge subprocess and wait for /health."""
-        from deeptutor.services.llm.geniex_bridge import (
-            _find_geniex,
-            GENIEX_CLI_PATH,
-        )
+    @staticmethod
+    def _resolve_active_provider() -> tuple[str, str | None]:
+        """Check the model catalog and return (provider_type, base_url).
 
-        geniex = _find_geniex()
-        if not geniex:
-            return None
-
-        port = GENIEX_BRIDGE_PORT
-        url = f"http://127.0.0.1:{port}"
-
-        # If already running (e.g. from a previous startup), just verify
-        if _is_server_alive(f"{url}/health"):
-            logger.info("GenieX bridge already running at %s", url)
-            # Return with /v1 suffix for OpenAI SDK compatibility
-            return f"{url}/v1"
-
-        # Resolve the bridge module path
-        bridge_module = (
-            Path(__file__).resolve().parent / "geniex_bridge.py"
-        )
-
+        provider_type is "local" (Ollama) or "remote" (OpenCode Zen, etc.).
+        """
         try:
-            proc = subprocess.Popen(
-                [
-                    sys.executable,
-                    str(bridge_module),
-                ],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                env={**os.environ, "GENIEX_BRIDGE_PORT": str(port)},
-                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-            )
-            self._process = proc
-        except Exception as exc:
-            logger.error("Failed to start GenieX bridge: %s", exc)
-            return None
+            from deeptutor.services.config import resolve_llm_runtime_config
+            cfg = resolve_llm_runtime_config()
+            binding = getattr(cfg, "binding", None)
+            base_url = getattr(cfg, "effective_url", None) or getattr(cfg, "base_url", None)
 
-        # Wait up to 10 seconds for the bridge to become healthy
-        health_url = f"{url}/health"
-        for _ in range(20):
-            time.sleep(0.5)
-            if _is_server_alive(health_url):
-                # Return with /v1 suffix for OpenAI SDK compatibility
-                return f"{url}/v1"
-            if proc.poll() is not None:
-                logger.error(
-                    "GenieX bridge process exited early (code=%s)", proc.returncode
-                )
-                self._process = None
-                return None
+            if binding in ("ollama",):
+                return "local", base_url
+            else:
+                return "remote", base_url
+        except Exception as e:
+            logger.warning("Could not resolve LLM provider: %s", e)
+            return "remote", None
 
-        logger.error("GenieX bridge did not become healthy within 10s")
-        self._process.terminate()
-        self._process = None
-        return None
-
-    def _start_ollama(self) -> str | None:
+    def _start_ollama(self, configured_url: str | None = None) -> str | None:
         """Ensure Ollama is running and return its OpenAI-compatible URL."""
         from deeptutor.services.local_slm_launcher import (
             ensure_local_slm_running,
             is_ollama_server_running,
         )
 
-        url = f"http://localhost:{OLLAMA_PORT}"
+        url = configured_url or f"http://localhost:{OLLAMA_PORT}"
 
         # Quick check — already running?
         if is_ollama_server_running(url):
@@ -212,7 +137,7 @@ class LLMServerManager:
             return f"{url}/v1"
 
         # Try to auto-start
-        result = ensure_local_slm_running(model_name="phi4-mini", host_url=url)
+        result = ensure_local_slm_running(model_name="gemma-4-e2b-it", host_url=url)
         if result.get("server_running"):
             return f"{url}/v1"
 

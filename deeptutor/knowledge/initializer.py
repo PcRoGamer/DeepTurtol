@@ -147,13 +147,6 @@ class KnowledgeBaseInitializer:
         """Process documents with the KB's bound provider."""
         provider = self.rag_provider
 
-        self.progress_tracker.update(
-            ProgressStage.PROCESSING_DOCUMENTS,
-            f"Starting to process documents with {provider} provider...",
-            current=0,
-            total=0,
-        )
-
         # recursive=True so documents organized into folders are indexed too
         # (folders are display-only and don't otherwise affect retrieval).
         doc_files = FileTypeRouter.collect_supported_files(self.raw_dir, recursive=True)
@@ -168,9 +161,9 @@ class KnowledgeBaseInitializer:
 
         self.progress_tracker.update(
             ProgressStage.PROCESSING_DOCUMENTS,
-            f"Found {len(doc_files)} documents, starting to process...",
+            f"Initializing {provider} with {len(doc_files)} document(s)…",
             current=0,
-            total=len(doc_files),
+            total=len(doc_files) + 2,
         )
 
         rag_service = RAGService(
@@ -179,10 +172,11 @@ class KnowledgeBaseInitializer:
         )
         file_paths = [str(doc_file) for doc_file in doc_files]
 
-        def _on_progress(batch_num, total_batches):
+        def _on_progress(batch_num, total_batches, message: str = ""):
+            msg = message or f"Processing batch {batch_num}/{total_batches}…"
             self.progress_tracker.update(
                 ProgressStage.PROCESSING_DOCUMENTS,
-                f"Embedding batches: {batch_num}/{total_batches} complete",
+                msg,
                 current=batch_num,
                 total=total_batches,
             )
