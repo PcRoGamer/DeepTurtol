@@ -14,6 +14,9 @@ today:
 * ``lightrag-server``     — retrieval offloaded to an external, standalone
                             LightRAG server the user runs. No local index: each
                             KB is a connection pointer queried over HTTP.
+* ``ima``                 — retrieval offloaded to a Tencent IMA knowledge base
+                            the user curates in IMA. No local index: each KB is
+                            a connection pointer queried over IMA's OpenAPI.
 
 A KB is bound to one provider at creation time; later adds and retrieval always
 go through that same pipeline (enforced upstream in the knowledge router).
@@ -31,6 +34,7 @@ LIGHTRAG_PROVIDER = "lightrag"
 LIGHTRAG_SERVER_PROVIDER = "lightrag-server"
 LAZY_GRAPHRAG_PROVIDER = "lazygraphrag"
 KAG_PROVIDER = "kag"
+IMA_PROVIDER = "ima"
 
 # Providers the factory can instantiate. Unknown / legacy strings fall back to
 # the default with a re-index hint upstream.
@@ -43,6 +47,7 @@ KNOWN_PROVIDERS = frozenset(
         LIGHTRAG_SERVER_PROVIDER,
         LAZY_GRAPHRAG_PROVIDER,
         KAG_PROVIDER,
+        IMA_PROVIDER,
     }
 )
 
@@ -86,6 +91,7 @@ def version_matches_provider(entry: dict[str, Any], provider: Optional[str]) -> 
             LIGHTRAG_SERVER_PROVIDER,
             LAZY_GRAPHRAG_PROVIDER,
             KAG_PROVIDER,
+            IMA_PROVIDER,
         }
 
     return entry_provider == resolved or signature == resolved
@@ -159,6 +165,13 @@ def _build_pipeline(provider: str, kb_base_dir: Optional[str], **kwargs: Any):
         if kb_base_dir is not None:
             kwargs.setdefault("kb_base_dir", kb_base_dir)
         return KagPipeline(**kwargs)
+
+    if provider == IMA_PROVIDER:
+        from .pipelines.ima.pipeline import ImaPipeline
+
+        if kb_base_dir is not None:
+            kwargs.setdefault("kb_base_dir", kb_base_dir)
+        return ImaPipeline(**kwargs)
 
     from .pipelines.llamaindex.pipeline import LlamaIndexPipeline
 
@@ -290,6 +303,20 @@ def list_pipelines() -> List[Dict[str, Any]]:
             "modes": kag_modes,
             "default_mode": kag_default_mode,
         },
+        {
+            "id": IMA_PROVIDER,
+            "name": "Tencent IMA",
+            "description": (
+                "Retrieval offloaded to a knowledge base you keep in Tencent IMA. "
+                "No local index and no copy — connect a KB to its IMA library and "
+                "query it over IMA's OpenAPI. Documents are added in IMA itself."
+            ),
+            # Always available: a thin HTTPS client with no install and no global
+            # credential. Client ID, API key and library id are per-KB, set at
+            # connect time.
+            "configured": True,
+            "requires_api_key": False,
+        },
     ]
 
 
@@ -301,6 +328,7 @@ __all__ = [
     "LIGHTRAG_SERVER_PROVIDER",
     "LAZY_GRAPHRAG_PROVIDER",
     "KAG_PROVIDER",
+    "IMA_PROVIDER",
     "KNOWN_PROVIDERS",
     "get_pipeline",
     "has_ready_provider_index",
