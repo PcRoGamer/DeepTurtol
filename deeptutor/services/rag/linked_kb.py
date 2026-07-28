@@ -34,6 +34,7 @@ LINK_ROOTS_ENV = "DEEPTUTOR_LINKED_FOLDER_ROOTS"
 from deeptutor.services.rag.factory import (
     DEFAULT_PROVIDER,
     GRAPHRAG_PROVIDER,
+    LAZY_GRAPHRAG_PROVIDER,
     LIGHTRAG_PROVIDER,
     PAGEINDEX_PROVIDER,
     normalize_provider_name,
@@ -41,7 +42,9 @@ from deeptutor.services.rag.factory import (
 
 # Engines whose index is self-contained on disk and therefore mountable. The
 # cloud-backed PageIndex is excluded — see module docstring.
-LINKABLE_PROVIDERS = frozenset({DEFAULT_PROVIDER, GRAPHRAG_PROVIDER, LIGHTRAG_PROVIDER})
+LINKABLE_PROVIDERS = frozenset(
+    {DEFAULT_PROVIDER, GRAPHRAG_PROVIDER, LIGHTRAG_PROVIDER, LAZY_GRAPHRAG_PROVIDER}
+)
 
 
 @dataclass

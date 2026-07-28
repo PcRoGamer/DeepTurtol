@@ -16,6 +16,7 @@ from typing import Any
 from deeptutor.services.rag.factory import (
     DEFAULT_PROVIDER,
     GRAPHRAG_PROVIDER,
+    LAZY_GRAPHRAG_PROVIDER,
     LIGHTRAG_PROVIDER,
     PAGEINDEX_PROVIDER,
     normalize_provider_name,
@@ -49,6 +50,8 @@ def inspect_provider_index(
         return _inspect_graphrag(path)
     if resolved == LIGHTRAG_PROVIDER:
         return _inspect_lightrag(path)
+    if resolved == LAZY_GRAPHRAG_PROVIDER:
+        return _inspect_lazygraphrag(path)
     return _inspect_llamaindex(path)
 
 
@@ -219,6 +222,19 @@ def _inspect_lightrag(storage_dir: Path) -> ProviderIndexProbe:
         ready,
         failure_summary="" if ready else failure,
         doc_count=_lightrag_doc_count(storage_dir),
+    )
+
+
+def _inspect_lazygraphrag(storage_dir: Path) -> ProviderIndexProbe:
+    """LazyGraphRAG persists the standard local vector-store artifacts."""
+    probe = _inspect_llamaindex(storage_dir)
+    return ProviderIndexProbe(
+        LAZY_GRAPHRAG_PROVIDER,
+        probe.storage_dir,
+        probe.ready,
+        probe.failure_summary.replace("LlamaIndex", "LazyGraphRAG"),
+        probe.doc_count,
+        probe.diagnostics,
     )
 
 

@@ -29,6 +29,7 @@ PAGEINDEX_PROVIDER = "pageindex"
 GRAPHRAG_PROVIDER = "graphrag"
 LIGHTRAG_PROVIDER = "lightrag"
 LIGHTRAG_SERVER_PROVIDER = "lightrag-server"
+LAZY_GRAPHRAG_PROVIDER = "lazygraphrag"
 KAG_PROVIDER = "kag"
 
 # Providers the factory can instantiate. Unknown / legacy strings fall back to
@@ -40,6 +41,7 @@ KNOWN_PROVIDERS = frozenset(
         GRAPHRAG_PROVIDER,
         LIGHTRAG_PROVIDER,
         LIGHTRAG_SERVER_PROVIDER,
+        LAZY_GRAPHRAG_PROVIDER,
         KAG_PROVIDER,
     }
 )
@@ -82,6 +84,7 @@ def version_matches_provider(entry: dict[str, Any], provider: Optional[str]) -> 
             GRAPHRAG_PROVIDER,
             LIGHTRAG_PROVIDER,
             LIGHTRAG_SERVER_PROVIDER,
+            LAZY_GRAPHRAG_PROVIDER,
             KAG_PROVIDER,
         }
 
@@ -142,6 +145,13 @@ def _build_pipeline(provider: str, kb_base_dir: Optional[str], **kwargs: Any):
         if kb_base_dir is not None:
             kwargs.setdefault("kb_base_dir", kb_base_dir)
         return LightRagServerPipeline(**kwargs)
+
+    if provider == LAZY_GRAPHRAG_PROVIDER:
+        from .pipelines.lazygraphrag.pipeline import LazyGraphRagPipeline
+
+        if kb_base_dir is not None:
+            kwargs.setdefault("kb_base_dir", kb_base_dir)
+        return LazyGraphRagPipeline(**kwargs)
 
     if provider == KAG_PROVIDER:
         from .pipelines.kag.pipeline import KagPipeline
@@ -265,6 +275,13 @@ def list_pipelines() -> List[Dict[str, Any]]:
             "default_mode": lightrag_server_default_mode,
         },
         {
+            "id": LAZY_GRAPHRAG_PROVIDER,
+            "name": "LazyGraphRAG",
+            "description": "Local vector retrieval with a temporary entity graph built only for the chunks relevant to each query. No graph build or additional package is required during indexing.",
+            "configured": True,
+            "requires_api_key": False,
+        },
+        {
             "id": KAG_PROVIDER,
             "name": "KAG (OpenSPG)",
             "description": "Knowledge Augmented Generation with strict ontology and solver framework. Needs `pip install 'deeptutor[kag]'`.",
@@ -282,6 +299,7 @@ __all__ = [
     "GRAPHRAG_PROVIDER",
     "LIGHTRAG_PROVIDER",
     "LIGHTRAG_SERVER_PROVIDER",
+    "LAZY_GRAPHRAG_PROVIDER",
     "KAG_PROVIDER",
     "KNOWN_PROVIDERS",
     "get_pipeline",
