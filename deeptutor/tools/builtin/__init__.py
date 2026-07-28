@@ -120,6 +120,7 @@ class RAGTool(_PromptHintsMixin, BaseTool):
         kb_name = str(kwargs.get("kb_name") or "").strip()
         if not kb_name:
             raise ValueError("RAG requires an explicit kb_name.")
+        
         event_sink = kwargs.get("event_sink")
         extra_kwargs = {
             key: value
@@ -133,29 +134,86 @@ class RAGTool(_PromptHintsMixin, BaseTool):
             event_sink=event_sink,
             **extra_kwargs,
         )
-        content = result.get("answer") or result.get("content", "")
+
+        # 1. Handle error states & reindexing alerts
+        if result.get("error_type"):
+            return ToolResult(
+                content=f"Knowledge Base '{kb_name}' search failed: {result['error_type']}",
+                sources=[],
+                metadata=result,
+            )
+
+        # 2. Extract synthesized answer and raw passages
+        summary_text = result.get("answer")
+        raw_content = result.get("content")
+
+        # 3. Budget & cap rich structural blocks (e.g., max 5 entries per section)
+        MAX_ITEMS_PER_SECTION = 5
+        MAX_ITEM_CHAR_LEN = 300  # Truncate long entity descriptions
 
         extra_blocks = []
-        communities = result.get("communities")
+
+        communities = result.get("communities") or []
         if communities:
             extra_blocks.append("### Community Reports")
-            for c in communities:
-                extra_blocks.append(f"- **{c.get('title', 'Report')}**: {c.get('content', '')}")
+            for c in communities[:MAX_ITEMS_PER_SECTION]:
+                title = c.get("title") or c.get("name") or "Report"
+                body = (c.get("content") or c.get("summary") or "")[:MAX_ITEM_CHAR_LEN]
+                extra_blocks.append(f"- **{title}**: {body}")
 
-        entities = result.get("entities")
+        entities = result.get("entities") or []
         if entities:
             extra_blocks.append("### Key Entities")
-            for e in entities:
-                extra_blocks.append(f"- **{e.get('title', 'Entity')}**: {e.get('content', '')}")
+            for e in entities[:MAX_ITEMS_PER_SECTION]:
+                title = e.get("title") or e.get("name") or e.get("entity_name") or "Entity"
+                body = (e.get("content") or e.get("description") or "")[:MAX_ITEM_CHAR_LEN]
+                extra_blocks.append(f"- **{title}**: {body}")
 
-        reasoning_paths = result.get("reasoning_paths")
+        relationships = result.get("relationships") or []
+        if relationships:
+            extra_blocks.append("### Key Relationships")
+            for r in relationships[:MAX_ITEMS_PER_SECTION]:
+                src = r.get("source") or r.get("src") or "A"
+                target = r.get("target") or r.get("tgt") or "B"
+                rel = r.get("relationship") or r.get("type") or "relates to"
+                extra_blocks.append(f"- `{src}` --[{rel}]--> `{target}`")
+
+        reasoning_paths = result.get("reasoning_paths") or []
         if reasoning_paths:
             extra_blocks.append("### Reasoning Paths")
-            for rp in reasoning_paths:
-                extra_blocks.append(f"- {rp}")
+            for rp in reasoning_paths[:MAX_ITEMS_PER_SECTION]:
+                extra_blocks.append(f"- {str(rp)[:MAX_ITEM_CHAR_LEN]}")
 
+        sub_queries = result.get("sub_queries") or []
+        if sub_queries:
+            extra_blocks.append("### Decomposed Sub-Queries")
+            for sq in sub_queries[:MAX_ITEMS_PER_SECTION]:
+                extra_blocks.append(f"- {str(sq)[:MAX_ITEM_CHAR_LEN]}")
+                
+        intermediate_results = result.get("intermediate_results") or []
+        if intermediate_results:
+            extra_blocks.append("### Intermediate Logic / Scratchpad")
+            for ir in intermediate_results[:MAX_ITEMS_PER_SECTION]:
+                extra_blocks.append(f"- {str(ir)[:MAX_ITEM_CHAR_LEN]}")
+
+        # 4. Assemble final payload with priority ordering
+        # Place graph structure (reasoning, entities) BEFORE long raw text chunks
+        final_content_blocks = []
+        if summary_text:
+            final_content_blocks.append(f"### Summary\n{summary_text}")
+            
         if extra_blocks:
-            content += "\n\n" + "\n".join(extra_blocks)
+            final_content_blocks.extend(extra_blocks)
+            
+        if raw_content:
+            final_content_blocks.append(f"### Retrieved Context\n{raw_content}")
+            
+        content = "\n\n".join(final_content_blocks) if final_content_blocks else "No relevant passages found."
+
+        # 5. Optional global hard-cap safeguard (e.g., 8,000 characters total)
+        MAX_TOTAL_CHARS = 8000
+        if len(content) > MAX_TOTAL_CHARS:
+            content = content[:MAX_TOTAL_CHARS] + "\n\n[Context truncated due to size limits...]"
 
         return ToolResult(
             content=content,

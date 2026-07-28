@@ -22,6 +22,8 @@ class RetrievalContext(TypedDict, total=False):
     entities: List[Dict[str, Any]]
     relationships: List[Dict[str, Any]]
     reasoning_paths: List[str]
+    sub_queries: List[str]
+    intermediate_results: List[str]
     communities: List[Dict[str, Any]]
     mode: str
     error_type: Optional[str]

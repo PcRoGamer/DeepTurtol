@@ -209,6 +209,10 @@ graphrag = ["graphrag>=3.0.1,<4.0.0; python_version < '3.14'"]
 # a future API-breaking 2.x isn't pulled in silently.
 rag-lightrag = ["raganything>=1.0.1,<2.0.0; python_version < '3.14'"]
 
+# KAG knowledge-base engine (OpenSPG/KAG). Optional framework for logical reasoning
+# over knowledge graphs. The pipeline imports lazily.
+kag = ["openspg-kag>=0.8.0"]
+
 # Dev/test tooling. Mirrors requirements/dev.txt.
 dev = [
     "deeptutor[server]",
@@ -418,7 +422,6 @@ pythonpath = ["."]
 markers = [
     "asyncio: mark async tests that require pytest-asyncio",
 ]
-asyncio_default_fixture_loop_scope = "function"
 addopts = [
     "--strict-markers",
     "--strict-config",

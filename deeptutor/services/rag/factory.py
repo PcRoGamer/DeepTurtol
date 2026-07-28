@@ -29,6 +29,7 @@ PAGEINDEX_PROVIDER = "pageindex"
 GRAPHRAG_PROVIDER = "graphrag"
 LIGHTRAG_PROVIDER = "lightrag"
 LIGHTRAG_SERVER_PROVIDER = "lightrag-server"
+KAG_PROVIDER = "kag"
 
 # Providers the factory can instantiate. Unknown / legacy strings fall back to
 # the default with a re-index hint upstream.
@@ -39,6 +40,7 @@ KNOWN_PROVIDERS = frozenset(
         GRAPHRAG_PROVIDER,
         LIGHTRAG_PROVIDER,
         LIGHTRAG_SERVER_PROVIDER,
+        KAG_PROVIDER,
     }
 )
 
@@ -80,6 +82,7 @@ def version_matches_provider(entry: dict[str, Any], provider: Optional[str]) -> 
             GRAPHRAG_PROVIDER,
             LIGHTRAG_PROVIDER,
             LIGHTRAG_SERVER_PROVIDER,
+            KAG_PROVIDER,
         }
 
     return entry_provider == resolved or signature == resolved
@@ -139,6 +142,13 @@ def _build_pipeline(provider: str, kb_base_dir: Optional[str], **kwargs: Any):
         if kb_base_dir is not None:
             kwargs.setdefault("kb_base_dir", kb_base_dir)
         return LightRagServerPipeline(**kwargs)
+
+    if provider == KAG_PROVIDER:
+        from .pipelines.kag.pipeline import KagPipeline
+
+        if kb_base_dir is not None:
+            kwargs.setdefault("kb_base_dir", kb_base_dir)
+        return KagPipeline(**kwargs)
 
     from .pipelines.llamaindex.pipeline import LlamaIndexPipeline
 
@@ -201,6 +211,15 @@ def list_pipelines() -> List[Dict[str, Any]]:
     except Exception:
         lightrag_server_modes, lightrag_server_default_mode = [], ""
 
+    try:
+        from .pipelines.kag import config as kag_config
+
+        kag_ready = kag_config.is_kag_available()
+        kag_modes = list(kag_config.SUPPORTED_MODES)
+        kag_default_mode = kag_config.DEFAULT_MODE
+    except Exception:
+        kag_ready, kag_modes, kag_default_mode = False, [], ""
+
     return [
         {
             "id": DEFAULT_PROVIDER,
@@ -245,6 +264,15 @@ def list_pipelines() -> List[Dict[str, Any]]:
             "modes": lightrag_server_modes,
             "default_mode": lightrag_server_default_mode,
         },
+        {
+            "id": KAG_PROVIDER,
+            "name": "KAG (OpenSPG)",
+            "description": "Knowledge Augmented Generation with strict ontology and solver framework. Needs `pip install 'deeptutor[kag]'`.",
+            "configured": kag_ready,
+            "requires_api_key": False,
+            "modes": kag_modes,
+            "default_mode": kag_default_mode,
+        },
     ]
 
 
@@ -254,6 +282,7 @@ __all__ = [
     "GRAPHRAG_PROVIDER",
     "LIGHTRAG_PROVIDER",
     "LIGHTRAG_SERVER_PROVIDER",
+    "KAG_PROVIDER",
     "KNOWN_PROVIDERS",
     "get_pipeline",
     "has_ready_provider_index",
