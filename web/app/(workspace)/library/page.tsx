@@ -713,7 +713,14 @@ export default function MediaLibraryPage() {
                   autoPlay
                   className="aspect-video w-full"
                   src={apiUrl(`/api/v1/lectures/${active.id}/media`)}
-                />
+                >
+                  <track
+                    kind="subtitles"
+                    src={apiUrl(`/api/v1/lectures/${active.id}/subtitles`)}
+                    label="English"
+                    default
+                  />
+                </video>
               ) : (
                 <div className="flex min-h-48 items-center justify-center p-8">
                   <audio

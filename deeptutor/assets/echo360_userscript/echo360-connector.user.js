@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DeepTurtol Echo360 Connector
 // @namespace    http://localhost:3000/
-// @version      1.3.0
+// @version      1.5.0
 // @description  Lets DeepTurtol request selected Echo360 data from this already-signed-in browser, without reading or copying cookies.
 // @match        http://localhost:3000/library*
 // @match        http://127.0.0.1:3000/library*
@@ -36,6 +36,15 @@
  */
 (() => {
   "use strict";
+  /* Debug trace: accumulates messages, included in error replies. */
+  var _trace = [];
+  var trace = function (msg) { _trace.push(msg); };
+  var traceFlush = function () {
+    var lines = _trace.slice();
+    _trace.length = 0;
+    return lines.join(" | ");
+  };
+
   const log = typeof console !== "undefined"
     ? console.log.bind(console, "[DT-Echo]")
     : () => {};
@@ -70,7 +79,6 @@
           url: `${ECHO360_ORIGIN}${path}`,
           headers: {
             Accept: "application/json, text/html, */*",
-            "X-Requested-With": "XMLHttpRequest",
             ...options.headers,
           },
           withCredentials: true,
@@ -122,9 +130,8 @@
 
   /** Fetch HTML page from Echo360 (for stream extraction). */
   const echoHtml = async (path) => {
-    // Omit X-Requested-With so Echo360 serves the full page, not an AJAX fragment.
     const response = await echoFetch(path, {
-      headers: { Accept: "text/html", "X-Requested-With": "" },
+      headers: { Accept: "text/html" },
     });
     return response.responseText;
   };
@@ -217,7 +224,7 @@
         : []) {
         if (file?.s3Url) mp4Urls.push(String(file.s3Url));
       }
-      log(`recording ${id}: mp4=${mp4Urls.length} m3u8=${m3u8Urls.length} hasMedia=${!!media}`);
+      trace("recording " + id + ": mp4=" + mp4Urls.length + " m3u8=" + m3u8Urls.length + " hasMedia=" + !!media);
       recordings.push({
         id,
         title: String(
@@ -289,7 +296,7 @@
     const encId = encodeURIComponent(recordingId);
 
     /* ---- 1) Try known Echo360 lesson media API endpoints ---- */
-    log(`classroomStreamUrl(${recordingId}) — trying 8 API endpoints`);
+    trace("classroomStreamUrl(" + recordingId + ") — trying 8 API endpoints");
     for (const apiPath of [
       `/lesson/${encId}/media`,
       `/api/lesson/${encId}/playback`,
@@ -304,25 +311,25 @@
         const body = await echoJson(apiPath);
         const found = deepFindMediaUrl(body);
         if (found) {
-          log(`API ${apiPath} → FOUND: ${found}`);
+          trace("API " + apiPath + " → FOUND: " + found);
           return found;
         }
-        log(`API ${apiPath} → JSON OK but no media URL`);
+        trace("API " + apiPath + " → JSON OK but no media URL");
       } catch (err) {
-            log(`API ${apiPath} → ${err.message}`);
+            trace("API " + apiPath + " → " + err.message);
       }
     }
 
     /* ---- 2) Scrape the classroom page HTML for embedded URLs ---- */
-    log(`API endpoints exhausted — fetching classroom HTML`);
+    trace("API endpoints exhausted — fetching classroom HTML");
     let page;
     try {
       page = await echoHtml(`/lesson/${encId}/classroom`);
     } catch (err) {
-      log(`echoHtml failed: ${err.message}`);
-      throw new Error(`Echo360 has no playable media for this lecture. (HTML fetch: ${err.message})`);
+      trace("echoHtml failed: " + err.message);
+      throw new Error("Echo360 has no playable media for this lecture. (HTML fetch: " + err.message + ")");
     }
-    log(`classroom HTML: ${page.length} chars, starts: ${page.slice(0, 300)}`);
+    trace("classroom HTML: " + page.length + " chars, starts: " + page.slice(0, 300));
     const pageReplaced = page.replace(/\\\//g, "/");
 
     /* ---- Helper: collect URLs matching a pattern ---- */
@@ -434,7 +441,7 @@
           selected.map(async (recording) => {
             const fromSyllabus = recording.mp4_urls[0] || recording.m3u8_urls[0] || "";
             const media_url = fromSyllabus || (await classroomStreamUrl(recording.id));
-            log(`source ${recording.id} (${recording.title}): ${fromSyllabus ? "from syllabus" : "from classroomStreamUrl"} → ${media_url.slice(0, 80)}`);
+            trace("source " + recording.id + " (" + recording.title + "): " + (fromSyllabus ? "from syllabus" : "from classroomStreamUrl") + " → " + media_url.slice(0, 80));
             return {
               id: recording.id,
               title: recording.title,
@@ -452,13 +459,13 @@
 
       throw new Error("Unsupported Echo360 connector request.");
     } catch (error) {
+      var traceInfo = traceFlush();
       replyToWeb(
         requestId,
         false,
         undefined,
-        error instanceof Error
-          ? error.message
-          : "The Echo360 connector failed.",
+        (error instanceof Error ? error.message : "The Echo360 connector failed.") +
+          (traceInfo ? " [DEBUG: " + traceInfo + "]" : ""),
       );
     }
   };

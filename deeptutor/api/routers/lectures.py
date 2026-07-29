@@ -89,6 +89,14 @@ async def _index_notes(kb_name: str, notes_path: Path) -> str | None:
     return task_id
 
 
+def _fmt_vtt_time(seconds: float) -> str:
+    """Format float seconds to VTT timestamp ``HH:MM:SS.mmm``."""
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = seconds % 60
+    return f"{h:02d}:{m:02d}:{s:06.3f}"
+
+
 async def _process(item_id: str) -> None:
     item_dir = _root() / item_id
     meta = _read(item_dir)
@@ -96,7 +104,26 @@ async def _process(item_id: str) -> None:
     try:
         meta.update(status="transcribing", progress="Transcribing media…")
         _write(item_dir, meta)
-        transcript = await transcribe_audio(media.read_bytes(), filename=media.name, content_type=meta["content_type"])
+        raw = await transcribe_audio(
+            media.read_bytes(),
+            filename=media.name,
+            content_type=meta["content_type"],
+            response_format="verbose_json",
+        )
+        data = json.loads(raw)
+        transcript = data["text"]
+        segments = data.get("segments") or []
+
+        # Generate WebVTT subtitles.
+        vtt_lines = ["WEBVTT\n"]
+        for seg in segments:
+            start = _fmt_vtt_time(seg["start"])
+            end = _fmt_vtt_time(seg["end"])
+            text = seg["text"].strip()
+            vtt_lines.append(f"{start} --> {end}")
+            vtt_lines.append(text + "\n")
+        vtt_content = "\n".join(vtt_lines)
+
         title = _auto_title(transcript, meta["original_name"])
         meta.update(status="summarizing", progress="Writing summary and lecture notes…", title=title)
         _write(item_dir, meta)
@@ -107,9 +134,11 @@ async def _process(item_id: str) -> None:
         notes = f"# {title}\n\n## Summary and study notes\n\n{summary}\n\n## Full transcript\n\n{transcript}\n"
         transcript_path = item_dir / "transcript.txt"
         notes_path = item_dir / "notes.md"
+        vtt_path = item_dir / "subtitles.vtt"
         transcript_path.write_text(transcript, encoding="utf-8")
         notes_path.write_text(notes, encoding="utf-8")
-        meta.update(status="indexing", progress="Adding notes to the knowledge base…", summary=summary, transcript_file=transcript_path.name, notes_file=notes_path.name)
+        vtt_path.write_text(vtt_content, encoding="utf-8")
+        meta.update(status="indexing", progress="Adding notes to the knowledge base…", summary=summary, transcript_file=transcript_path.name, notes_file=notes_path.name, subtitle_file=vtt_path.name)
         _write(item_dir, meta)
         task_id = await _index_notes(str(meta.get("kb_name") or ""), notes_path)
         meta.update(status="ready", progress="Ready", kb_task_id=task_id, completed_at=datetime.now(timezone.utc).isoformat())
@@ -339,6 +368,19 @@ async def stream_library_media(item_id: str) -> FileResponse:
     item_dir = _root() / item_id
     meta = _read(item_dir)
     return FileResponse(item_dir / meta["media_file"], media_type=meta["content_type"], filename=meta["original_name"])
+
+
+@router.get("/{item_id}/subtitles")
+async def get_library_subtitles(item_id: str):
+    item_dir = _root() / item_id
+    meta = _read(item_dir)
+    filename = meta.get("subtitle_file")
+    if not filename:
+        raise HTTPException(404, "Subtitles are not ready.")
+    return PlainTextResponse(
+        (item_dir / filename).read_text(encoding="utf-8"),
+        media_type="text/vtt; charset=utf-8",
+    )
 
 
 @router.get("/{item_id}/{artifact}")

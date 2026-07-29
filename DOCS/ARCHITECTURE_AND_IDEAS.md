@@ -34,7 +34,8 @@ To ensure seamless updates from upstream DeepTutor without merge conflicts or lo
 - [x] Durable audio/video storage, playback, background transcription, summaries, and study notes.
 - [x] UniMelb Echo360 course discovery/import through a GUI-managed, isolated Chromium profile without accepting or storing university passwords.
 - [x] Always-available agent library search over transcripts and generated notes, independent of KB selection.
-- [ ] Time-aligned subtitle generation, subtitle editing/export, and richer video-library organization.
+- [x] Time-aligned WebVTT subtitle generation during media processing + subtitle display in the video player.
+- [ ] Subtitle editing/export and richer video-library organization.
 
 The archived EchoTutor/Trinity implementations are reference material only.
 The active integration in `deeptutor/services/echo360.py` targets the user's

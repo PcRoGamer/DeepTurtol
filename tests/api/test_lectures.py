@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -10,7 +11,13 @@ def test_library_persists_media_and_generated_artifacts(tmp_path: Path, monkeypa
     monkeypatch.setattr(lectures, "_root", lambda: tmp_path)
 
     async def transcribe(*args, **kwargs):
-        return "Fourier transforms convert signals into frequency components."
+        return json.dumps({
+            "text": "Fourier transforms convert signals into frequency components.",
+            "segments": [
+                {"start": 0.0, "end": 1.5, "text": "Fourier transforms convert signals"},
+                {"start": 1.5, "end": 3.0, "text": "into frequency components."},
+            ],
+        })
 
     async def summarize(self, **kwargs):
         return "Fourier transforms reveal the frequency content of signals."
@@ -40,6 +47,14 @@ def test_library_persists_media_and_generated_artifacts(tmp_path: Path, monkeypa
     assert "frequency content" in client.get(f"/api/v1/lectures/{item_id}/notes").text
     assert "frequency components" in client.get(f"/api/v1/lectures/{item_id}/transcript").text
 
+    # Check subtitles.
+    subs = client.get(f"/api/v1/lectures/{item_id}/subtitles")
+    assert subs.status_code == 200
+    assert subs.headers["content-type"] == "text/vtt; charset=utf-8"
+    assert "WEBVTT" in subs.text
+    assert "00:00:00.000 --> 00:00:01.500" in subs.text
+    assert "Fourier transforms convert signals" in subs.text
+
 
 def test_library_rejects_unsupported_upload(tmp_path: Path, monkeypatch):
     monkeypatch.setattr(lectures, "_root", lambda: tmp_path)
@@ -60,7 +75,13 @@ def test_echo360_import_enters_normal_library_pipeline(tmp_path: Path, monkeypat
         destination.write_bytes(b"video")
 
     async def transcribe(*args, **kwargs):
-        return "Breadth-first search explores a graph level by level."
+        return json.dumps({
+            "text": "Breadth-first search explores a graph level by level.",
+            "segments": [
+                {"start": 0.0, "end": 2.0, "text": "Breadth-first search explores a graph"},
+                {"start": 2.0, "end": 3.5, "text": "level by level."},
+            ],
+        })
 
     async def summarize(self, **kwargs):
         return "A lecture about breadth-first graph traversal."
@@ -83,7 +104,7 @@ def test_echo360_import_enters_normal_library_pipeline(tmp_path: Path, monkeypat
                     "date": "2026-07-20",
                     "course_id": "12345678-1234-1234-1234-123456789abc",
                     "course_name": "COMP10001 — Foundations of Computing",
-                    "media_url": "https://media.example/lecture.mp4",
+                    "media_url": "https://echo360.net.au/lecture.mp4",
                     "media_kind": "mp4",
                 }
             ],
@@ -99,4 +120,10 @@ def test_echo360_import_enters_normal_library_pipeline(tmp_path: Path, monkeypat
     assert stored["status"] == "ready"
 
 
-
+def test_library_subtitles_404_on_missing_item(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr(lectures, "_root", lambda: tmp_path)
+    app = FastAPI()
+    app.include_router(lectures.router, prefix="/api/v1/lectures")
+    client = TestClient(app)
+    resp = client.get("/api/v1/lectures/00000000000000000000000000000000/subtitles")
+    assert resp.status_code == 404

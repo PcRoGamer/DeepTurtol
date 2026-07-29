@@ -55,6 +55,7 @@ async def transcribe_audio(
     content_type: str = "application/octet-stream",
     language: str | None = None,
     model: str | None = None,
+    response_format: str | None = None,
 ) -> str:
     """Transcribe ``audio`` using the active STT catalog selection."""
     from deeptutor.services.config.provider_runtime import resolve_stt_runtime_config
@@ -64,6 +65,8 @@ async def transcribe_audio(
         config.language = language
     if model:
         config = replace(config, model=model)
+    if response_format:
+        config = replace(config, response_format=response_format)
     adapter = get_stt_adapter(config.adapter)
     return await adapter.transcribe(audio, config, filename=filename, content_type=content_type)
 

@@ -57,6 +57,7 @@ class STTConfig:
     api_version: str | None = None
     extra_headers: dict[str, str] = field(default_factory=dict)
     language: str | None = None
+    response_format: str = "json"
     request_timeout: int = 120
 
 

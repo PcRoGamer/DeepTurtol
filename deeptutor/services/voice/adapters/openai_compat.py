@@ -317,7 +317,7 @@ class OpenAICompatSTTAdapter(BaseSTTAdapter):
         except httpx.HTTPError as exc:
             raise VoiceProviderError(f"STT request error: {exc}") from exc
         _raise_for_provider(resp, "Transcription")
-        return self._parse_text(resp)
+        return self._parse_text(resp, config.response_format)
 
     async def _post_multipart(
         self,
@@ -330,7 +330,7 @@ class OpenAICompatSTTAdapter(BaseSTTAdapter):
         config: STTConfig,
     ) -> httpx.Response:
         files = {"file": (filename, audio, content_type or "application/octet-stream")}
-        data: dict[str, str] = {"model": config.model, "response_format": "json"}
+        data: dict[str, str] = {"model": config.model, "response_format": config.response_format}
         if config.language:
             data["language"] = config.language
         headers = {**auth, **(config.extra_headers or {})}
@@ -356,8 +356,10 @@ class OpenAICompatSTTAdapter(BaseSTTAdapter):
         return await client.post(url, headers=headers, json=body)
 
     @staticmethod
-    def _parse_text(resp: httpx.Response) -> str:
+    def _parse_text(resp: httpx.Response, response_format: str = "json") -> str:
         content_type = resp.headers.get("content-type", "")
+        if "json" in content_type and response_format in ("verbose_json",):
+            return resp.text
         if "json" in content_type:
             data = resp.json()
             if isinstance(data, dict):
