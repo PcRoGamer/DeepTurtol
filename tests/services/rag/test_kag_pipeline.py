@@ -1,12 +1,16 @@
 """Unit tests for the KagPipeline orchestration."""
 
 import sys
+import asyncio
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from deeptutor.services.rag.factory import get_pipeline, KAG_PROVIDER
 from deeptutor.services.rag.pipelines.kag.pipeline import KagPipeline, KagNotAvailableError
 from deeptutor.services.rag.pipelines.base import RetrievalContext
+from deeptutor.services.rag.pipelines.kag.config import resolve_kag_llm_settings
 
 @pytest.fixture
 def mock_kag_lib():
@@ -58,6 +62,56 @@ def test_is_kag_available_false_raises_error():
     with patch("deeptutor.services.rag.pipelines.kag.config.is_kag_available", return_value=False):
         with pytest.raises(KagNotAvailableError, match="KAG framework is not installed"):
             pipeline._ensure_available()
+
+
+def test_kag_uses_the_rag_completion_provider(monkeypatch: pytest.MonkeyPatch):
+    """KAG must not default to api.openai.com for an OpenAI-compatible provider."""
+    import deeptutor.services.config as config_service
+    import deeptutor.services.config.model_catalog as catalog
+
+    selection = {"profile_id": "zen", "model_id": "deepseek"}
+    monkeypatch.setattr(catalog, "get_rag_completion_selection", lambda: selection)
+    resolver = MagicMock(
+        return_value=SimpleNamespace(
+            effective_url="https://opencode.ai/zen/v1",
+            base_url="https://ignored.example/v1",
+            model="deepseek-v4-flash-free",
+            api_key="public",
+        )
+    )
+    monkeypatch.setattr(config_service, "resolve_llm_runtime_config", resolver)
+
+    assert resolve_kag_llm_settings() == (
+        "https://opencode.ai/zen/v1",
+        "deepseek-v4-flash-free",
+        "public",
+    )
+    resolver.assert_called_once_with(llm_selection=selection)
+
+
+def test_search_reads_the_selected_kb_instead_of_kag_demo_data(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    raw_dir = tmp_path / "handbooks" / "raw"
+    raw_dir.mkdir(parents=True)
+    (raw_dir / "bdes.txt").write_text(
+        "Bachelor of Design (B-DES) is a 300 credit point undergraduate degree. "
+        "It is delivered on campus at Parkville.",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "deeptutor.services.rag.pipelines.kag.config.is_kag_available", lambda: True
+    )
+
+    result = asyncio.run(
+        KagPipeline(kb_base_dir=str(tmp_path)).search(
+            "tell me about B-DES", "handbooks"
+        )
+    )
+
+    assert "300 credit point" in result["content"]
+    assert "Yu'ebao" not in result["content"]
+    assert result["sources"][0]["title"] == "bdes.txt"
 
 
 @pytest.mark.asyncio

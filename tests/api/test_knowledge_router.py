@@ -134,19 +134,22 @@ def test_rag_providers_lists_llamaindex_and_pageindex() -> None:
     assert response.status_code == 200
     payload = response.json()
     by_id = {p["id"]: p for p in payload["providers"]}
-    assert set(by_id) == {
+    assert {
         "llamaindex",
         "pageindex",
         "graphrag",
         "lightrag",
         "lightrag-server",
-    }
+        "lazygraphrag",
+    } <= set(by_id)
     # LlamaIndex works out of the box; PageIndex needs an API key; GraphRAG and
     # LightRAG are optional local engines (no API key, configured = installed).
     assert by_id["llamaindex"]["requires_api_key"] is False
     assert by_id["pageindex"]["requires_api_key"] is True
     assert by_id["graphrag"]["requires_api_key"] is False
     assert by_id["lightrag"]["requires_api_key"] is False
+    assert by_id["lazygraphrag"]["configured"] is True
+    assert by_id["lazygraphrag"]["requires_api_key"] is False
     # LightRAG Server is a thin HTTP client: always available, no API key gate
     # (the per-KB endpoint is configured at connect time).
     assert by_id["lightrag-server"]["requires_api_key"] is False
@@ -979,6 +982,7 @@ def test_rag_providers_marks_linkable() -> None:
     assert by_id["llamaindex"]["linkable"] is True
     assert by_id["graphrag"]["linkable"] is True
     assert by_id["lightrag"]["linkable"] is True
+    assert by_id["lazygraphrag"]["linkable"] is True
     assert by_id["pageindex"]["linkable"] is False
     assert by_id["lightrag-server"]["linkable"] is False
 

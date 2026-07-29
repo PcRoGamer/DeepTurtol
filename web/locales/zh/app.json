@@ -340,6 +340,8 @@
   "Click to edit": "点击编辑",
   "Expand sidebar": "展开侧边栏",
   "Collapse sidebar": "收起侧边栏",
+  "Pin sidebar open": "固定展开侧边栏",
+  "Return sidebar to auto-collapse": "恢复侧边栏自动收起",
   "Collapse left panel": "收起左侧面板",
   "Search notebooks...": "搜索笔记本…",
   "Loading records...": "正在加载记录…",

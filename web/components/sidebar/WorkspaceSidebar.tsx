@@ -16,6 +16,8 @@ import {
 } from "@/lib/session-api";
 
 export default function WorkspaceSidebar() {
+  // Architecture note: this component owns workspace/session behaviour only.
+  // SidebarShell renders the active OceanSidebar visual implementation.
   const { t } = useTranslation();
   const router = useRouter();
   const {

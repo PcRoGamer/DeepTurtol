@@ -49,6 +49,8 @@ import AgentSelector from "./AgentSelector";
 import KnowledgeSelector from "./KnowledgeSelector";
 import ModelSelector from "./ModelSelector";
 import PersonaSelector from "./PersonaSelector";
+import Modal from "@/components/common/Modal";
+import { apiFetch, apiUrl } from "@/lib/api";
 
 type SpaceSelectionCounts = {
   attachments: number;
@@ -325,6 +327,7 @@ export default memo(function ChatComposer({
 
   const [hasContent, setHasContent] = useState(false);
   const [moreCapsOpen, setMoreCapsOpen] = useState(false);
+  const [sttSetupOpen, setSttSetupOpen] = useState(false);
   const [lastCapMenuOpen, setLastCapMenuOpen] = useState(capMenuOpen);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputHandleRef = useRef<ComposerInputHandle>(null);
@@ -352,6 +355,39 @@ export default memo(function ChatComposer({
     inputHandleRef.current?.setValue(next);
   }, []);
   const recorder = useVoiceRecorder(handleTranscript);
+
+  const handleVoiceToggle = useCallback(async () => {
+    if (recorder.state === "recording") {
+      recorder.stop();
+      return;
+    }
+    if (recorder.state !== "idle") return;
+
+    try {
+      const response = await apiFetch(apiUrl("/api/v1/voice/stt/status"));
+      const payload = response.ok
+        ? ((await response.json()) as { configured?: boolean })
+        : null;
+      if (payload?.configured) {
+        recorder.toggle();
+        return;
+      }
+    } catch {
+      // Keep the existing recorder path available if the status endpoint is
+      // unreachable (for example during a rolling backend upgrade).
+      recorder.toggle();
+      return;
+    }
+    setSttSetupOpen(true);
+  }, [recorder]);
+
+  const dismissSttSetup = useCallback(() => {
+    setSttSetupOpen(false);
+  }, []);
+
+  const openSttSettings = useCallback(() => {
+    window.location.assign("/settings/stt");
+  }, []);
 
   // Composer-row compaction: when the available width drops below ~620 px
   // (e.g. the Viewer panel is open or the user is on a narrow viewport),
@@ -549,6 +585,7 @@ export default memo(function ChatComposer({
   }, [canSend, doSend, isConfigBlocked, onRequestConfigConfirm]);
 
   return (
+    <>
     <div
       ref={composerRef}
       className={`relative z-20 mx-auto w-full shrink-0 px-6 pb-5 ${hasMessages ? "pt-1 max-w-[960px]" : "max-w-[768px]"}`}
@@ -971,7 +1008,7 @@ export default memo(function ChatComposer({
 
                 <button
                   type="button"
-                  onClick={recorder.toggle}
+                  onClick={() => void handleVoiceToggle()}
                   disabled={recorder.state === "transcribing" || isStreaming}
                   className={`group relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-90 disabled:opacity-40 ${
                     recorder.state === "recording"
@@ -1058,5 +1095,53 @@ export default memo(function ChatComposer({
         </div>
       </div>
     </div>
+    <Modal
+      isOpen={sttSetupOpen}
+      onClose={dismissSttSetup}
+      title={t("Turn on speech-to-text?")}
+      titleIcon={<Mic className="h-4 w-4 text-[var(--primary)]" />}
+      width="md"
+      footer={
+        <div className="flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={dismissSttSetup}
+            className="rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
+          >
+            {t("Not now")}
+          </button>
+          <button
+            type="button"
+            data-autofocus
+            onClick={openSttSettings}
+            className="rounded-lg bg-[var(--primary)] px-3 py-2 text-sm font-medium text-[var(--primary-foreground)] hover:bg-[var(--primary)]/90"
+          >
+            {t("Open speech-to-text settings")}
+          </button>
+        </div>
+      }
+    >
+      <div className="space-y-4 p-5 text-sm leading-6 text-[var(--muted-foreground)]">
+        <p>
+          {t("Use Groq's free tier to transcribe microphone recordings. DeepTutor has the fast Whisper preset ready; you only need your own free API key.")}
+        </p>
+        <ol className="list-decimal space-y-1 pl-5">
+          <li>
+            <a
+              href="https://console.groq.com/keys"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--primary)] underline underline-offset-2"
+            >
+              {t("Create a free Groq account and API key")}
+            </a>
+            .
+          </li>
+          <li>{t("Copy the key. Keep it private; do not share it in chat.")}</li>
+          <li>{t("In Speech-to-Text settings, paste it into the Groq preset and make the preset active.")}</li>
+        </ol>
+      </div>
+    </Modal>
+    </>
   );
 });

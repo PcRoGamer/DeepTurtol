@@ -10,6 +10,11 @@
 
 -r cli.txt
 
+# --- Local browser session integration (Echo360) ---
+browser-cookie3>=0.20.1
+imageio-ffmpeg>=0.6.0
+psutil>=5.9.0
+
 # --- API server ---
 fastapi>=0.100.0
 uvicorn[standard]>=0.24.0

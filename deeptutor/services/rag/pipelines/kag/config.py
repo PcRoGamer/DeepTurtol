@@ -18,6 +18,34 @@ def is_kag_available() -> bool:
     except ImportError:
         return False
 
+
+def resolve_kag_llm_settings() -> tuple[str, str, str]:
+    """Return the selected DeepTutor RAG model in KAG's client format.
+
+    KAG's ``OpenAIClient`` does not read DeepTutor's provider catalog.  In
+    particular, it historically read ``OPENAI_API_BASE`` while DeepTutor
+    exports ``OPENAI_BASE_URL``.  That made KAG silently use api.openai.com
+    and send an OpenCode Zen ``public`` token there.  Resolve the catalog
+    explicitly so KAG always uses the configured RAG-completion provider.
+    """
+    from deeptutor.services.config import resolve_llm_runtime_config
+    from deeptutor.services.config.model_catalog import get_rag_completion_selection
+
+    resolved = resolve_llm_runtime_config(
+        llm_selection=get_rag_completion_selection()
+    )
+    base_url = (resolved.effective_url or resolved.base_url or "").strip()
+    if not base_url:
+        raise RuntimeError(
+            "No LLM endpoint is configured for KAG. Configure it in Settings > Catalog."
+        )
+    if not resolved.model:
+        raise RuntimeError(
+            "No LLM model is configured for KAG. Configure it in Settings > Catalog."
+        )
+    return base_url, resolved.model, resolved.api_key or "sk-no-key-required"
+
+
 def setup_kag_environment(workspace_dir: str):
     """Bridge DeepTutor's config to OpenSPG's environment requirements."""
     import os
@@ -26,6 +54,13 @@ def setup_kag_environment(workspace_dir: str):
     
     # 1. Export DeepTutor settings to os.environ so LiteLLM and OpenSPG can pick them up
     export_runtime_settings_to_env()
+    base_url, model, api_key = resolve_kag_llm_settings()
+    # KAG uses a different environment-variable spelling from the OpenAI SDK.
+    # Set both aliases for its builder components and any provider helpers.
+    os.environ["OPENAI_API_KEY"] = api_key
+    os.environ["OPENAI_BASE_URL"] = base_url
+    os.environ["OPENAI_API_BASE"] = base_url
+    os.environ["LLM_MODEL"] = model
         
     # 2. Setup standard KAG Project structure in the workspace if missing
     kag_dir = os.path.join(workspace_dir, ".kag")

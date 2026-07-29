@@ -30,12 +30,28 @@ from .config import (
 logger = logging.getLogger(__name__)
 
 
+def _ensure_networkx_numpy_compat() -> None:
+    """Restore NumPy 1.x scalar aliases used by NetworkX's GraphML writer.
+
+    LightRAG persists its graph through NetworkX. Current NetworkX releases in
+    LightRAG's dependency range still access ``numpy.float_``, which NumPy 2.0
+    removed. The alias is exactly ``float64`` in NumPy 1.x, so restoring it at
+    this optional-engine boundary preserves GraphML persistence without pinning
+    DeepTutor's global NumPy version below 2.
+    """
+    import numpy as np
+
+    if not hasattr(np, "float_"):
+        np.float_ = np.float64
+
+
 def build_rag(working_dir: Path) -> Any:
     """Construct a RAG-Anything instance rooted at ``working_dir``.
 
     Pinned to RAG-Anything's config-based constructor; this is the single spot
     to touch if its API changes between releases.
     """
+    _ensure_networkx_numpy_compat()
     from raganything import RAGAnything, RAGAnythingConfig
 
     config = RAGAnythingConfig(working_dir=str(working_dir))

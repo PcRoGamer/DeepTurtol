@@ -278,6 +278,13 @@ TTS_PROVIDERS: dict[str, VoiceProviderSpec] = {
 }
 
 STT_PROVIDERS: dict[str, VoiceProviderSpec] = {
+    "qnn_whisper": VoiceProviderSpec(
+        label="Qualcomm QNN Whisper (Local)",
+        default_api_base="",
+        adapter="qnn_whisper",
+        default_model="base",
+        is_local=True,
+    ),
     "openai": VoiceProviderSpec(
         label="OpenAI",
         default_api_base="https://api.openai.com/v1",

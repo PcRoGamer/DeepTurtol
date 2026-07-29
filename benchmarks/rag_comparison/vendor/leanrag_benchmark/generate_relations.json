@@ -1,0 +1,305 @@
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "CS 301: Advanced Machine Learning", "description": "instructor of", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "CS 301: Advanced Machine Learning", "description": "teaching assistant for", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "CS 301: Advanced Machine Learning", "description": "teaching assistant for", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "CS 301: Advanced Machine Learning", "description": "prerequisite for", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "MATH 205: Linear Algebra", "tgt_src": "CS 301: Advanced Machine Learning", "description": "prerequisite for", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "STAT 210: Probability and Statistical Inference", "tgt_src": "CS 301: Advanced Machine Learning", "description": "prerequisite for", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. James Liu", "tgt_src": "CS 201: Introduction to Machine Learning", "description": "instructor of", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. Maria Rodriguez", "tgt_src": "MATH 205: Linear Algebra", "description": "instructor of", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. Thomas Brown", "tgt_src": "STAT 210: Probability and Statistical Inference", "description": "instructor of", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Backpropagation and Optimization", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Transformer Architectures", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Efficient Attention", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Few-Shot and Meta-Learning", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Reinforcement Learning", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Generative Models", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Ethics and Safety", "description": "covers topic", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Homework (4 sets)", "description": "has assessment", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Midterm Exam", "description": "has assessment", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Paper Reviews (3)", "description": "has assessment", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Capstone Project", "description": "has assessment", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Goodfellow et al. Deep Learning", "description": "requires textbook", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Room 312 Engineering Building", "description": "holds office hours at Tuesdays 2:00–4:00 PM", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Auditorium B", "description": "lectures at Mon/Wed/Fri 10:00–10:50 AM", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Adaptive Sparse Attention (ASA) framework", "description": "developed", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Efficient Attention", "tgt_src": "Adaptive Sparse Attention (ASA) framework", "description": "includes", "weight": 1, "source_id": "109f5f829ea72e157c41f7404f397f25", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Massachusetts Institute of Technology", "description": "received Ph.D. in Computer Science in 2018", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Prof. David Park", "description": "was supervised by", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Efficient Attention Mechanisms for High-Dimensional Data", "description": "authored dissertation", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Adaptive Sparse Attention (ASA)", "description": "introduced foundational ideas that evolved into ASA", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Stanford University", "description": "completed B.S. in Computer Science", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Adaptive Sparse Attention for Scalable Transformers", "description": "authored paper", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Sub-Linear Attention via Learned Sparsity Patterns", "description": "co-authored paper", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. David Park", "tgt_src": "Sub-Linear Attention via Learned Sparsity Patterns", "description": "co-authored paper", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Sparse Attention and Efficient Transformers", "description": "has research interest in", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Few-Shot Learning", "description": "has research interest in", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Medical Imaging with AI", "description": "has research interest in", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Alex Kim", "description": "supervises as Ph.D. student", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Priya Sharma", "description": "supervises as Ph.D. student", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Marcus Johnson", "description": "supervises as M.S. student", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "Sparse Attention", "description": "focuses on", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "Adaptive Sparse Attention (ASA)", "description": "optimizes", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "Few-Shot Learning", "description": "focuses on", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Marcus Johnson", "tgt_src": "Medical Imaging with AI", "description": "focuses on", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Marcus Johnson", "tgt_src": "Prototypical Networks", "description": "works with", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Dr. Emily Watson", "tgt_src": "Department of Biomedical Engineering", "description": "affiliated with", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Dr. Emily Watson", "description": "collaborates on few-shot rare disease diagnosis", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Prof. Maria Rodriguez", "description": "collaborates on tensor decomposition methods for attention weight matrices", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Prof. James Liu", "description": "collaborates on bridging curricula and federated PCA", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "CS 301 (Advanced Machine Learning)", "description": "teaches", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "BME 305 (AI-assisted medical diagnosis)", "description": "delivers guest lectures in", "weight": 1, "source_id": "4994d1f6534ca446182f4d9d1b781db5", "level": 0}
+{"src_tgt": "Prof. Maria Rodriguez", "tgt_src": "MATH 205", "description": "instructs", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Mathematics Hall, Room 201", "description": "held in", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Spring 2026", "description": "semester", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Systems of Linear Equations", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Gaussian elimination", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Reduced row echelon form (RREF)", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Matrix multiplication", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Invertible matrix", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Determinant", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Vector space", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Subspace", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Basis", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Dimension", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Column space", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Null space", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "PCA (Principal Component Analysis)", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "SVD (Singular Value Decomposition)", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Eigenvalue", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Eigenvector", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Characteristic polynomial", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Eigenspace", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Diagonalization", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Spectral theorem", "description": "covers", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Weekly problem sets", "description": "has assignment", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Two midterm exams", "description": "has assignment", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Final project", "description": "has assignment", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Prof. Maria Rodriguez", "tgt_src": "Office hours", "description": "holds", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Office hours", "tgt_src": "Math Building Room 410", "description": "located in", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "CS 301", "description": "teaches", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "PCA (Principal Component Analysis)", "tgt_src": "SVD (Singular Value Decomposition)", "description": "uses", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "PCA (Principal Component Analysis)", "tgt_src": "CS 301", "description": "appears in", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Vector space", "tgt_src": "PCA (Principal Component Analysis)", "description": "is critical for", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Spectral theorem", "tgt_src": "PCA (Principal Component Analysis)", "description": "guarantees PCA works", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Characteristic polynomial", "tgt_src": "Eigenvalue", "description": "yields eigenvalues", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Eigenspace", "tgt_src": "Null space", "description": "is null space of (A - λI)", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Determinant", "tgt_src": "Invertible matrix", "description": "determines invertibility", "weight": 1, "source_id": "8d4f756b348d2d3c83cf0b015afa9ed6", "level": 0}
+{"src_tgt": "Prof. Rodriguez", "tgt_src": "Math Building Room 410", "description": "holds office hours on Mondays and Wednesdays, 1:00–2:30 PM", "weight": 1, "source_id": "12653b18216def3218661e9a7bc74d82", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "Homework 1", "description": "is author of", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Homework 1", "tgt_src": "CS 301", "description": "is part of", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "CS 301", "description": "teaches", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Homework 1", "tgt_src": "Backpropagation Through a Two-Layer Network", "description": "contains problem", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Homework 1", "tgt_src": "Transformer Attention Complexity", "description": "contains problem", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Homework 1", "tgt_src": "SGD Convergence", "description": "contains problem", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Homework 1", "tgt_src": "Conceptual Questions", "description": "contains problem", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Backpropagation Through a Two-Layer Network", "tgt_src": "Two-layer fully connected network", "description": "uses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Backpropagation Through a Two-Layer Network", "tgt_src": "ReLU activation", "description": "uses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Backpropagation Through a Two-Layer Network", "tgt_src": "Loss L = ½‖ŷ − y‖²", "description": "uses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Backpropagation Through a Two-Layer Network", "tgt_src": "Chain rule", "description": "derives gradients using", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Backpropagation Through a Two-Layer Network", "tgt_src": "NumPy implementation", "description": "includes code for", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Transformer Attention Complexity", "tgt_src": "Scaled dot-product attention", "description": "analyzes complexity of", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Transformer Attention Complexity", "tgt_src": "ASA framework", "description": "discusses as alternative", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "ASA framework", "tgt_src": "Scaled dot-product attention", "description": "reduces complexity of", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "ASA framework", "description": "created", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "SGD Convergence", "tgt_src": "Learning rate decay", "description": "discusses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "SGD Convergence", "tgt_src": "Mini-batch SGD", "description": "discusses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Conceptual Questions", "tgt_src": "Batch normalization", "description": "discusses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Conceptual Questions", "tgt_src": "Residual connections", "description": "discusses", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Batch normalization", "tgt_src": "Internal covariate shift", "description": "reduces", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Residual connections", "tgt_src": "Vanishing gradient", "description": "mitigates", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Residual connections", "tgt_src": "ResNets", "description": "used in", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Conceptual Questions", "tgt_src": "Goodfellow et al., Deep Learning", "description": "references", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "Conceptual Questions", "tgt_src": "Vaswani et al., 'Attention Is All You Need'", "description": "references", "weight": 1, "source_id": "ca47c295d79a631d3e2d7b0da6bbd849", "level": 0}
+{"src_tgt": "batch normalization", "tgt_src": "internal covariate shift", "description": "reduces", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "batch normalization", "tgt_src": "higher learning rates", "description": "allows", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "batch normalization", "tgt_src": "mild regularizer", "description": "acts as", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "batch normalization", "tgt_src": "loss landscape", "description": "smooths", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "ResNets", "tgt_src": "skip connections", "description": "uses", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "skip connections", "tgt_src": "vanishing gradient problem", "description": "mitigates", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "skip connections", "tgt_src": "gradient flow", "description": "creates direct path for", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "skip connections", "tgt_src": "networks with hundreds of layers", "description": "enables training of", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "vanishing gradient problem", "tgt_src": "deep networks", "description": "occurs in", "weight": 1, "source_id": "42f9ae27a38f6459b8e7b93851ba2698", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Prof. Thomas Brown", "description": "has instructor", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Spring 2026", "description": "is offered in", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Department of Statistics", "description": "has department", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Probability Axioms (Kolmogorov)", "description": "covers", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Bayesian Inference", "description": "covers", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Hypothesis Testing", "description": "covers", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "STAT 210", "tgt_src": "Maximum Likelihood Estimation", "description": "covers", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Probability Axioms (Kolmogorov)", "tgt_src": "Conditional Probability", "description": "underlies", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Probability Axioms (Kolmogorov)", "tgt_src": "Bayes' Theorem", "description": "underlies", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Conditional Probability", "tgt_src": "Bayes' Theorem", "description": "used in", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayes' Theorem", "tgt_src": "Bayesian Inference", "description": "is foundation of", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "posterior consistency", "description": "has property", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "random variable", "tgt_src": "Cumulative distribution function (CDF)", "description": "is characterized by", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Central Limit Theorem", "tgt_src": "Normal(μ, σ²)", "description": "converges in distribution to", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Conjugate Priors", "description": "includes", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Conjugate Priors", "tgt_src": "Beta(α, β)", "description": "has example", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Conjugate Priors", "tgt_src": "Normal(μ, σ²)", "description": "has example", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Likelihood", "description": "uses", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Prior", "description": "uses", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Posterior", "description": "produces", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Regularization", "description": "connects to", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Few-shot learning", "description": "connects to", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayesian Inference", "tgt_src": "Model selection", "description": "connects to", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayes' Theorem", "tgt_src": "Likelihood", "description": "involves", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayes' Theorem", "tgt_src": "Prior", "description": "involves", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Bayes' Theorem", "tgt_src": "Posterior", "description": "results in", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "Few-shot learning", "description": "works on", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "CS 301", "tgt_src": "Few-shot learning", "description": "covers", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "Prototypical Networks", "description": "includes approach", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Model selection", "tgt_src": "Occam's razor", "description": "uses principle", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "p-value", "description": "uses", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "Type I error", "description": "has", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "Type II error", "description": "has", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "Power", "description": "has", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "H₀ (null hypothesis)", "description": "tests", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Hypothesis Testing", "tgt_src": "H₁ (alternative hypothesis)", "description": "tests", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Maximum Likelihood Estimation", "tgt_src": "Likelihood", "description": "maximizes", "weight": 1, "source_id": "e5a0b3ea1403dec714c8fefc7a49e68f", "level": 0}
+{"src_tgt": "Type I error", "tgt_src": "H₀", "description": "Rejecting H₀ when it is true", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Type I error", "tgt_src": "α", "description": "Probability α", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Type II error", "tgt_src": "H₀", "description": "Failing to reject H₀", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Type II error", "tgt_src": "H₁", "description": "When H₁ is true", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Type II error", "tgt_src": "β", "description": "Probability β", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Power", "tgt_src": "β", "description": "Power = 1 − β", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Maximum Likelihood Estimation", "tgt_src": "consistency", "description": "Property: consistency", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Maximum Likelihood Estimation", "tgt_src": "asymptotic normality", "description": "Property: asymptotic normality", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Maximum Likelihood Estimation", "tgt_src": "efficiency", "description": "Property: efficiency", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "Prof. Brown", "tgt_src": "Statistics Building Room 215", "description": "Office hours: Tuesdays and Thursdays, 3:00–4:30 PM", "weight": 1, "source_id": "f6b1996b49537835cd1b8584ca0da148", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Prof. James Liu", "description": "has instructor", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "MATH 205: Linear Algebra", "tgt_src": "Prof. Maria Rodriguez", "description": "taught by", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "STAT 210: Probability and Statistical Inference", "tgt_src": "Prof. Thomas Brown", "description": "has notes by", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 301", "tgt_src": "Prof. Sarah Chen", "description": "taught by", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "MATH 205: Linear Algebra", "description": "has prerequisite", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "STAT 210: Probability and Statistical Inference", "description": "has prerequisite", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "CS 301", "description": "is prerequisite for", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Introduction and Data Exploration", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Linear Models", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Regularization", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Decision Trees and Ensemble Methods", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Neural Networks and Backpropagation", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Unsupervised Learning", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Model Evaluation", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Ethics in ML", "description": "covers topic", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "scikit-learn", "description": "uses tool", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "PyTorch", "description": "uses tool", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "An Introduction to Statistical Learning (ISLR)", "description": "uses textbook", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Deep Learning", "description": "uses textbook", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Homework (5 sets)", "description": "has assessment component", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Programming Projects", "description": "has assessment component", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Final Exam", "description": "has assessment component", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Participation", "description": "has assessment component", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Sentiment Analysis Pipeline", "description": "has past project", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Medical Image Preprocessing", "description": "has past project", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "Federated Learning Prototype", "description": "has past project", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Sentiment Analysis Pipeline", "tgt_src": "LSTM networks", "description": "uses architecture", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Medical Image Preprocessing", "tgt_src": "U-Net", "description": "uses architecture", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Medical Image Preprocessing", "tgt_src": "Dr. Emily Watson", "description": "in collaboration with", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Federated Learning Prototype", "tgt_src": "Prof. James Liu", "description": "supervised by", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Federated Learning Prototype", "tgt_src": "Prof. Sarah Chen", "description": "supervised by", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Regularization", "tgt_src": "STAT 210: Probability and Statistical Inference", "description": "references (Bayesian priors)", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Unsupervised Learning", "tgt_src": "MATH 205: Linear Algebra", "description": "references (eigenvalue theory)", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Decision Trees and Ensemble Methods", "tgt_src": "XGBoost", "description": "includes library", "weight": 1, "source_id": "ac3da03dfa875a7bc3a6732a2f643ad9", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "MATH 205 — Homework 2: PCA and SVD", "description": "author of", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "MATH 205", "tgt_src": "Prof. Maria Rodriguez", "description": "taught by", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "MATH 205 — Homework 2: PCA and SVD", "tgt_src": "MATH 205", "description": "part of course", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "MATH 205 — Homework 2: PCA and SVD", "tgt_src": "Principal Component Analysis (PCA)", "description": "covers", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "MATH 205 — Homework 2: PCA and SVD", "tgt_src": "Singular Value Decomposition (SVD)", "description": "covers", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Sample covariance matrix S", "description": "uses", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Lagrange multipliers", "description": "derived using", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "First principal component v₁", "tgt_src": "Sample covariance matrix S", "description": "eigenvector of", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "CS 301", "tgt_src": "Principal Component Analysis (PCA)", "description": "uses", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Efficient attention", "description": "used in", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Visualization", "description": "used in", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Data preprocessing", "description": "used in", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Spectral theorem", "tgt_src": "Sample covariance matrix S", "description": "applied to", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Principal Component Analysis (PCA)", "tgt_src": "Spectral theorem", "description": "guaranteed by", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Eckart–Young theorem", "tgt_src": "Low-rank approximation", "description": "states", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Low-rank approximation", "tgt_src": "Dimensionality reduction", "description": "foundation for", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Low-rank approximation", "tgt_src": "Image compression", "description": "foundation for", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Low-rank approximation", "tgt_src": "Efficient attention", "description": "foundation for", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Randomized SVD", "tgt_src": "Singular Value Decomposition (SVD)", "description": "efficient approximation of", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Prof. Maria Rodriguez", "tgt_src": "Randomized SVD", "description": "researches", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "ASA framework", "description": "explored", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "ASA framework", "tgt_src": "Low-rank approximation", "description": "uses", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "Rank-1 approximation", "tgt_src": "Low-rank approximation", "description": "special case of", "weight": 1, "source_id": "e894072e4ce8618691240d0402e67e1c", "level": 0}
+{"src_tgt": "AᵀA", "tgt_src": "A", "description": "is the product of A transpose and A", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "eigenvalues of AᵀA", "tgt_src": "AᵀA", "description": "are the eigenvalues of", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "singular values of A", "tgt_src": "A", "description": "are the singular values of", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "A₁", "tgt_src": "A", "description": "is the rank-1 approximation of", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "‖A − A₁‖_F", "tgt_src": "A", "description": "is the Frobenius norm of the difference between A and A₁", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "‖A − A₁‖_F", "tgt_src": "A₁", "description": "is the Frobenius norm of the difference between A and A₁", "weight": 1, "source_id": "3f074b056c49545f44c625b9c0fcad48", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "Marcus Johnson", "description": "co-authors", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "Prototypical Networks with Cross-Attention", "description": "author of", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Marcus Johnson", "tgt_src": "Prototypical Networks with Cross-Attention", "description": "author of", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Prototypical Networks with Cross-Attention", "description": "advisor of", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Dr. Emily Watson", "tgt_src": "Prototypical Networks with Cross-Attention", "description": "external collaborator of", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Dr. Emily Watson", "tgt_src": "Dermoscopy Dataset", "description": "provided access to", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "ASA Framework", "description": "developed", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "Prototypical Networks", "description": "outperforms (5.3% improvement)", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "Cross-attention refinement", "description": "uses", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "Sparse attention regularization", "description": "uses", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "ResNet-18 encoder", "description": "uses", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "73.5% 5-shot accuracy", "description": "achieves", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks", "tgt_src": "68.2% 5-shot accuracy", "description": "achieves", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Matching Networks", "tgt_src": "65.7% 5-shot accuracy", "description": "achieves", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "Matching Networks", "description": "outperforms", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Cross-attention refinement", "tgt_src": "Sparse attention regularization", "description": "regularized by", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "Cross-attention refinement", "description": "provided feedback on", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prototypical Networks with Cross-Attention", "tgt_src": "CS 301 Advanced Machine Learning", "description": "associated with", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Dermoscopy Dataset", "tgt_src": "15 dermatological conditions", "description": "spans", "weight": 1, "source_id": "fd851aba47dc95b50417570ea6d62fb4", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "Watson's clinical decision support pipeline", "description": "provided guidance and shared insights from the ASA framework", "weight": 1, "source_id": "cbb2cf4bf3e254f3ea06468e71ed6096", "level": 0}
+{"src_tgt": "Dr. Emily Watson", "tgt_src": "Watson's clinical decision support pipeline", "description": "provided access to the dermoscopy dataset and clinical expertise", "weight": 1, "source_id": "cbb2cf4bf3e254f3ea06468e71ed6096", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "attention implementation", "description": "provided valuable feedback on", "weight": 1, "source_id": "cbb2cf4bf3e254f3ea06468e71ed6096", "level": 0}
+{"src_tgt": "Watson's clinical decision support pipeline", "tgt_src": "biomedical_ml_collab.md", "description": "see also for broader collaboration context", "weight": 1, "source_id": "cbb2cf4bf3e254f3ea06468e71ed6096", "level": 0}
+{"src_tgt": "Watson's clinical decision support pipeline", "tgt_src": "hw3_transformers.md", "description": "see also for related coursework", "weight": 1, "source_id": "cbb2cf4bf3e254f3ea06468e71ed6096", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "CS 301 Advanced Machine Learning", "description": "wrote the literature review for this course", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "CS 301 Advanced Machine Learning", "description": "teaches this course", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Siamese Networks", "tgt_src": "Koch et al., 2015", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Matching Networks", "tgt_src": "Vinyals et al., 2016", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Matching Networks", "tgt_src": "Episodic training", "description": "introduced", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Prototypical Networks", "tgt_src": "Snell et al., 2017", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Prototypical Networks", "tgt_src": "Matching Networks", "description": "simplifies", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "MAML", "tgt_src": "Finn et al., 2017", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Reptile", "tgt_src": "Nichol et al., 2018", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Reptile", "tgt_src": "MAML", "description": "simplifies by avoiding second-order gradients", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "FEAT", "tgt_src": "Ye et al., 2020", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "ASA Framework", "tgt_src": "Chen et al., 2022", "description": "introduced by", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "ASA Framework", "tgt_src": "Prof. Sarah Chen", "description": "attributed to (Prof. Chen's framework)", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "capstone project", "tgt_src": "Prototypical Networks", "description": "builds directly on this framework", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "capstone project", "tgt_src": "ASA Framework", "description": "adapted ASA-inspired sparsity into cross-attention layer", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "capstone project", "tgt_src": "dermoscopy dataset", "description": "achieved 73.5% 5-shot accuracy", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Meta-Learning", "tgt_src": "Few-shot learning", "description": "meta-learning methods are surveyed for few-shot classification", "weight": 1, "source_id": "a280dd8c816b9635c2f01d4214065a51", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "metric learning", "description": "uses", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "attention mechanisms", "description": "uses", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "metric learning", "tgt_src": "attention mechanisms", "description": "combined in few-shot learning approaches", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "MAML", "tgt_src": "Optimization", "description": "has type", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Transformer/ASA", "tgt_src": "Attention", "description": "has type", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "cross-modal few-shot learning", "description": "has future direction", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "continual few-shot learning", "description": "has future direction", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Few-shot learning", "tgt_src": "clinical deployment", "description": "has future direction", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "clinical deployment", "tgt_src": "biomedical_ml_collab.md", "description": "references", "weight": 1, "source_id": "91ad6a2724e88622ae09952464c1f4fc", "level": 0}
+{"src_tgt": "Prof. Thomas Brown", "tgt_src": "STAT 210", "description": "is instructor of", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Derek Lee", "tgt_src": "STAT 210", "description": "is TA of", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "few-shot learning", "description": "researches", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Prof. Chen", "tgt_src": "Bayesian linear regression", "description": "research on few-shot learning relates to Bayesian updating in this lab", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Prof. Liu", "tgt_src": "CS 201", "description": "teaches", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "CS 201", "tgt_src": "Gaussian prior", "description": "highlighted connection to L2 regularization", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "CS 201", "tgt_src": "Laplace prior", "description": "highlighted connection to L1 regularization", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Gaussian prior", "tgt_src": "L2 (ridge) regularization", "description": "is equivalent to", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Laplace prior", "tgt_src": "L1 (lasso) regularization", "description": "yields", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "Prototypical Network", "tgt_src": "Bayesian linear regression", "description": "class prototype interpreted as posterior mean", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "few-shot learning", "tgt_src": "online Bayesian inference", "description": "is a form of", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "Bayesian linear regression", "tgt_src": "posterior consistency", "description": "exhibits posterior consistency", "weight": 1, "source_id": "ef2b299a057c15d596f09e63423e226b", "level": 0}
+{"src_tgt": "prototype", "tgt_src": "posterior mean", "description": "interpreted as", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "posterior mean", "tgt_src": "class centroid", "description": "is mean of", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "support set", "tgt_src": "observed data", "description": "plays role of", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "prototype", "tgt_src": "class centroid", "description": "converges to as more support examples added, analogous to Bayesian posterior convergence", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "essay", "tgt_src": "Bayesian linear regression", "description": "connects to ridge/lasso regularization or few-shot learning", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "essay", "tgt_src": "ridge/lasso regularization", "description": "alternative connection from Bayesian linear regression", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "essay", "tgt_src": "few-shot learning", "description": "alternative connection from Bayesian linear regression", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "notebook", "tgt_src": "posterior computation and visualization", "description": "contains", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "CS 201", "tgt_src": "ridge/lasso regularization", "description": "covers", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "CS 301", "tgt_src": "few-shot learning", "description": "covers", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "Statistics Computer Lab", "tgt_src": "Room 101", "description": "is located in", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}
+{"src_tgt": "TA Derek Lee", "tgt_src": "Wednesdays 4:00–5:30 PM", "description": "has office hours at", "weight": 1, "source_id": "4de1a37695c6dbaecfd2b4a3bd76feb1", "level": 0}

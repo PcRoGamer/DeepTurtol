@@ -37,6 +37,8 @@ PROVIDER = "lightrag"
 # before any document is successfully processed.
 _OUTPUT_GLOBS = ("vdb_*.json", "kv_store_text_chunks.json")
 _DOC_STATUS_FILENAME = "kv_store_doc_status.json"
+_TEXT_CHUNKS_FILENAME = "kv_store_text_chunks.json"
+_CHUNK_VECTORS_FILENAME = "vdb_chunks.json"
 _SUCCESS_STATUSES = {"processed", "completed", "done", "success", "indexed"}
 _FAILED_STATUSES = {"failed", "error"}
 
@@ -56,7 +58,7 @@ def has_output(root_dir: Path | None) -> bool:
 
     status_signal = _doc_status_has_success(root)
     if status_signal is not None:
-        return status_signal
+        return status_signal and _has_queryable_chunk_artifacts(root)
 
     for pattern in _OUTPUT_GLOBS:
         for path in root.glob(pattern):
@@ -66,6 +68,23 @@ def has_output(root_dir: Path | None) -> bool:
             except OSError:
                 continue
     return False
+
+
+def _has_queryable_chunk_artifacts(root_dir: Path) -> bool:
+    """Require both persisted chunks and their vector-search index.
+
+    A document can be marked ``processed`` before LightRAG flushes all storages.
+    Treating that intermediate state as ready hid GraphML/vector flush failures
+    and let a KB report success even though every query returned no context.
+    """
+    chunks = _read_json_object(root_dir / _TEXT_CHUNKS_FILENAME)
+    if not chunks:
+        return False
+    vectors = _read_json_object(root_dir / _CHUNK_VECTORS_FILENAME)
+    if not vectors:
+        return False
+    data = vectors.get("data")
+    return bool(data) if isinstance(data, (list, dict)) else bool(vectors.get("matrix"))
 
 
 def _doc_status_has_success(root_dir: Path) -> bool | None:
@@ -139,6 +158,17 @@ def _read_doc_status(root_dir: Path) -> dict[str, Any] | None:
         return payload if isinstance(payload, dict) else None
     except Exception as exc:
         logger.warning("Failed to read LightRAG doc status %s: %s", path, exc)
+        return None
+
+
+def _read_json_object(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    try:
+        with open(path, encoding="utf-8") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else None
+    except Exception:
         return None
 
 

@@ -1,0 +1,16 @@
+﻿ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ benchmark.py ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé RAG Benchmark                                                               Γöé
+Γöé Adapters: lightrag                                                          Γöé
+Γöé Stages: 1->2->3                                                             Γöé
+Γöé QA pairs: 30                                                                Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Initializing lightrag ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+C:\Users\Admin\miniconda3\python.exe : 23:36:33 adapters.lightrag_adapter INFO Initializing LightRAG in 
+C:\Users\Admin\Desktop\DeepTurtol\benchmarks\rag_comparison\vendor\lightrag_benchmark
+    + CategoryInfo          : NotSpecified: (23:36:33 adapte...htrag_benchmark:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+23:36:34 adapters.lightrag_adapter INFO Loading embedding model Qwen/Qwen3-Embedding-0.6B (one-time ~50s)...
+23:36:34 fastembed_qnn.patcher INFO [OK] Qualcomm QNN SDK library paths initialized via onnxruntime_qnn
+23:36:34 fastembed_qnn.embedding INFO Registered custom model 'Qwen/Qwen3-Embedding-0.6B' -> 
+'shawnw3i/Qwen3-Embedding-0.6B-ONNX' (dim=1024) in FastEmbed registry

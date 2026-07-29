@@ -1068,6 +1068,74 @@ class ListNotebookTool(_PromptHintsMixin, BaseTool):
         )
 
 
+class LibrarySearchTool(_PromptHintsMixin, BaseTool):
+    """Search and read lecture transcripts/notes from the media library."""
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="library_search",
+            description=(
+                "List, search, or read the user's lecture and video library, "
+                "including UniMelb Echo360 imports, transcripts, and study notes."
+            ),
+            parameters=[
+                ToolParameter(
+                    name="action",
+                    type="string",
+                    enum=["list", "search", "read"],
+                    description="Operation to perform.",
+                    required=False,
+                    default="search",
+                ),
+                ToolParameter(
+                    name="query",
+                    type="string",
+                    description="Topic or phrase for action='search'.",
+                    required=False,
+                ),
+                ToolParameter(
+                    name="item_id",
+                    type="string",
+                    description="Library item identifier for action='read'.",
+                    required=False,
+                ),
+                ToolParameter(
+                    name="artifact",
+                    type="string",
+                    enum=["notes", "transcript"],
+                    description="Text to return for action='read'.",
+                    required=False,
+                    default="notes",
+                ),
+                ToolParameter(
+                    name="limit",
+                    type="integer",
+                    description="Maximum results (1-20).",
+                    required=False,
+                    default=8,
+                ),
+            ],
+        )
+
+    async def execute(self, **kwargs: Any) -> ToolResult:
+        from deeptutor.tools.library_search import query_library
+
+        outcome = await asyncio.to_thread(
+            query_library,
+            action=str(kwargs.get("action") or "search"),
+            query=str(kwargs.get("query") or ""),
+            item_id=str(kwargs.get("item_id") or ""),
+            artifact=str(kwargs.get("artifact") or "notes"),
+            limit=int(kwargs.get("limit") or 8),
+        )
+        return ToolResult(
+            content=outcome.text,
+            sources=outcome.sources,
+            metadata=outcome.metadata,
+            success="error" not in outcome.metadata,
+        )
+
+
 class WriteNoteTool(_PromptHintsMixin, BaseTool):
     """Create OR edit a notebook record from the chat agent.
 
@@ -1656,6 +1724,7 @@ BUILTIN_TOOL_TYPES: tuple[type[BaseTool], ...] = (
     ExecTool,
     WebFetchTool,
     ListNotebookTool,
+    LibrarySearchTool,
     WriteNoteTool,
     GithubTool,
     AskUserTool,
@@ -1734,6 +1803,7 @@ CONFIGURABLE_BUILTIN_TOOL_NAMES: tuple[str, ...] = (
     "write_memory",
     "read_skill",
     "list_notebook",
+    "library_search",
     "write_note",
     "web_fetch",
     "github",
@@ -1770,6 +1840,7 @@ __all__ = [
     "ImagegenTool",
     "VideogenTool",
     "ListNotebookTool",
+    "LibrarySearchTool",
     "PaperSearchToolWrapper",
     "PartnerMemorizeTool",
     "PartnerReadTool",

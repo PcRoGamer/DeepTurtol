@@ -1,0 +1,47 @@
+# CS 301: Advanced Machine Learning — Spring 2026
+
+**Instructor:** Prof. Sarah Chen
+**Office Hours:** Tuesdays 2:00–4:00 PM, Room 312 Engineering Building
+**Lectures:** Mon/Wed/Fri 10:00–10:50 AM, Auditorium B
+**Teaching Assistants:** Alex Kim, Priya Sharma
+
+## Prerequisites
+
+- **CS 201: Introduction to Machine Learning** (Prof. James Liu) — a solid grounding in regression, classification, and basic neural networks is expected.
+- **MATH 205: Linear Algebra** (Prof. Maria Rodriguez) — matrix decompositions, eigenvalue theory, and vector-space geometry are used throughout the course.
+- **STAT 210: Probability and Statistical Inference** (Prof. Thomas Brown) — probability distributions, Bayesian reasoning, and hypothesis testing form the statistical backbone of modern ML.
+
+## Course Description
+
+This course explores advanced topics in machine learning with a focus on transformer architectures, attention mechanisms, and reinforcement learning. Students will implement core algorithms from scratch, read and critique recent research papers, and complete a capstone project in small teams.
+
+## Topics
+
+1. **Backpropagation and Optimization** — automatic differentiation, SGD variants, Adam, learning-rate scheduling.
+2. **Transformer Architectures** — self-attention, multi-head attention, positional encoding, layer normalization.
+3. **Efficient Attention** — sparse attention patterns, linear attention approximations, Prof. Chen's Adaptive Sparse Attention (ASA) framework.
+4. **Few-Shot and Meta-Learning** — Prototypical Networks, MAML, matching networks, and connections to few-shot medical imaging (see Prof. Chen's research profile).
+5. **Reinforcement Learning** — MDPs, policy gradients, PPO, and applications in robotics.
+6. **Generative Models** — VAEs, GANs, diffusion models, and attention-based sequence generation.
+7. **Ethics and Safety** — bias, fairness, interpretability, and responsible deployment.
+
+## Assessment
+
+| Component          | Weight |
+|--------------------|--------|
+| Homework (4 sets)  | 40%    |
+| Midterm Exam       | 15%    |
+| Paper Reviews (3)  | 10%    |
+| Capstone Project   | 35%    |
+
+## Required Textbook
+
+- Goodfellow, I., Bengio, Y., and Courville, A. *Deep Learning*. MIT Press, 2016.
+
+## Connections to Other Courses
+
+This course builds directly on the foundational material from Prof. James Liu's CS 201. The mathematical tools from MATH 205 (linear algebra) and the statistical reasoning from STAT 210 are essential for understanding the theoretical underpinnings of the algorithms we study. Students who have not completed these prerequisites should consult with the instructor before enrolling.
+
+## Contact
+
+For questions, email s.chen@university.edu or visit office hours.

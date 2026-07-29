@@ -8,6 +8,7 @@ Settings catalog UI.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 from deeptutor.services.voice.adapters import get_stt_adapter, get_tts_adapter
@@ -53,6 +54,7 @@ async def transcribe_audio(
     filename: str = "audio.webm",
     content_type: str = "application/octet-stream",
     language: str | None = None,
+    model: str | None = None,
 ) -> str:
     """Transcribe ``audio`` using the active STT catalog selection."""
     from deeptutor.services.config.provider_runtime import resolve_stt_runtime_config
@@ -60,6 +62,8 @@ async def transcribe_audio(
     config = resolve_stt_runtime_config(catalog=catalog)
     if language:
         config.language = language
+    if model:
+        config = replace(config, model=model)
     adapter = get_stt_adapter(config.adapter)
     return await adapter.transcribe(audio, config, filename=filename, content_type=content_type)
 

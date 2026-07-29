@@ -1,0 +1,27 @@
+llm:
+  base_url: "https://opencode.ai/zen/v1"
+  api_key: "public"
+  model: "deepseek-v4-flash-free"
+
+embedding:
+  provider: "fastembed_qnn"
+  model: "Qwen/Qwen3-Embedding-0.6B"
+  dimension: 1024
+
+leanrag:
+  mysql:
+    host: "localhost"
+    port: 3306
+    user: "root"
+    password: "leanrag_benchmark"
+
+benchmark:
+  stages:
+    - name: "stage1"
+      doc_count: 5
+    - name: "stage2"
+      doc_count: 5
+    - name: "stage3"
+      doc_count: 10
+  queries_per_stage: 30
+  rebuild_stage: true

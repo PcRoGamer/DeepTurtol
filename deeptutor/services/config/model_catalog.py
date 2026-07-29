@@ -151,7 +151,33 @@ def _default_catalog() -> dict[str, Any]:
                 ]
             },
             "tts": _service_shell(),
-            "stt": _service_shell(),
+            # A ready-to-complete preset: Groq's free tier is suitable for
+            # personal dictation, but its API key belongs to each user and
+            # cannot be bundled with DeepTutor. Keep it inactive until the
+            # user enters that key in Settings > Speech-to-Text.
+            "stt": {
+                "active_profile_id": None,
+                "active_model_id": None,
+                "profiles": [
+                    {
+                        "id": "stt-profile-groq-free",
+                        "name": "Groq (Free Tier — add API key)",
+                        "binding": "groq",
+                        "base_url": "https://api.groq.com/openai/v1",
+                        "api_key": "",
+                        "requires_api_key": True,
+                        "api_version": "",
+                        "extra_headers": {},
+                        "models": [
+                            {
+                                "id": "stt-model-groq-whisper-large-v3-turbo",
+                                "name": "Whisper Large v3 Turbo (Free Tier)",
+                                "model": "whisper-large-v3-turbo",
+                            }
+                        ],
+                    }
+                ],
+            },
             "imagegen": _service_shell(),
             "videogen": _service_shell(),
         },
@@ -322,7 +348,17 @@ class ModelCatalogService:
                             model.setdefault("resolution", "")
             profile_ids = {profile.get("id") for profile in profiles}
             if profiles and service.get("active_profile_id") not in profile_ids:
-                service["active_profile_id"] = profiles[0]["id"]
+                # Bundled cloud presets can provide their endpoint/model without
+                # bundling a user's secret. Do not auto-activate one until its
+                # required key has been supplied.
+                eligible_profiles = [
+                    profile
+                    for profile in profiles
+                    if not profile.get("requires_api_key") or str(profile.get("api_key") or "").strip()
+                ]
+                service["active_profile_id"] = (
+                    eligible_profiles[0]["id"] if eligible_profiles else None
+                )
                 changed = True
             if service_name in {"llm", "embedding", "tts", "stt", "imagegen", "videogen"}:
                 active_profile = self.get_active_profile(catalog, service_name)
@@ -330,6 +366,9 @@ class ModelCatalogService:
                 model_ids = {model.get("id") for model in models}
                 if models and service.get("active_model_id") not in model_ids:
                     service["active_model_id"] = models[0]["id"]
+                    changed = True
+                elif not models and service.get("active_model_id") is not None:
+                    service["active_model_id"] = None
                     changed = True
         return changed
 
@@ -341,8 +380,7 @@ class ModelCatalogService:
         for profile in service.get("profiles", []):
             if profile.get("id") == active_id:
                 return profile
-        profiles = service.get("profiles", [])
-        return profiles[0] if profiles else None
+        return None
 
     def get_active_model(self, catalog: dict[str, Any], service_name: str) -> dict[str, Any] | None:
         if service_name == "search":

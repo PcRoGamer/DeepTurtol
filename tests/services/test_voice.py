@@ -24,7 +24,10 @@ from deeptutor.services.voice.adapters.openai_compat import (
     OpenAICompatTTSAdapter,
     OpenRouterTTSAdapter,
 )
+from deeptutor.services.voice.adapters import get_stt_adapter
+from deeptutor.services.voice.adapters.qnn_whisper import QNNWhisperSTTAdapter
 from deeptutor.services.voice.base import (
+    VoiceProviderError,
     build_auth_headers,
     join_audio_path,
     strip_markdown_for_speech,
@@ -316,6 +319,28 @@ def test_resolve_stt_config_picks_openrouter_base64_style() -> None:
     assert cfg.base_url == "https://openrouter.ai/api/v1"
 
 
+def test_resolve_stt_config_picks_local_qnn_whisper_adapter() -> None:
+    catalog = _voice_catalog()
+    profile = catalog["services"]["stt"]["profiles"][0]
+    profile["binding"] = "qnn_whisper"
+    profile["api_key"] = ""
+    profile["models"][0]["model"] = "base"
+
+    cfg = resolve_stt_runtime_config(catalog=catalog)
+
+    assert cfg.provider_name == "qnn_whisper"
+    assert cfg.adapter == "qnn_whisper"
+    assert cfg.model == "base"
+    assert get_stt_adapter(cfg.adapter).__class__.__name__ == "QNNWhisperSTTAdapter"
+
+
+@pytest.mark.asyncio
+async def test_qnn_whisper_rejects_unsupported_platform(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("deeptutor.services.voice.adapters.qnn_whisper.platform.system", lambda: "Linux")
+    with pytest.raises(VoiceProviderError, match="native Windows ARM64"):
+        await QNNWhisperSTTAdapter().transcribe(b"audio", STTConfig(model="base"), filename="clip.wav")
+
+
 def test_resolve_tts_config_picks_openrouter_adapter() -> None:
     catalog = _voice_catalog()
     catalog["services"]["tts"]["profiles"][0]["binding"] = "openrouter"
@@ -351,3 +376,19 @@ async def test_transcribe_audio_facade(monkeypatch: pytest.MonkeyPatch) -> None:
     _capture_post(monkeypatch, resp)
     text = await transcribe_audio(b"bytes", catalog=_voice_catalog(), filename="x.webm")
     assert text == "transcribed"
+
+
+@pytest.mark.asyncio
+async def test_transcribe_audio_model_override(monkeypatch: pytest.MonkeyPatch) -> None:
+    resp = httpx.Response(200, json={"text": "lecture"})
+    captured = _capture_post(monkeypatch, resp)
+
+    text = await transcribe_audio(
+        b"bytes",
+        catalog=_voice_catalog(),
+        filename="lecture.webm",
+        model="large-v3-turbo",
+    )
+
+    assert text == "lecture"
+    assert captured["json"]["model"] == "large-v3-turbo"

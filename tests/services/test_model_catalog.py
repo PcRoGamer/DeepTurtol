@@ -15,9 +15,38 @@ def test_load_creates_empty_catalog_without_dotenv_hydration(tmp_path: Path):
 
     catalog = ModelCatalogService(path=catalog_path).load()
 
-    assert catalog["services"]["llm"]["profiles"] == []
-    assert catalog["services"]["embedding"]["profiles"] == []
-    assert catalog["services"]["search"]["profiles"] == []
+    llm_profile = catalog["services"]["llm"]["profiles"][0]
+    assert llm_profile["binding"] == "opencode"
+    assert llm_profile["api_key"] == "public"
+    assert llm_profile["models"][0]["model"] != "legacy-model"
+
+    embedding_profile = catalog["services"]["embedding"]["profiles"][0]
+    assert embedding_profile["binding"] == "fastembed"
+    assert embedding_profile["models"][0]["model"] != "legacy-embedding"
+    search_profile = catalog["services"]["search"]["profiles"][0]
+    assert search_profile["provider"] == "duckduckgo"
+    stt = catalog["services"]["stt"]
+    assert stt["active_profile_id"] is None
+    assert stt["active_model_id"] is None
+    assert stt["profiles"] == [
+        {
+            "id": "stt-profile-groq-free",
+            "name": "Groq (Free Tier — add API key)",
+            "binding": "groq",
+            "base_url": "https://api.groq.com/openai/v1",
+            "api_key": "",
+            "requires_api_key": True,
+            "api_version": "",
+            "extra_headers": {},
+            "models": [
+                {
+                    "id": "stt-model-groq-whisper-large-v3-turbo",
+                    "name": "Whisper Large v3 Turbo (Free Tier)",
+                    "model": "whisper-large-v3-turbo",
+                }
+            ],
+        }
+    ]
 
 
 def test_load_does_not_sync_existing_active_profiles_from_dotenv(tmp_path: Path):
@@ -157,8 +186,10 @@ def test_load_persists_normalized_active_ids(tmp_path: Path):
     llm = saved["services"]["llm"]
     assert llm["active_profile_id"] == "llm-profile-a"
     assert llm["active_model_id"] == "llm-model-a"
-    assert saved["services"]["embedding"]["profiles"] == []
-    assert saved["services"]["search"]["profiles"] == []
+    embedding_profile = saved["services"]["embedding"]["profiles"][0]
+    assert embedding_profile["binding"] == "fastembed"
+    search_profile = saved["services"]["search"]["profiles"][0]
+    assert search_profile["provider"] == "duckduckgo"
 
 
 def test_update_serializes_concurrent_catalog_mutations(tmp_path: Path):

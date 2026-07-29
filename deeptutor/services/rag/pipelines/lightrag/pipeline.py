@@ -134,6 +134,12 @@ class LightRagPipeline:
         self._ensure_available()
         kb_dir = resolve_kb_dir(self.kb_base_dir, kb_name)
         root_dir = resolve_storage_dir_for_rebuild(kb_dir, None)
+        # ``initialize`` is the explicit rebuild operation.  RAG-Anything's
+        # LightRAG store rejects a second insert of an already processed file
+        # ID, so reusing an existing version directory turns a force-reindex
+        # into a duplicate-document error instead of a clean rebuild.
+        if root_dir.exists():
+            shutil.rmtree(root_dir)
         progress_callback: Optional[Callable[[int, int, str], None]] = kwargs.get(
             "progress_callback"
         )

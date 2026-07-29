@@ -1,0 +1,6 @@
+vendor/LeanRAG/
+results/*.json
+results/*.md
+__pycache__/
+*.pyc
+.milvus_demo.db

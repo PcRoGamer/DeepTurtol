@@ -567,6 +567,22 @@ The Memory Graph shows the whole pyramid — L3 synthesis at the centre, L2 in t
 
 Settings is the operational control plane, with a live status strip (Backend, LLM, Embedding, Search) and one card per area: **Appearance** (theme, UI language, code-block styling), **Network** (API base, ports, CORS), **Models** (LLM, Embedding, Search, Text-to-Speech, Speech-to-Text, Image Generation, Video Generation), **Knowledge Base** (document parsing engine), **Chat** (tools, MCP servers, per-capability parameters, attachment caps), **Partners & Agents** (the subagents you can consult from a turn), and **Memory** (the consolidator's budgets).
 
+### Local Qualcomm QNN Whisper
+
+On native Windows ARM64, select the `qnn_whisper` speech-to-text provider to
+run cached Qualcomm AI Hub Whisper artifacts locally on the NPU. Chat uses the
+`base` model by default; lecture capture uses `large-v3-turbo` for higher
+accuracy. Configure separate compiled artifact directories before enabling it:
+
+```powershell
+$env:DEEPTUTOR_QNN_WHISPER_MODEL_DIR = 'C:\models\whisper_base'
+$env:DEEPTUTOR_QNN_WHISPER_LARGE_V3_TURBO_MODEL_DIR = 'C:\models\whisper_large_v3_turbo'
+```
+
+Each directory needs `HfWhisperEncoder.onnx` and `HfWhisperDecoder.onnx`.
+QNN is validated before use and never silently falls back to CPU. FFmpeg is
+required for non-WAV audio; 16 kHz, 16-bit PCM WAV works without it.
+
 <div align="center">
 <img src="assets/figs/web-1.4.6+/settings/01-appearance%20settings.png" alt="DeepTutor appearance settings and themes" width="900">
 </div>

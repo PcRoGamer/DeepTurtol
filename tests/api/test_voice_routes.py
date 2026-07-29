@@ -12,6 +12,7 @@ import pytest
 
 from deeptutor.api.routers import voice as voice_router
 from deeptutor.services.voice import VoiceProviderError
+from deeptutor.services.voice.config import STTConfig
 
 
 @pytest.fixture()
@@ -101,6 +102,27 @@ def test_stt_returns_text(client: TestClient, monkeypatch: pytest.MonkeyPatch) -
     assert resp.json() == {"text": "hello world"}
     assert captured["filename"] == "clip.webm"
     assert captured["bytes"] == 10
+
+
+def test_stt_status_reports_configuration(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        voice_router,
+        "resolve_stt_runtime_config",
+        lambda: STTConfig(model="whisper-large-v3-turbo", api_key="groq-key"),
+    )
+
+    assert client.get("/api/v1/voice/stt/status").json() == {"configured": True}
+
+
+def test_stt_status_reports_missing_configuration(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def missing_config() -> None:
+        raise ValueError("No active STT model is configured.")
+
+    monkeypatch.setattr(voice_router, "resolve_stt_runtime_config", missing_config)
+
+    assert client.get("/api/v1/voice/stt/status").json() == {"configured": False}
 
 
 def test_stt_rejects_empty_upload(client: TestClient) -> None:

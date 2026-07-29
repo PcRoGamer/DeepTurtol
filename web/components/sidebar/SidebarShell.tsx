@@ -7,6 +7,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { useAppShell } from "@/context/AppShellContext";
 import { OceanSidebar } from "@/components/sidebar/ocean-sidebar/OceanSidebar";
+import LectureCaptureControl from "@/components/sidebar/LectureCaptureControl";
 import {
   BookOpen,
   BookText,
@@ -18,10 +19,11 @@ import {
   LayoutGrid,
   Library,
   Lock,
-  PanelLeftClose,
-  PanelLeftOpen,
   PenLine,
+  Pin,
+  PinOff,
   Settings,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -85,6 +87,12 @@ const PRIMARY_NAV: NavEntry[] = [
 
 const SECONDARY_NAV: NavEntry[] = [
   {
+    href: "/library",
+    label: "Media Library",
+    icon: Video,
+    tooltipKey: "Media Library tooltip",
+  },
+  {
     href: "/memory",
     label: "Memory",
     icon: Brain,
@@ -125,6 +133,9 @@ export function SidebarShell({
   onDeleteSession,
   footerSlot,
 }: SidebarShellProps) {
+  // This is the shared sidebar composition layer. WorkspaceSidebar and
+  // UtilitySidebar provide data/actions; OceanSidebar below is the sole
+  // active visual shell for both surfaces.
   const pathname = usePathname();
   const router = useRouter();
   const { t } = useTranslation();
@@ -152,7 +163,7 @@ export function SidebarShell({
         expandedWidth={275}
         collapsedWidth={52}
       >
-        {(spawnBubbles, isExpanded) => {
+        {(spawnBubbles, isExpanded, _isHovered, toggleSidebar) => {
           const renderedFooter =
             typeof footerSlot === "function"
               ? footerSlot(!isExpanded)
@@ -199,24 +210,24 @@ export function SidebarShell({
                 </Link>
 
                 <button
-                  onClick={() => setCollapsed(!collapsed)}
+                  onClick={toggleSidebar}
                   onMouseEnter={(e) => spawnBubbles(e)}
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/35 bg-white/20 text-white/90 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/30 hover:text-white active:scale-95 cursor-pointer"
                   aria-label={
                     collapsed
-                      ? (t("Expand sidebar") as string)
-                      : (t("Collapse sidebar") as string)
+                      ? (t("Pin sidebar open") as string)
+                      : (t("Return sidebar to auto-collapse") as string)
                   }
                   title={
                     collapsed
-                      ? (t("Expand sidebar") as string)
-                      : (t("Collapse sidebar") as string)
+                      ? (t("Pin sidebar open") as string)
+                      : (t("Return sidebar to auto-collapse") as string)
                   }
                 >
                   {collapsed ? (
-                    <PanelLeftOpen size={17} strokeWidth={2.2} />
+                    <Pin size={17} strokeWidth={2.1} />
                   ) : (
-                    <PanelLeftClose size={17} strokeWidth={2.2} />
+                    <PinOff size={17} strokeWidth={2.1} />
                   )}
                 </button>
               </div>
@@ -332,8 +343,8 @@ export function SidebarShell({
                 </div>
               </nav>
 
-              {/* Separator Divider */}
-              <div className="mx-2.5 my-2 border-t border-white/20 shrink-0" />
+              {/* Open water between navigation groups; hard rules break the wash. */}
+              <div className="h-4 shrink-0" aria-hidden="true" />
 
               {/* Secondary Nav (Memory, Knowledge Center, Settings) */}
               <div className="px-1.5 shrink-0">
@@ -408,8 +419,9 @@ export function SidebarShell({
               <div className="flex-1" />
 
               {/* Footer Section */}
-              <div className="border-t border-white/20 px-1.5 py-2 shrink-0">
+              <div className="mt-2 px-1.5 py-2 shrink-0">
                 <div className="flex flex-col w-full space-y-1">
+                  <LectureCaptureControl collapsed={!isExpanded} />
                   {renderedFooter}
                 </div>
 

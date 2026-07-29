@@ -1,0 +1,17 @@
+{
+  "entities": [
+    {
+      "name": "Concept"
+    },
+    {
+      "name": "Document"
+    }
+  ],
+  "relations": [
+    {
+      "subject": "Concept",
+      "predicate": "relatedTo",
+      "object": "Concept"
+    }
+  ]
+}

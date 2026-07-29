@@ -851,6 +851,13 @@ def start(home: str | Path | None = None) -> None:
     common_env["PYTHONUNBUFFERED"] = "1"
     common_env["PYTHONIOENCODING"] = "utf-8:replace"
 
+    # Native KAG is optional. When selected, make its WSL service healthy before
+    # exposing the backend, preventing stale frontend processes from hitting a
+    # half-started OpenSPG endpoint.
+    if runtime_env.get("DEEPTUTOR_RAG_PROVIDER", "").lower() == "kag":
+        from deeptutor.services.rag.kag_runtime import ensure_native_kag_ready
+        common_env["KAG_PROJECT_HOST_ADDR"] = ensure_native_kag_ready()
+
     backend_cmd = [
         sys.executable,
         "-m",

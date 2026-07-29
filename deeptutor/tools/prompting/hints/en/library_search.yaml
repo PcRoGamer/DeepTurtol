@@ -1,0 +1,6 @@
+short_description: Search and read lecture recordings, transcripts, study notes, and UniMelb Echo360 imports.
+when_to_use: Use when the user asks about something taught in a lecture, recorded class, or imported course video.
+input_format: Use action=search with a topic; action=list to discover items; action=read with an item_id for full notes or transcript.
+guideline: Search the media library before claiming that a lecture did or did not cover a topic.
+note: Library results are private local learning materials and should be cited by their lecture title.
+phase: exploration

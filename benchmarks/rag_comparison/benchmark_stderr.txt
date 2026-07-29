@@ -1,0 +1,545 @@
+[      1s] \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 benchmark.py \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510
+[      1s] \u2502 RAG Benchmark                                                               \u2502
+[      1s] \u2502 Adapters: lightrag                                                          \u2502
+[      1s] \u2502 Stages: 1->2->3                                                             \u2502
+[      1s] \u2502 QA pairs: 30                                                                \u2502
+[      1s] \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518
+[      1s] \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Initializing lightrag \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+[      5s] 12:17:46 adapters.lightrag_adapter INFO Initializing LightRAG in C:\Users\Admin\Desktop\DeepTurtol\benchmarks\rag_comparison\vendor\lightrag_benchmark
+[      6s] INFO: [] Created new empty graph file: C:\Users\Admin\Desktop\DeepTurtol\benchmarks\rag_comparison\vendor\lightrag_benchmark\graph_chunk_entity_relation.graphml
+[      7s] 12:17:47 nano-vectordb INFO Init {'embedding_dim': 768, 'metric': 'cosine', 'storage_file': 'C:\\Users\\Admin\\Desktop\\DeepTurtol\\benchmarks\\rag_comparison\\vendor\\lightrag_benchmark\\vdb_entities.json'} 0 data
+[      7s] 12:17:47 nano-vectordb INFO Init {'embedding_dim': 768, 'metric': 'cosine', 'storage_file': 'C:\\Users\\Admin\\Desktop\\DeepTurtol\\benchmarks\\rag_comparison\\vendor\\lightrag_benchmark\\vdb_relationships.json'} 0 data
+[      7s] 12:17:47 nano-vectordb INFO Init {'embedding_dim': 768, 'metric': 'cosine', 'storage_file': 'C:\\Users\\Admin\\Desktop\\DeepTurtol\\benchmarks\\rag_comparison\\vendor\\lightrag_benchmark\\vdb_chunks.json'} 0 data
+[      7s] INFO: Role LLM Configuration (initialized):
+[      7s] INFO:  - extract: None/None, host=None, max_async=4, timeout=240
+[      7s] INFO:  - keyword: None/None, host=None, max_async=4, timeout=240
+[      7s] INFO:  - query: None/None, host=None, max_async=4, timeout=240
+[      7s] INFO:  - vlm: None/None, host=None, max_async=4, timeout=240
+[      7s] INFO: [] Process 26928 KV load full_docs with 0 records
+[      7s] INFO: [] Process 26928 KV load text_chunks with 0 records
+[      7s] INFO: [] Process 26928 KV load full_entities with 0 records
+[      7s] INFO: [] Process 26928 KV load full_relations with 0 records
+[      7s] INFO: [] Process 26928 KV load entity_chunks with 0 records
+[      7s] INFO: [] Process 26928 KV load relation_chunks with 0 records
+[      7s] INFO: [] Process 26928 KV load llm_response_cache with 0 records
+[      7s] INFO: [] Process 26928 doc status load doc_status with 0 records
+[      7s] 12:17:47 adapters.lightrag_adapter INFO LightRAG storages initialized
+[      7s] \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 lightrag — Stage 1: Initial index \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+[      7s]   Indexing 5 files…
+[      7s] INFO: Processing 1 document(s)
+[      7s] INFO: Parsing (native): doc-f1ae34a04b27bd4724e7f0c61af0c879
+[      7s] INFO: Extracting stage 1/1: cs301_syllabus.md
+[      7s] INFO: Processing d-id: doc-f1ae34a04b27bd4724e7f0c61af0c879
+[      7s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-f1ae34a04b27bd4724e7f0c61af0c879
+[      7s] INFO: extract LLM func: 4 new workers initialized (Timeouts: Func: 240s, Worker: 480s, Health Check: 495s)
+[    196s] INFO:  == LLM cache == saving: default:extract:e45f8b8c8a2222d01669d228a7abe8cf
+[    229s] INFO:  == LLM cache == saving: default:extract:61fdf94b34cb0b5d031b26d0f37b3688
+[    229s] INFO: Chunk 1 of 1 extracted 4 Ent + 0 Rel doc-f1ae34a04b27bd4724e7f0c61af0c879-chunk-000
+[    229s] INFO: Merging stage 1/1: cs301_syllabus.md
+[    229s] INFO: Phase 1: Processing 4 entities from doc-f1ae34a04b27bd4724e7f0c61af0c879 (async: 8)
+[    229s] INFO: Phase 2: Processing 0 relations from doc-f1ae34a04b27bd4724e7f0c61af0c879 (async: 8)
+[    229s] INFO: Phase 3: Updating final 4(4+0) entities and  0 relations from doc-f1ae34a04b27bd4724e7f0c61af0c879
+[    229s] INFO: Completed merging: 4 entities, 0 extra entities, 0 relations
+[    229s] INFO: [] entities flush: embedding 4 vectors in 1 batch(es) (batch_num=10)
+[    229s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[    229s] INFO: Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+[    229s] INFO: [] Writing graph with 4 nodes, 0 edges
+[    233s] INFO: In memory DB persist to disk
+[    233s] INFO: Completed processing file 1/1: cs301_syllabus.md
+[    233s] INFO: Enqueued document processing pipeline stopped
+[    233s] INFO: Processing 1 document(s)
+[    233s] INFO: Parsing (native): doc-4776babe09e185e40bc7aa13395be3af
+[    233s] INFO: Extracting stage 1/1: prof_chen_research.md
+[    233s] INFO: Processing d-id: doc-4776babe09e185e40bc7aa13395be3af
+[    233s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-4776babe09e185e40bc7aa13395be3af
+[    378s] INFO:  == LLM cache == saving: default:extract:f3c7a7140ad6991be5cc0a6d1d2b9ff9
+[    419s] INFO:  == LLM cache == saving: default:extract:a72dd3067b4dc4d1ca02f18d05ec62a6
+[    419s] INFO: Chunk 1 of 1 extracted 14 Ent + 2 Rel doc-4776babe09e185e40bc7aa13395be3af-chunk-000
+[    419s] INFO: Merging stage 1/1: prof_chen_research.md
+[    419s] INFO: Phase 1: Processing 14 entities from doc-4776babe09e185e40bc7aa13395be3af (async: 8)
+[    419s] INFO: Merged: `Alex Kim` | 1+1
+[    419s] INFO: Merged: `Priya Sharma` | 1+1
+[    419s] INFO: Phase 2: Processing 2 relations from doc-4776babe09e185e40bc7aa13395be3af (async: 8)
+[    419s] INFO: Upserting relation VDB: `David Park->Sarah Chen`
+[    419s] INFO: Upserting relation VDB: `Massachusetts Institute of Technology->Sarah Chen`
+[    419s] INFO: Phase 2 relation processing completed for doc-4776babe09e185e40bc7aa13395be3af: edges=2 added_entities=0
+[    419s] INFO: Phase 3: Updating final 14(14+0) entities and  2 relations from doc-4776babe09e185e40bc7aa13395be3af
+[    419s] INFO: Completed merging: 14 entities, 0 extra entities, 2 relations
+[    419s] INFO: [] entities flush: embedding 14 vectors in 2 batch(es) (batch_num=10)
+[    419s] INFO: [] relationships flush: embedding 2 vectors in 1 batch(es) (batch_num=10)
+[    419s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[    419s] INFO: [] Writing graph with 16 nodes, 2 edges
+[    423s] INFO: In memory DB persist to disk
+[    423s] INFO: Completed processing file 1/1: prof_chen_research.md
+[    423s] INFO: Enqueued document processing pipeline stopped
+[    423s] INFO: Processing 1 document(s)
+[    423s] INFO: Parsing (native): doc-6d31920cf69ac1e77e08f7c2308c692c
+[    423s] INFO: Extracting stage 1/1: math205_notes.md
+[    423s] INFO: Processing d-id: doc-6d31920cf69ac1e77e08f7c2308c692c
+[    423s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-6d31920cf69ac1e77e08f7c2308c692c
+[    549s] INFO:  == LLM cache == saving: default:extract:a30f2a89359f4c07cdc4374e30144e7f
+[    603s] INFO:  == LLM cache == saving: default:extract:5d2815bdc70de69fd2dd5a2ee972c83e
+[    603s] INFO: Chunk 1 of 1 extracted 10 Ent + 0 Rel doc-6d31920cf69ac1e77e08f7c2308c692c-chunk-000
+[    603s] INFO: Merging stage 1/1: math205_notes.md
+[    603s] INFO: Phase 1: Processing 10 entities from doc-6d31920cf69ac1e77e08f7c2308c692c (async: 8)
+[    603s] INFO: Phase 2: Processing 0 relations from doc-6d31920cf69ac1e77e08f7c2308c692c (async: 8)
+[    603s] INFO: Phase 3: Updating final 10(10+0) entities and  0 relations from doc-6d31920cf69ac1e77e08f7c2308c692c
+[    603s] INFO: Completed merging: 10 entities, 0 extra entities, 0 relations
+[    603s] INFO: [] entities flush: embedding 10 vectors in 1 batch(es) (batch_num=10)
+[    603s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[    603s] INFO: [] Writing graph with 26 nodes, 2 edges
+[    609s] INFO: In memory DB persist to disk
+[    609s] INFO: Completed processing file 1/1: math205_notes.md
+[    609s] INFO: Enqueued document processing pipeline stopped
+[    609s] INFO: Processing 1 document(s)
+[    609s] INFO: Parsing (native): doc-d0d4dbac2e9d8b4785133a77619741cd
+[    609s] INFO: Extracting stage 1/1: homework1_solutions.md
+[    609s] INFO: Processing d-id: doc-d0d4dbac2e9d8b4785133a77619741cd
+[    609s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-d0d4dbac2e9d8b4785133a77619741cd
+[    766s] INFO:  == LLM cache == saving: default:extract:e9bc33b2b885e0058ffd5f48958c3eb1
+[    811s] INFO:  == LLM cache == saving: default:extract:3a03a370317a0043fd348b1eafe921ee
+[    811s] INFO: Chunk 1 of 1 extracted 4 Ent + 0 Rel doc-d0d4dbac2e9d8b4785133a77619741cd-chunk-000
+[    811s] INFO: Merging stage 1/1: homework1_solutions.md
+[    811s] INFO: Phase 1: Processing 4 entities from doc-d0d4dbac2e9d8b4785133a77619741cd (async: 8)
+[    811s] INFO: Merged: `Alex Kim` | 2+1
+[    811s] INFO: Merged: `Sarah Chen` | 1+1
+[    811s] INFO: Merged: `CS 301` | 1+1
+[    811s] INFO: Phase 2: Processing 0 relations from doc-d0d4dbac2e9d8b4785133a77619741cd (async: 8)
+[    811s] INFO: Phase 3: Updating final 4(4+0) entities and  0 relations from doc-d0d4dbac2e9d8b4785133a77619741cd
+[    811s] INFO: Completed merging: 4 entities, 0 extra entities, 0 relations
+[    811s] INFO: [] entities flush: embedding 4 vectors in 1 batch(es) (batch_num=10)
+[    811s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[    811s] INFO: [] Writing graph with 27 nodes, 2 edges
+[    813s] INFO: In memory DB persist to disk
+[    813s] INFO: Completed processing file 1/1: homework1_solutions.md
+[    813s] INFO: Enqueued document processing pipeline stopped
+[    813s] INFO: Processing 1 document(s)
+[    813s] INFO: Parsing (native): doc-913be095e536d19bde4ee9ab4537ab35
+[    813s] INFO: Extracting stage 1/1: stat210_notes.md
+[    813s] INFO: Processing d-id: doc-913be095e536d19bde4ee9ab4537ab35
+[    813s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-913be095e536d19bde4ee9ab4537ab35
+[    959s] INFO:  == LLM cache == saving: default:extract:3b35af4dda0862292322f1a9f171d6b6
+[    998s] INFO:  == LLM cache == saving: default:extract:b86b630d59b5c843433d70977cd43e4d
+[    998s] INFO: Chunk 1 of 1 extracted 6 Ent + 0 Rel doc-913be095e536d19bde4ee9ab4537ab35-chunk-000
+[    998s] INFO: Merging stage 1/1: stat210_notes.md
+[    998s] INFO: Phase 1: Processing 6 entities from doc-913be095e536d19bde4ee9ab4537ab35 (async: 8)
+[    998s] INFO: Phase 2: Processing 0 relations from doc-913be095e536d19bde4ee9ab4537ab35 (async: 8)
+[    998s] INFO: Phase 3: Updating final 6(6+0) entities and  0 relations from doc-913be095e536d19bde4ee9ab4537ab35
+[    998s] INFO: Completed merging: 6 entities, 0 extra entities, 0 relations
+[    998s] INFO: [] entities flush: embedding 6 vectors in 1 batch(es) (batch_num=10)
+[    998s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[    998s] INFO: [] Writing graph with 33 nodes, 2 edges
+[   1001s] INFO: In memory DB persist to disk
+[   1001s] INFO: Completed processing file 1/1: stat210_notes.md
+[   1001s] INFO: Enqueued document processing pipeline stopped
+[   1001s] 12:34:22 adapters.lightrag_adapter INFO Indexed 5 docs in 994.54s stage1
+[   1001s] INFO: keyword LLM func: 4 new workers initialized (Timeouts: Func: 240s, Worker: 480s, Health Check: 495s)
+[   1063s] INFO:  == LLM cache == saving: hybrid:keywords:7ee3b1ca3666310fdd3c978c3fdca1ec
+[   1064s] INFO: Query nodes: CS 301, Advanced Machine Learning (top_k:40, cosine:0.2)
+[   1064s] INFO: Local query: 33 entites, 2 relations
+[   1064s] INFO: Query edges: CS 301 teaching, Advanced Machine Learning instructors, courses (top_k:40, cosine:0.2)
+[   1064s] INFO: Global query: 3 entites, 2 relations
+[   1064s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1064s] INFO: After truncation: 33 entities, 2 relations
+[   1064s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1064s] INFO: Find no additional relations-related chunks from 2 relations
+[   1064s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1064s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1064s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1064s] INFO: Final chunks S+F/O: E4/1 E4/2 E14/3 E6/4 E10/5
+[   1064s] INFO: query LLM func: 4 new workers initialized (Timeouts: Func: 240s, Worker: 480s, Health Check: 495s)
+[   1156s] INFO:  == LLM cache == saving: hybrid:query:5eff61c7d62f61426e4eb548a23ae4a5
+[   1205s] INFO:  == LLM cache == saving: hybrid:keywords:f2a64a7372c3b790d339fb090bcaf38b
+[   1206s] INFO: Query nodes: 5-shot classification accuracy, capstone project (top_k:40, cosine:0.2)
+[   1206s] INFO: Local query: 33 entites, 2 relations
+[   1206s] INFO: Query edges: classification accuracy, project performance (top_k:40, cosine:0.2)
+[   1206s] INFO: Global query: 3 entites, 2 relations
+[   1206s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1206s] INFO: After truncation: 33 entities, 2 relations
+[   1206s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1206s] INFO: Find no additional relations-related chunks from 2 relations
+[   1206s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1206s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1206s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1206s] INFO: Final chunks S+F/O: E6/1 E14/2 E4/3 E10/4 E4/5
+[   1276s] INFO:  == LLM cache == saving: hybrid:query:31ff89eb85b0b6ec8a774936a9645e7f
+[   1329s] INFO:  == LLM cache == saving: hybrid:keywords:a6dd989ba2c02af69be0f69456e1100d
+[   1330s] INFO: Query nodes: dermoscopy images, curated dataset, few-shot, diagnosis (top_k:40, cosine:0.2)
+[   1330s] INFO: Local query: 33 entites, 2 relations
+[   1330s] INFO: Query edges: dataset size, rare disease diagnosis (top_k:40, cosine:0.2)
+[   1330s] INFO: Global query: 3 entites, 2 relations
+[   1330s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1330s] INFO: After truncation: 33 entities, 2 relations
+[   1330s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1330s] INFO: Find no additional relations-related chunks from 2 relations
+[   1330s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1330s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1330s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1330s] INFO: Final chunks S+F/O: E14/1 E6/2 E4/3 E4/4 E10/5
+[   1415s] INFO:  == LLM cache == saving: hybrid:query:5548a2cc3d190fd3870c6d5f6746ed08
+[   1454s] INFO:  == LLM cache == saving: hybrid:keywords:80f4da68406c32ba8128bede80d2938c
+[   1454s] INFO: Query nodes: CS 201, Introduction to Machine Learning (top_k:40, cosine:0.2)
+[   1454s] INFO: Local query: 33 entites, 2 relations
+[   1454s] INFO: Query edges: Course prerequisites, CS 201 requirements (top_k:40, cosine:0.2)
+[   1454s] INFO: Global query: 3 entites, 2 relations
+[   1454s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1454s] INFO: After truncation: 33 entities, 2 relations
+[   1454s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1454s] INFO: Find no additional relations-related chunks from 2 relations
+[   1454s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1454s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1454s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1454s] INFO: Final chunks S+F/O: E4/1 E4/2 E6/3 E10/4 E14/5
+[   1565s] INFO:  == LLM cache == saving: hybrid:query:8e5db3e1a65670c81759eea386573595
+[   1599s] INFO:  == LLM cache == saving: hybrid:keywords:14983112b35a5a7bf8010535b6e95fbe
+[   1600s] INFO: Query nodes: Sarah Chen, PhD advisor, doctoral work (top_k:40, cosine:0.2)
+[   1600s] INFO: Local query: 33 entites, 2 relations
+[   1600s] INFO: Query edges: PhD supervision, academic advisor search (top_k:40, cosine:0.2)
+[   1600s] INFO: Global query: 3 entites, 2 relations
+[   1600s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1600s] INFO: After truncation: 33 entities, 2 relations
+[   1600s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1600s] INFO: Find no additional relations-related chunks from 2 relations
+[   1600s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1600s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1600s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1600s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E6/4 E10/5
+[   1663s] INFO:  == LLM cache == saving: hybrid:query:d5fe33d8d370991fcb7650fd8a33d3c8
+[   1676s] INFO:  == LLM cache == saving: hybrid:keywords:164ed179c85c3f1174a79e208608dfaf
+[   1677s] INFO: Query nodes: sequence length n, embedding dimension d (top_k:40, cosine:0.2)
+[   1677s] INFO: Local query: 33 entites, 2 relations
+[   1677s] INFO: Query edges: computational complexity, scaled dot-product attention (top_k:40, cosine:0.2)
+[   1677s] INFO: Global query: 3 entites, 2 relations
+[   1677s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   1677s] INFO: After truncation: 33 entities, 2 relations
+[   1677s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   1677s] INFO: Find no additional relations-related chunks from 2 relations
+[   1677s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   1677s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   1677s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   1677s] INFO: Final chunks S+F/O: E4/1 E14/2 E4/3 E10/4 E6/5
+[   1793s] INFO:  == LLM cache == saving: hybrid:query:7270fc2f7e5ad65af0c63f86d50de418
+[   2016s] INFO:  == LLM cache == saving: hybrid:keywords:8699134599a51b649dd83d3640b46b38
+[   2019s] INFO: Query nodes: ASA-inspired music generation model, parameters, full attention baseline (top_k:40, cosine:0.2)
+[   2019s] INFO: Local query: 33 entites, 2 relations
+[   2019s] INFO: Query edges: model parameter comparison, music generation model (top_k:40, cosine:0.2)
+[   2019s] INFO: Global query: 3 entites, 2 relations
+[   2019s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[   2019s] INFO: After truncation: 33 entities, 2 relations
+[   2019s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[   2019s] INFO: Find no additional relations-related chunks from 2 relations
+[   2019s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[   2019s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[   2019s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[   2019s] INFO: Final chunks S+F/O: E14/1 E4/2 E6/3 E4/4 E10/5
+[   2089s] INFO:  == LLM cache == saving: hybrid:query:9b814bb65dc8ff3e8f32929538ee2a10
+[   8805s] WARNING: keyword LLM func: Detected stuck task 2442407715328_132433.9160091 (execution time: 6715.9s), forcing cleanup
+[   8805s] ERROR: Query failed: keyword LLM func: Task forcefully terminated due to execution timeout (>495s, actual: 6715.9s)
+[   8822s] WARNING: keyword LLM func: Worker timeout for task 2442407715328_132433.9160091 after 480s
+[   9324s] WARNING: keyword LLM func: Worker timeout for task 2442407715328_139182.4822908 after 480s
+[   9324s] ERROR: Query failed: keyword LLM func: Worker execution timeout after 480s
+[   9814s] WARNING: keyword LLM func: Worker timeout for task 2442407715328_139675.1710094 after 480s
+[   9814s] ERROR: Query failed: keyword LLM func: Worker execution timeout after 480s
+[  10304s] WARNING: keyword LLM func: Worker timeout for task 2442407715328_140170.6668581 after 480s
+[  10304s] ERROR: Query failed: keyword LLM func: Worker execution timeout after 480s
+[  10464s] INFO:  == LLM cache == saving: hybrid:keywords:bac4895f29170f9815baf156e58e2ba9
+[  10466s] INFO: Query nodes: Bayesian inference framework, Prof. Brown, STAT 210, Prototypical Network, medical image classification (top_k:40, cosine:0.2)
+[  10466s] INFO: Local query: 33 entites, 2 relations
+[  10466s] INFO: Query edges: Bayesian inference connection, regularization techniques, machine learning frameworks (top_k:40, cosine:0.2)
+[  10466s] INFO: Global query: 3 entites, 2 relations
+[  10466s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  10466s] INFO: After truncation: 33 entities, 2 relations
+[  10466s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  10466s] INFO: Find no additional relations-related chunks from 2 relations
+[  10466s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  10466s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  10466s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  10466s] INFO: Final chunks S+F/O: E6/1 E14/2 E4/3 E4/4 E10/5
+[  10517s] 15:12:58 openai._base_client INFO Retrying request to /chat/completions in 0.458193 seconds
+[  10608s] INFO:  == LLM cache == saving: hybrid:query:213da1391ad0afe6eed55f708ac63add
+[  10751s] INFO:  == LLM cache == saving: hybrid:keywords:10e0fbb4e87a11a7c819c5889efe47f6
+[  10752s] INFO: Query nodes: Prof. Liu, CS 201 course, Prof. Chen, CS 301 capstone projects (top_k:40, cosine:0.2)
+[  10752s] INFO: Local query: 33 entites, 2 relations
+[  10752s] INFO: Query edges: course role comparison, student preparation (top_k:40, cosine:0.2)
+[  10752s] INFO: Global query: 3 entites, 2 relations
+[  10752s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  10752s] INFO: After truncation: 33 entities, 2 relations
+[  10752s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  10752s] INFO: Find no additional relations-related chunks from 2 relations
+[  10752s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  10752s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  10752s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  10752s] INFO: Final chunks S+F/O: E4/1 E14/2 E4/3 E10/4 E6/5
+[  10826s] INFO:  == LLM cache == saving: hybrid:query:fa976d0542e998d378ac6daaeb024194
+[  11105s] INFO:  == LLM cache == saving: hybrid:keywords:fef641858b35e68bb9e49126b63e4c64
+[  11106s] INFO: Query nodes: Prof. Rodriguez, randomized SVD, efficiency improvements, music generation project (top_k:40, cosine:0.2)
+[  11106s] INFO: Local query: 33 entites, 2 relations
+[  11106s] INFO: Query edges: Research application, SVD relation to efficiency, Music generation project (top_k:40, cosine:0.2)
+[  11106s] INFO: Global query: 3 entites, 2 relations
+[  11106s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11106s] INFO: After truncation: 33 entities, 2 relations
+[  11106s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11106s] INFO: Find no additional relations-related chunks from 2 relations
+[  11106s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11106s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11106s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11106s] INFO: Final chunks S+F/O: E14/1 E6/2 E4/3 E4/4 E10/5
+[  11172s] INFO:  == LLM cache == saving: hybrid:query:bd414875d646237be5cab82225517f31
+[  11201s] INFO:  == LLM cache == saving: hybrid:keywords:fd1ce91310c798725044fd9514671d84
+[  11201s] INFO: Query nodes: Chen-Watson biomedical collaboration, authors, papers, target venues (top_k:40, cosine:0.2)
+[  11201s] INFO: Local query: 33 entites, 2 relations
+[  11201s] INFO: Query edges: Research collaboration details, Authors of papers, Target publication venues (top_k:40, cosine:0.2)
+[  11201s] INFO: Global query: 3 entites, 2 relations
+[  11201s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11201s] INFO: After truncation: 33 entities, 2 relations
+[  11201s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11201s] INFO: Find no additional relations-related chunks from 2 relations
+[  11201s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11201s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11201s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11201s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E6/4 E10/5
+[  11251s] INFO:  == LLM cache == saving: hybrid:query:2dd3a7f36ea8782d172c4a2e33bff08c
+[  11287s] INFO:  == LLM cache == saving: hybrid:keywords:bbfd8d6105f08dd9be45a8407e27dd6e
+[  11287s] INFO: Query nodes: MATH 205 Week 4, Priya Sharma, math 205 hw2, Prof. Chen, CS 301 (top_k:40, cosine:0.2)
+[  11287s] INFO: Local query: 33 entites, 2 relations
+[  11287s] INFO: Query edges: eigenvalue theory connection, PCA derivation analysis (top_k:40, cosine:0.2)
+[  11287s] INFO: Global query: 3 entites, 2 relations
+[  11287s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11287s] INFO: After truncation: 33 entities, 2 relations
+[  11287s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11287s] INFO: Find no additional relations-related chunks from 2 relations
+[  11287s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11287s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11287s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11287s] INFO: Final chunks S+F/O: E10/1 E4/2 E4/3 E6/4 E14/5
+[  11364s] INFO:  == LLM cache == saving: hybrid:query:861df277dc03d9c9fafb92ad54f5b434
+[  11386s] INFO:  == LLM cache == saving: hybrid:keywords:06be0b6b83cf321c537686dbf15e02d1
+[  11387s] INFO: Query nodes: Derek Lee, role, department, courses (top_k:40, cosine:0.2)
+[  11387s] INFO: Local query: 33 entites, 2 relations
+[  11387s] INFO: Query edges: role definition, departmental function, activity connections (top_k:40, cosine:0.2)
+[  11387s] INFO: Global query: 3 entites, 2 relations
+[  11387s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11387s] INFO: After truncation: 33 entities, 2 relations
+[  11387s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11387s] INFO: Find no additional relations-related chunks from 2 relations
+[  11387s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11387s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11387s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11387s] INFO: Final chunks S+F/O: E10/1 E4/2 E6/3 E14/4 E4/5
+[  11434s] INFO:  == LLM cache == saving: hybrid:query:38b3dfb6e70b8b6d2c9c9f663898e69a
+[  11461s] INFO:  == LLM cache == saving: hybrid:keywords:280cd5b6bd490f9dd5b2f217cfb16039
+[  11461s] INFO: Query nodes: Alex Kim, ASA (top_k:40, cosine:0.2)
+[  11461s] INFO: Local query: 33 entites, 2 relations
+[  11461s] INFO: Query edges: Gating network architecture, Sparse attention, Music generation project (top_k:40, cosine:0.2)
+[  11461s] INFO: Global query: 3 entites, 2 relations
+[  11461s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11461s] INFO: After truncation: 33 entities, 2 relations
+[  11461s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11461s] INFO: Find no additional relations-related chunks from 2 relations
+[  11461s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11461s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11461s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11461s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E6/4 E10/5
+[  11521s] INFO:  == LLM cache == saving: hybrid:query:b555e08eabae135c4b8a5d824a861e50
+[  11546s] INFO:  == LLM cache == saving: hybrid:keywords:08e19d3d7652b09977b799f376ff47dc
+[  11546s] INFO: Query nodes: Prof. Liu, teaching philosophy, student survey results (top_k:40, cosine:0.2)
+[  11546s] INFO: Local query: 33 entites, 2 relations
+[  11546s] INFO: Query edges: teaching philosophy, student survey results, relationship analysis (top_k:40, cosine:0.2)
+[  11546s] INFO: Global query: 3 entites, 2 relations
+[  11546s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  11546s] INFO: After truncation: 33 entities, 2 relations
+[  11546s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  11546s] INFO: Find no additional relations-related chunks from 2 relations
+[  11546s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  11546s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  11546s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  11546s] INFO: Final chunks S+F/O: E4/1 E6/2 E10/3 E14/4 E4/5
+[  15562s] WARNING: query LLM func: Detected stuck task 2442407715328_141895.0789419 (execution time: 4016.2s), forcing cleanup
+[  15565s] ERROR: Query failed: query LLM func: Task forcefully terminated due to execution timeout (>495s, actual: 4016.2s)
+[  17034s] WARNING: query LLM func: Worker timeout for task 2442407715328_141895.0789419 after 480s
+[  17075s] INFO:  == LLM cache == saving: hybrid:keywords:e4a2cb80ff0f2c2b5032de0b61ba1606
+[  17076s] INFO: Query nodes: Rodriguez and Liu, PCA (Principal Component Analysis), Prof. Chen, biomedical work (top_k:40, cosine:0.2)
+[  17076s] INFO: Local query: 33 entites, 2 relations
+[  17076s] INFO: Query edges: federated PCA collaboration, data privacy themes, biomedical work relationship (top_k:40, cosine:0.2)
+[  17076s] INFO: Global query: 3 entites, 2 relations
+[  17076s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17076s] INFO: After truncation: 33 entities, 2 relations
+[  17076s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17076s] INFO: Find no additional relations-related chunks from 2 relations
+[  17076s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17076s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17076s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17076s] INFO: Final chunks S+F/O: E14/1 E4/2 E10/3 E6/4 E4/5
+[  17146s] INFO:  == LLM cache == saving: hybrid:query:1a31b32cd4f9ddbf425ce2254bc964ba
+[  17184s] INFO:  == LLM cache == saving: hybrid:keywords:2ef5b899e9aeb0eaa81abb47a73865ec
+[  17185s] INFO: Query nodes: Prof. Chen, Prof. Liu, teaching philosophies, ML curriculum (top_k:40, cosine:0.2)
+[  17185s] INFO: Local query: 33 entites, 2 relations
+[  17185s] INFO: Query edges: teaching philosophy comparison, complementary approaches, ML curriculum (top_k:40, cosine:0.2)
+[  17185s] INFO: Global query: 3 entites, 2 relations
+[  17185s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17185s] INFO: After truncation: 33 entities, 2 relations
+[  17185s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17185s] INFO: Find no additional relations-related chunks from 2 relations
+[  17185s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17185s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17185s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17185s] INFO: Final chunks S+F/O: E4/1 E14/2 E10/3 E4/4 E6/5
+[  17314s] INFO:  == LLM cache == saving: hybrid:query:33ecc575e6efb9b540f01f91e5bd0f3a
+[  17348s] INFO:  == LLM cache == saving: hybrid:keywords:d922b5587ace7cf4e5b92cb0eafa4b2c
+[  17349s] INFO: Query nodes: CS, Biomedical Engineering departments (top_k:40, cosine:0.2)
+[  17349s] INFO: Local query: 33 entites, 2 relations
+[  17349s] INFO: Query edges: interdisciplinary collaboration model, collaboration effectiveness (top_k:40, cosine:0.2)
+[  17349s] INFO: Global query: 3 entites, 2 relations
+[  17349s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17349s] INFO: After truncation: 33 entities, 2 relations
+[  17349s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17349s] INFO: Find no additional relations-related chunks from 2 relations
+[  17349s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17349s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17349s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17349s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E10/4 E6/5
+[  17472s] INFO:  == LLM cache == saving: hybrid:query:c2e5a71a1503868ac50060c4407a59b6
+[  17508s] INFO:  == LLM cache == saving: hybrid:keywords:f8f5b11553d0d3ddbbbea1d604cdb870
+[  17509s] INFO: Query nodes: student survey, department report, individual research profiles (top_k:40, cosine:0.2)
+[  17509s] INFO: Local query: 33 entites, 2 relations
+[  17509s] INFO: Query edges: ML program trajectory, program health assessment (top_k:40, cosine:0.2)
+[  17509s] INFO: Global query: 3 entites, 2 relations
+[  17509s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17509s] INFO: After truncation: 33 entities, 2 relations
+[  17509s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17509s] INFO: Find no additional relations-related chunks from 2 relations
+[  17509s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17509s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17509s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17509s] INFO: Final chunks S+F/O: E4/1 E6/2 E10/3 E14/4 E4/5
+[  17635s] INFO:  == LLM cache == saving: hybrid:query:8341e56b68f1448826d0505b811646cf
+[  17687s] INFO:  == LLM cache == saving: hybrid:keywords:3817b0943a384bde1724252264602c8d
+[  17688s] INFO: Query nodes: sparsity, Prof. Rodriguez, practical applications, mathematical foundations (top_k:40, cosine:0.2)
+[  17688s] INFO: Local query: 33 entites, 2 relations
+[  17688s] INFO: Query edges: Sparsity manifestation, ML program concepts, Mathematical foundations and applications (top_k:40, cosine:0.2)
+[  17688s] INFO: Global query: 3 entites, 2 relations
+[  17688s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17688s] INFO: After truncation: 33 entities, 2 relations
+[  17688s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17688s] INFO: Find no additional relations-related chunks from 2 relations
+[  17688s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17688s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17688s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17688s] INFO: Final chunks S+F/O: E4/1 E10/2 E6/3 E14/4 E4/5
+[  17805s] INFO:  == LLM cache == saving: hybrid:query:1156169a948662ddabaf4ee2c256d178
+[  17852s] INFO:  == LLM cache == saving: hybrid:keywords:b16054fa5a8966b1abdd68f6c045ccc9
+[  17852s] INFO: Query nodes: Prototypical Network architecture, capstone project, research essay, guest lecture (top_k:40, cosine:0.2)
+[  17852s] INFO: Local query: 33 entites, 2 relations
+[  17852s] INFO: Query edges: Prototypical Network architecture analysis, Cross-perspective understanding (top_k:40, cosine:0.2)
+[  17852s] INFO: Global query: 3 entites, 2 relations
+[  17852s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  17852s] INFO: After truncation: 33 entities, 2 relations
+[  17852s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  17852s] INFO: Find no additional relations-related chunks from 2 relations
+[  17852s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  17852s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  17852s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  17852s] INFO: Final chunks S+F/O: E14/1 E4/2 E10/3 E4/4 E6/5
+[  17983s] INFO:  == LLM cache == saving: hybrid:query:2e5111eb8eed495ab289a7a6f61279fb
+[  18025s] INFO:  == LLM cache == saving: hybrid:keywords:17a3d745609026fae3dd11c546d1c74b
+[  18026s] INFO: Query nodes: few-shot learning, Chen-Watson collaboration (top_k:40, cosine:0.2)
+[  18026s] INFO: Local query: 33 entites, 2 relations
+[  18026s] INFO: Query edges: ethical considerations, AI assisted medical diagnosis (top_k:40, cosine:0.2)
+[  18026s] INFO: Global query: 3 entites, 2 relations
+[  18026s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  18026s] INFO: After truncation: 33 entities, 2 relations
+[  18026s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  18026s] INFO: Find no additional relations-related chunks from 2 relations
+[  18026s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  18026s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  18026s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  18026s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E6/4 E10/5
+[  18147s] INFO:  == LLM cache == saving: hybrid:query:be5a76acb76d39ad1be4753008e4eb12
+[  18198s] INFO:  == LLM cache == saving: hybrid:keywords:9d632f561a10204c542654ba2678db85
+[  18199s] INFO: Query nodes: CS 490, medical imaging projects, music generation projects (top_k:40, cosine:0.2)
+[  18199s] INFO: Local query: 33 entites, 2 relations
+[  18199s] INFO: Query edges: scaling laws discussion, practical decisions, project application (top_k:40, cosine:0.2)
+[  18199s] INFO: Global query: 3 entites, 2 relations
+[  18199s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  18199s] INFO: After truncation: 33 entities, 2 relations
+[  18199s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  18199s] INFO: Find no additional relations-related chunks from 2 relations
+[  18199s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  18199s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  18199s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  18199s] INFO: Final chunks S+F/O: E4/1 E4/2 E14/3 E6/4 E10/5
+[  18280s] INFO:  == LLM cache == saving: hybrid:query:f42d6c42fe4845723c38d61baba2a9a1
+[  18334s] INFO:  == LLM cache == saving: hybrid:keywords:43a4bf02de3fe6ca1383704b6f017065
+[  18334s] INFO: Query nodes: MATH 205, STAT 210, CS 201, CS 301 (top_k:40, cosine:0.2)
+[  18335s] INFO: Local query: 33 entites, 2 relations
+[  18335s] INFO: Query edges: ML course sequence assessment, sequence completeness, curriculum coherence (top_k:40, cosine:0.2)
+[  18335s] INFO: Global query: 3 entites, 2 relations
+[  18335s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  18335s] INFO: After truncation: 33 entities, 2 relations
+[  18335s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  18335s] INFO: Find no additional relations-related chunks from 2 relations
+[  18335s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  18335s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  18335s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  18335s] INFO: Final chunks S+F/O: E4/1 E10/2 E6/3 E4/4 E14/5
+[  18470s] INFO:  == LLM cache == saving: hybrid:query:48918ebcc83c35bfb93dd6f1f7013ed5
+[  18533s] INFO:  == LLM cache == saving: hybrid:keywords:afb413fa16df840d3ade22d05972b2b8
+[  18533s] INFO: Query nodes: Prof. Chen's lab, publications, collaborations, student achievements, training pipeline, CS 201, PhD research (top_k:40, cosine:0.2)
+[  18533s] INFO: Local query: 33 entites, 2 relations
+[  18533s] INFO: Query edges: Research output assessment, Training pipeline effectiveness, Correlation analysis (top_k:40, cosine:0.2)
+[  18533s] INFO: Global query: 3 entites, 2 relations
+[  18533s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  18533s] INFO: After truncation: 33 entities, 2 relations
+[  18533s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  18533s] INFO: Find no additional relations-related chunks from 2 relations
+[  18533s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  18533s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  18533s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  18533s] INFO: Final chunks S+F/O: E14/1 E4/2 E4/3 E10/4 E6/5
+[  18648s] INFO:  == LLM cache == saving: hybrid:query:c36fd60eca6dcb9b30539de637bae431
+[  18690s] INFO:  == LLM cache == saving: hybrid:keywords:977444421027078ce7cf4def7d010083
+[  18690s] INFO: Query nodes: ML program, future directions, faculty members, expertise (top_k:40, cosine:0.2)
+[  18690s] INFO: Local query: 33 entites, 2 relations
+[  18690s] INFO: Query edges: Future directions for ML program, Faculty expertise contribution (top_k:40, cosine:0.2)
+[  18690s] INFO: Global query: 3 entites, 2 relations
+[  18690s] INFO: Raw search results: 33 entities, 2 relations, 0 vector chunks
+[  18690s] INFO: After truncation: 33 entities, 2 relations
+[  18690s] INFO: Selecting 5 from 5 entity-related chunks by vector similarity
+[  18690s] INFO: Find no additional relations-related chunks from 2 relations
+[  18690s] INFO: Round-robin merged chunks: 5 -> 5 (deduplicated 0)
+[  18690s] WARNING: Rerank is enabled but no rerank model is configured. Please set up a rerank model or set enable_rerank=False in query parameters.
+[  18690s] INFO: Final context: 33 entities, 2 relations, 5 chunks
+[  18690s] INFO: Final chunks S+F/O: E4/1 E6/2 E14/3 E10/4 E4/5
+[  18787s] INFO:  == LLM cache == saving: hybrid:query:a2ea3655df51ef28fb0f9bdf151b683b
+[  18787s] 
+[  18787s]   \u2713 Indexed in 994.54s | Index size: 499,645 bytes | Query p50=168115ms 
+[  18787s] p95=4041239ms p99=6715879ms
+[  18787s] \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 lightrag — Stage 2: Incremental add \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+[  18787s]   Adding 5 files…
+[  18787s] INFO: Processing 1 document(s)
+[  18787s] INFO: Parsing (native): doc-3f7a31d3cf6334c48495f99ed277661b
+[  18787s] INFO: Extracting stage 1/1: cs201_syllabus.md
+[  18787s] INFO: Processing d-id: doc-3f7a31d3cf6334c48495f99ed277661b
+[  18787s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-3f7a31d3cf6334c48495f99ed277661b
+[  18922s] INFO:  == LLM cache == saving: default:extract:b5c09a186e4523fe7b17964d87bac5f5
+[  18923s] WARNING: doc-3f7a31d3cf6334c48495f99ed277661b-chunk-000: Invalid entity type '' for entity 'CS'
+[  18988s] INFO:  == LLM cache == saving: default:extract:7cbf5bd9d2748def0989aae4e89aee9d
+[  18988s] INFO: Chunk 1 of 1 extracted 9 Ent + 0 Rel doc-3f7a31d3cf6334c48495f99ed277661b-chunk-000
+[  18988s] INFO: Merging stage 1/1: cs201_syllabus.md
+[  18988s] INFO: Phase 1: Processing 9 entities from doc-3f7a31d3cf6334c48495f99ed277661b (async: 8)
+[  18988s] INFO: Phase 2: Processing 0 relations from doc-3f7a31d3cf6334c48495f99ed277661b (async: 8)
+[  18988s] INFO: Phase 3: Updating final 9(9+0) entities and  0 relations from doc-3f7a31d3cf6334c48495f99ed277661b
+[  18988s] INFO: Completed merging: 9 entities, 0 extra entities, 0 relations
+[  18988s] INFO: [] entities flush: embedding 9 vectors in 1 batch(es) (batch_num=10)
+[  18988s] INFO: [] chunks flush: embedding 1 vectors in 1 batch(es) (batch_num=10)
+[  18988s] INFO: [] Writing graph with 42 nodes, 2 edges
+[  18990s] INFO: In memory DB persist to disk
+[  18990s] INFO: Completed processing file 1/1: cs201_syllabus.md
+[  18990s] INFO: Enqueued document processing pipeline stopped
+[  18990s] INFO: Processing 1 document(s)
+[  18990s] INFO: Parsing (native): doc-63f98c04feb8e1a0e97aea7e10a5466a
+[  18990s] INFO: Extracting stage 1/1: hw2_linear_algebra.md
+[  18990s] INFO: Processing d-id: doc-63f98c04feb8e1a0e97aea7e10a5466a
+[  18990s] INFO: Chunking F(legacy): size=1200, split_only=False, overlap=100, doc_id: doc-63f98c04feb8e1a0e97aea7e10a5466a
+
+Benchmark finished in 18993s (316.6 min), exit code: 1073807364

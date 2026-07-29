@@ -1,3 +1,5 @@
+// WorkspaceSidebar is the active workspace controller. It supplies session
+// state/actions to SidebarShell; it is not an alternate visual sidebar.
 import WorkspaceSidebar from "@/components/sidebar/WorkspaceSidebar";
 import PebbleConversationSwitcher from "@/components/PebbleConversationSwitcher";
 import { CapabilityAccessProvider } from "@/components/access/CapabilityAccessContext";

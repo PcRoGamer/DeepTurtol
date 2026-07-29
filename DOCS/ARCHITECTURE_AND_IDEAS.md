@@ -26,3 +26,17 @@ To ensure seamless updates from upstream DeepTutor without merge conflicts or lo
 - [ ] **Step 1**: Visual-only Next.js frontend update (Waves sidebar, sand color tokens, beach aesthetic — **0 functionality changes**).
 - [ ] **Step 2**: Visual polish & component harmonization across chat, workspace, knowledge base, and settings pages.
 - [ ] **Step 3**: Feature additions (custom tutoring agent personalities, enhanced interactive learning surfaces).
+- [ ] **Step 4**: GUI-first setup migration — move first-run configuration, provider onboarding, diagnostics, and common runtime setup from terminal-guided flows into the Web UI. Preserve the CLI for automation, headless deployments, and advanced users; every GUI flow should expose clear status, recovery guidance, and safe links to provider setup.
+- [ ] **Step 5**: Video library — store course videos with background transcription, searchable captions/subtitles, lecture summaries, and knowledge-base ingestion. Keep playback, caption generation, and indexing independently queued so video processing never blocks chat or live speech-to-text.
+
+### Echo360 and library progress
+
+- [x] Durable audio/video storage, playback, background transcription, summaries, and study notes.
+- [x] UniMelb Echo360 course discovery/import through a GUI-managed, isolated Chromium profile without accepting or storing university passwords.
+- [x] Always-available agent library search over transcripts and generated notes, independent of KB selection.
+- [ ] Time-aligned subtitle generation, subtitle editing/export, and richer video-library organization.
+
+The archived EchoTutor/Trinity implementations are reference material only.
+The active integration in `deeptutor/services/echo360.py` targets the user's
+current University of Melbourne enrolments on Echo360 Cloud. Do not restore
+Trinity-specific login, course, path, or branding assumptions into the runtime.

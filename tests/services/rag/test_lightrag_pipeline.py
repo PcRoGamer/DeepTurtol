@@ -123,6 +123,12 @@ def test_storage_meta_and_has_output(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
+    (root / "kv_store_text_chunks.json").write_text(
+        json.dumps({"chunk-1": {"content": "ready"}}), encoding="utf-8"
+    )
+    (root / "vdb_chunks.json").write_text(
+        json.dumps({"data": [{"id": "chunk-1"}]}), encoding="utf-8"
+    )
     assert storage.has_output(root) is True
 
     storage.write_meta(root)
@@ -269,6 +275,16 @@ def test_build_rag_skips_raganything_parser_install_check(monkeypatch) -> None:
     assert captured["config"].working_dir == "/tmp/kb-wd"
 
 
+def test_networkx_numpy_compat_restores_removed_float_alias(monkeypatch) -> None:
+    import numpy as np
+
+    monkeypatch.delattr(np, "float_", raising=False)
+
+    engine._ensure_networkx_numpy_compat()
+
+    assert np.float_ is np.float64
+
+
 def test_lightrag_query_initializes_raganything_before_aquery(monkeypatch) -> None:
     calls: list[str] = []
 
@@ -332,7 +348,10 @@ def _stub_engine(monkeypatch, answer: str = "ANSWER") -> list[dict]:
     async def fake_insert(rag, content_list, *, file_name, doc_id):
         inserts.append({"file": file_name, "doc_id": doc_id, "blocks": content_list})
         (rag.working_dir / "vdb_chunks.json").write_text(
-            json.dumps({"vectors": [[1.0]]}), encoding="utf-8"
+            json.dumps({"data": [{"id": "chunk-1"}]}), encoding="utf-8"
+        )
+        (rag.working_dir / "kv_store_text_chunks.json").write_text(
+            json.dumps({"chunk-1": {"content": "ready"}}), encoding="utf-8"
         )
         (rag.working_dir / "kv_store_doc_status.json").write_text(
             json.dumps(

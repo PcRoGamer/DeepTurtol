@@ -34,6 +34,17 @@ export function apiUrl(path: string): string {
  * @returns The same path, unchanged
  */
 export function wsUrl(path: string): string {
+  if (typeof window !== "undefined") {
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE || "";
+    if (apiBase.startsWith("http://")) {
+      return `${apiBase.replace("http://", "ws://")}${path}`;
+    }
+    if (apiBase.startsWith("https://")) {
+      return `${apiBase.replace("https://", "wss://")}${path}`;
+    }
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    return `${protocol}//${window.location.host}${apiBase}${path}`;
+  }
   return path;
 }
 

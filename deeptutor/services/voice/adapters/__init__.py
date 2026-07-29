@@ -13,6 +13,7 @@ from deeptutor.services.voice.adapters.openai_compat import (
     OpenAICompatTTSAdapter,
     OpenRouterTTSAdapter,
 )
+from deeptutor.services.voice.adapters.qnn_whisper import QNNWhisperSTTAdapter
 from deeptutor.services.voice.base import BaseSTTAdapter, BaseTTSAdapter, VoiceProviderError
 
 TTS_ADAPTERS: dict[str, BaseTTSAdapter] = {
@@ -22,6 +23,7 @@ TTS_ADAPTERS: dict[str, BaseTTSAdapter] = {
 
 STT_ADAPTERS: dict[str, BaseSTTAdapter] = {
     "openai_compat": OpenAICompatSTTAdapter(),
+    "qnn_whisper": QNNWhisperSTTAdapter(),
 }
 
 

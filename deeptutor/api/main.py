@@ -364,6 +364,7 @@ from deeptutor.api.routers import (
     dashboard,
     imports,
     knowledge,
+    lectures,
     mastery_path,
     mcp_settings,
     memory,
@@ -466,6 +467,7 @@ app.include_router(
 app.include_router(tools_router.router, prefix="/api/v1/tools", tags=["tools"], dependencies=_auth)
 app.include_router(system.router, prefix="/api/v1/system", tags=["system"], dependencies=_auth)
 app.include_router(voice.router, prefix="/api/v1/voice", tags=["voice"], dependencies=_auth)
+app.include_router(lectures.router, prefix="/api/v1/lectures", tags=["lectures"], dependencies=_auth)
 app.include_router(
     plugins_api.router, prefix="/api/v1/plugins", tags=["plugins"], dependencies=_auth
 )

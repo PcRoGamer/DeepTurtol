@@ -131,6 +131,12 @@ def test_lightrag_uses_doc_status_as_truth(tmp_path: Path) -> None:
         ),
         encoding="utf-8",
     )
+    (version_dir / "kv_store_text_chunks.json").write_text(
+        json.dumps({"chunk-1": {"content": "ready"}}), encoding="utf-8"
+    )
+    (version_dir / "vdb_chunks.json").write_text(
+        json.dumps({"data": [{"id": "chunk-1"}]}), encoding="utf-8"
+    )
     probe = inspect_provider_index("lightrag", version_dir)
     assert probe.ready is True
     assert probe.doc_count == 1

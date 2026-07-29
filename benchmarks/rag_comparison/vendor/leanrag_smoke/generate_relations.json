@@ -1,0 +1,19 @@
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is instructor of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Alex Kim", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is teaching assistant for", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Priya Sharma", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is teaching assistant for", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 201: Introduction to Machine Learning", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is prerequisite of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "MATH 205: Linear Algebra", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is prerequisite of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "STAT 210: Probability and Statistical Inference", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is prerequisite of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Prof. James Liu", "tgt_src": "CS 201: Introduction to Machine Learning", "description": "is instructor of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Prof. Maria Rodriguez", "tgt_src": "MATH 205: Linear Algebra", "description": "is instructor of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Prof. Thomas Brown", "tgt_src": "STAT 210: Probability and Statistical Inference", "description": "is instructor of", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Backpropagation and Optimization", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Transformer Architectures", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Efficient Attention", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Few-Shot and Meta-Learning", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Reinforcement Learning", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Generative Models", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "CS 301: Advanced Machine Learning", "tgt_src": "Ethics and Safety", "description": "covers topic", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Deep Learning", "tgt_src": "CS 301: Advanced Machine Learning", "description": "is required textbook for", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Prof. Sarah Chen", "tgt_src": "Adaptive Sparse Attention (ASA) framework", "description": "developed", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}
+{"src_tgt": "Efficient Attention", "tgt_src": "Adaptive Sparse Attention (ASA) framework", "description": "includes", "weight": 1, "source_id": "79ea068d280ff1bde285c9923db5fc78", "level": 0}

@@ -187,7 +187,14 @@ def compose_enabled_tools(
         if getattr(mount_flags, flag) and _builtin_allowed(tool_name):
             composed.append(tool_name)
     composed.extend(str(name) for name in capability_owned if str(name).strip())
-    for always_on in ("write_memory", "web_fetch", "github", "ask_user", "cron"):
+    for always_on in (
+        "write_memory",
+        "library_search",
+        "web_fetch",
+        "github",
+        "ask_user",
+        "cron",
+    ):
         if _builtin_allowed(always_on):
             composed.append(always_on)
     return _finalize(composed, forced, suppressed)

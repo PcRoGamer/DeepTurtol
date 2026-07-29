@@ -20,6 +20,7 @@ from deeptutor.services.voice import (
     synthesize_speech,
     transcribe_audio,
 )
+from deeptutor.services.config.provider_runtime import resolve_stt_runtime_config
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +39,20 @@ class TTSRequest(BaseModel):
     text: str = Field(..., min_length=1)
     voice: str | None = None
     format: str | None = None
+
+
+@router.get("/stt/status")
+async def speech_to_text_status() -> dict[str, bool]:
+    """Report whether the shared STT service can accept microphone clips.
+
+    This intentionally exposes no provider or credential information. It lets
+    the chat composer offer setup before asking for microphone permission.
+    """
+    try:
+        config = resolve_stt_runtime_config()
+    except ValueError:
+        return {"configured": False}
+    return {"configured": bool(config.api_key)}
 
 
 def _parse_pcm_content_type(content_type: str) -> tuple[int, int] | None:
