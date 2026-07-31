@@ -116,7 +116,9 @@ export function MinerUEngineSettings() {
         if (!response.ok) {
           throw new Error(
             "detail" in data && data.detail
-              ? data.detail
+              ? Array.isArray(data.detail)
+                ? (data.detail[0] as { msg?: string })?.msg ?? t("Failed to load MinerU settings.")
+                : String(data.detail)
               : t("Failed to load MinerU settings."),
           );
         }
@@ -300,7 +302,14 @@ export function MinerUEngineSettings() {
         setDownload({
           state: "failed",
           lines: [],
-          message: data.message || data.detail || t("Download failed."),
+          message:
+            (typeof data.message === "string"
+              ? data.message
+              : typeof data.detail === "string"
+                ? data.detail
+                : Array.isArray(data.detail)
+                  ? (data.detail[0] as { msg?: string })?.msg
+                  : undefined) || t("Download failed."),
         });
         return;
       }

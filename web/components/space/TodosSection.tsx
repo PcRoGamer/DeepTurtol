@@ -295,7 +295,7 @@ export default function TodosSection() {
                           onChange={(e) =>
                             setEditValues({
                               ...editValues,
-                              kind: e.target.value,
+                              kind: e.target.value as TodoItem["kind"],
                             })
                           }
                           className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-1.5 text-[12px] text-[var(--foreground)] outline-none"
@@ -312,7 +312,7 @@ export default function TodosSection() {
                           onChange={(e) =>
                             setEditValues({
                               ...editValues,
-                              priority: e.target.value,
+                              priority: e.target.value as TodoItem["priority"],
                             })
                           }
                           className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-1.5 text-[12px] text-[var(--foreground)] outline-none"

@@ -123,7 +123,20 @@ async function expectJson<T>(response: Response): Promise<T> {
     return new Promise(() => {});
   }
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+    let detail = "";
+    try {
+      const body = await response.text();
+      // FastAPI returns { detail: "..." } on 422/500; try to extract it
+      try {
+        const parsed = JSON.parse(body);
+        detail = parsed.detail ?? parsed.message ?? body;
+      } catch {
+        detail = body.slice(0, 500);
+      }
+    } catch {
+      detail = "(unable to read response body)";
+    }
+    throw new Error(`Request failed: ${response.status}${detail ? ` — ${detail}` : ""}`);
   }
   return response.json() as Promise<T>;
 }

@@ -39,12 +39,12 @@ class Echo360Source(BaseModel):
     """A selected, browser-resolved Echo360 source; it never contains cookies."""
 
     id: str = Field(min_length=1, max_length=128)
-    title: str = Field(min_length=1, max_length=500)
+    title: str = Field(default="", max_length=500)
     date: str = Field(default="", max_length=32)
     course_id: str = Field(min_length=1, max_length=128)
     course_name: str = Field(default="", max_length=500)
     media_url: str = Field(min_length=8, max_length=4096)
-    media_kind: Literal["mp4", "hls"]
+    media_kind: Literal["mp4", "mp3", "hls"]
 
 
 class Echo360ImportRequest(BaseModel):
@@ -171,7 +171,7 @@ def _validated_echo360_media_url(raw_url: str) -> str:
 def _download_echo360_media(source: Echo360Source, destination: Path) -> None:
     """Download a browser-resolved source without accessing a browser cookie store."""
     media_url = _validated_echo360_media_url(source.media_url)
-    if source.media_kind == "mp4":
+    if source.media_kind in ("mp4", "mp3"):
         with requests.get(
             media_url,
             stream=True,

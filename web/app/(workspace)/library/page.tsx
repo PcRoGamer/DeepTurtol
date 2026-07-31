@@ -49,6 +49,7 @@ type EchoRecording = {
   id: string;
   title: string;
   date: string;
+  course_id: string;
   course_name: string;
   has_media: boolean;
   imported: boolean;
@@ -57,8 +58,15 @@ type EchoRecording = {
 
 async function responseError(response: Response, fallback: string) {
   try {
-    const body = (await response.json()) as { detail?: string };
-    return body.detail || fallback;
+    const body = (await response.json()) as { detail?: unknown };
+    if (body?.detail) {
+      if (typeof body.detail === "string") return body.detail;
+      if (Array.isArray(body.detail)) {
+        const first = body.detail[0] as { msg?: string } | undefined;
+        return first?.msg || fallback;
+      }
+    }
+    return fallback;
   } catch {
     return fallback;
   }
@@ -275,9 +283,18 @@ export default function MediaLibraryPage() {
     setEchoMessage("Resolving selected Echo360 lectures in your browser…");
     let sources;
     try {
-      sources = await resolveEcho360Sources(courseId, [...selectedRecordings]);
+      sources = await resolveEcho360Sources(courseId, [...selectedRecordings], echoRecordings);
     } catch (error) {
       setEchoError(error instanceof Error ? error.message : "Could not resolve the selected Echo360 lectures.");
+      setEchoMessage("");
+      setEchoBusy(false);
+      return;
+    }
+    if (!sources.sources || sources.sources.length === 0) {
+      setEchoError(
+        "No playable media found for the selected recordings. " +
+          "Check the browser console (F12) for details from the Echo360 page.",
+      );
       setEchoMessage("");
       setEchoBusy(false);
       return;

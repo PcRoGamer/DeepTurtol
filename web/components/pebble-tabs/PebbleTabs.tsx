@@ -43,7 +43,6 @@ const styles = `
     display: flex;
     align-items: center;
     padding: 10px 16px;
-    background: transparent;
     border-bottom: none;
     position: relative;
     z-index: 20;

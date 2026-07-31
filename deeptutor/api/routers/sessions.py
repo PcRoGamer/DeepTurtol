@@ -89,9 +89,13 @@ async def list_sessions(
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
 ):
-    store = get_session_store()
-    sessions = await store.list_sessions(limit=limit, offset=offset)
-    return {"sessions": sessions}
+    try:
+        store = get_session_store()
+        sessions = await store.list_sessions(limit=limit, offset=offset)
+        return {"sessions": sessions}
+    except Exception:
+        logger.exception("Failed to list sessions")
+        raise HTTPException(status_code=500, detail="Failed to load sessions")
 
 
 # Cap (in characters) for a single event payload returned to the UI. RAG

@@ -445,7 +445,11 @@ function ToolExecutor({
               metadata: (payload.metadata as Record<string, unknown>) ?? {},
             });
           } else if (eventType === "error") {
-            setError((payload.detail as string) ?? "Unknown error");
+            setError(
+              Array.isArray(payload.detail)
+                ? (payload.detail[0] as { msg?: string })?.msg ?? "Unknown error"
+                : String(payload.detail ?? "Unknown error"),
+            );
           }
         }
       }

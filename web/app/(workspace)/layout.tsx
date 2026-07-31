@@ -16,7 +16,7 @@ export default function WorkspaceLayout({
       <UnifiedChatProvider>
         <div className="flex h-screen overflow-hidden">
           <WorkspaceSidebar />
-          <div className="flex flex-1 flex-col overflow-hidden bg-gradient-to-br from-[#FDF8EE] to-[#E6D5B8] text-[var(--foreground)]">
+          <div className="flex flex-1 flex-col overflow-hidden text-[var(--foreground)]">
             <PebbleConversationSwitcher />
             <main className="flex-1 overflow-hidden">
               <CapabilityGate>{children}</CapabilityGate>

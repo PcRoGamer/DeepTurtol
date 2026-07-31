@@ -32,7 +32,14 @@ export type Echo360Source = {
   course_id: string;
   course_name: string;
   media_url: string;
-  media_kind: "mp4" | "hls";
+  media_kind: "mp4" | "mp3" | "hls";
+};
+
+/** Minimal metadata for a recording, sent alongside SOURCES requests so the
+ *  connector can include titles/dates in its response even when the Echo360
+ *  syllabus API is unreachable. */
+export type Echo360RecordingMeta = {
+  [id: string]: { title: string; date: string };
 };
 
 type RequestType =
@@ -55,7 +62,9 @@ function connectorRequest<T>(
   return new Promise<T>((resolve, reject) => {
     const timer = window.setTimeout(() => {
       window.removeEventListener("message", onMessage);
-      reject(new Error("The Echo360 connector did not respond. Open Echo360 through UniMelb LMS, then try again."));
+      reject(new Error(
+        `[${type}] The Echo360 connector did not respond after ${(timeoutMs / 1000).toFixed(0)}s. Open Echo360 through UniMelb LMS, then try again.`,
+      ));
     }, timeoutMs);
     function onMessage(event: MessageEvent<ConnectorReply<T>>) {
       if (
@@ -135,6 +144,24 @@ export function listEcho360Recordings(
 export function resolveEcho360Sources(
   courseId: string,
   recordingIds: string[],
+  recordings?: Echo360Recording[],
 ): Promise<{ sources: Echo360Source[] }> {
-  return connectorRequest("DEEPTURTOL_ECHO360_SOURCES", { courseId, recordingIds }, 60_000);
+  // Build metadata lookup for recordings selected for import
+  let recordingsMeta: Echo360RecordingMeta = {};
+  if (recordings) {
+    for (const r of recordings) {
+      if (recordingIds.includes(r.id)) {
+        recordingsMeta[r.id] = { title: r.title, date: r.date };
+      }
+    }
+  }
+  // The Echo360 tab navigates through each recording's classroom page at
+  // ~36s per recording (30 attempts × 1200ms).  Add a generous buffer.
+  const perRecordingMs = 60_000;
+  const timeoutMs = Math.max(120_000, recordingIds.length * perRecordingMs);
+  return connectorRequest(
+    "DEEPTURTOL_ECHO360_SOURCES",
+    { courseId, recordingIds, recordings: recordingsMeta },
+    timeoutMs,
+  );
 }
