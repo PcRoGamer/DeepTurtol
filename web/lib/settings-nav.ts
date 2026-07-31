@@ -11,6 +11,7 @@ import {
   FileScan,
   Image as ImageIcon,
   Library,
+  Mail,
   MessagesSquare,
   Mic,
   Network,
@@ -352,6 +353,16 @@ export const SETTINGS_CATEGORIES: SettingsCategory[] = [
     icon: BrainCircuit,
     href: "/settings/memory",
   },
+  {
+    key: "email",
+    label: { zh: "邮箱", en: "Email" },
+    blurb: {
+      zh: "大学邮箱监控：自动提取待办事项。",
+      en: "University email monitor: auto-extract todos from your inbox.",
+    },
+    icon: Mail,
+    href: "/settings/email",
+  },
 ];
 
 export const SETTINGS_HUB_HREF = "/settings";
@@ -386,6 +397,7 @@ const STORAGE_PATHS: Record<string, string> = {
   "/settings/mcp": "data/user/settings/mcp.json",
   "/settings/capabilities": "data/user/settings/main.yaml · agents.yaml",
   "/settings/memory": "data/user/settings/main.yaml",
+  "/settings/email": "data/user/settings/email_monitor.json",
   "/settings/agents/claude-code": "data/user/settings/subagent.json",
   "/settings/agents/codex": "data/user/settings/subagent.json",
   "/settings/agents/gemini": "data/user/settings/subagent.json",

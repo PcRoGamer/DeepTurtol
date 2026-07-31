@@ -14,6 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { apiFetch, apiUrl } from "@/lib/api";
 import { listSessions } from "@/lib/session-api";
 import { listNotebooks, listNotebookEntries } from "@/lib/notebook-api";
 import { listPersonas } from "@/lib/personas-api";
@@ -37,7 +38,8 @@ type DashKey =
   | "question_bank"
   | "personas"
   | "skills"
-  | "mastery_path";
+  | "mastery_path"
+  | "todos";
 
 interface DashboardItem {
   key: DashKey;
@@ -99,6 +101,29 @@ const GROUPS: DashboardGroup[] = [
         unit: { zh: "道题", en: "questions" },
         tile: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
         load: async () => (await listNotebookEntries({ limit: 1 })).total,
+      },
+      {
+        key: "todos",
+        href: "/space/todos",
+        icon: ClipboardList,
+        title: { zh: "待办事项", en: "Todos" },
+        blurb: {
+          zh: "管理从大学邮件中提取的作业和截止日期。",
+          en: "Manage assignments and deadlines from your university email.",
+        },
+        unit: { zh: "项待办", en: "todos" },
+        tile: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
+        load: async () => {
+          try {
+            const res = await apiFetch(apiUrl("/api/v1/todos/upcoming"), {
+              cache: "no-store",
+            });
+            const data = await res.json();
+            return data.todos?.length ?? 0;
+          } catch {
+            return 0;
+          }
+        },
       },
     ],
   },

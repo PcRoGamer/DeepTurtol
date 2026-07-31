@@ -16,7 +16,8 @@ export type SpaceItemKey =
   | "notebooks"
   | "question_bank"
   | "personas"
-  | "skills";
+  | "skills"
+  | "todos";
 
 export type SpaceMemoryFile = "summary" | "profile";
 
@@ -71,5 +72,12 @@ export const SPACE_ITEMS: SpaceItem[] = [
     label: "Skills",
     description: "Capability playbooks the model reads on demand.",
     icon: Wand2,
+  },
+  {
+    key: "todos",
+    href: "/space/todos",
+    label: "Todos",
+    description: "Track assignments, exams, and deadlines from your university email.",
+    icon: ClipboardList,
   },
 ];

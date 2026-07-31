@@ -177,6 +177,14 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning(f"Failed to start cron service: {e}")
 
+    # Start email monitor poll loop
+    try:
+        from deeptutor.services.email_monitor import get_email_monitor_service
+
+        await get_email_monitor_service().start()
+    except Exception as e:
+        logger.warning(f"Failed to start email monitor: {e}")
+
     # Ping PocketBase if configured — logs a warning (not an error) if unreachable
     try:
         from deeptutor.services.pocketbase_client import ping_pocketbase
@@ -222,6 +230,14 @@ async def lifespan(app: FastAPI):
         await get_cron_service().stop()
     except Exception as e:
         logger.warning(f"Failed to stop cron service: {e}")
+
+    # Stop email monitor poll loop
+    try:
+        from deeptutor.services.email_monitor import get_email_monitor_service
+
+        await get_email_monitor_service().stop()
+    except Exception as e:
+        logger.warning(f"Failed to stop email monitor: {e}")
 
     # Stop partners
     try:
@@ -362,6 +378,7 @@ from deeptutor.api.routers import (
     chat,
     co_writer,
     dashboard,
+    email_monitor,
     imports,
     knowledge,
     lectures,
@@ -380,6 +397,7 @@ from deeptutor.api.routers import (
     skills,
     subagents,
     system,
+    todos,
     unified_ws,
     voice,
 )
@@ -432,6 +450,8 @@ app.include_router(
     notebook.router, prefix="/api/v1/notebook", tags=["notebook"], dependencies=_auth
 )
 app.include_router(book.router, prefix="/api/v1/book", tags=["book"], dependencies=_auth)
+app.include_router(todos.router, tags=["todos"], dependencies=_auth)
+app.include_router(email_monitor.router, tags=["email-monitor"], dependencies=_auth)
 app.include_router(memory.router, prefix="/api/v1/memory", tags=["memory"], dependencies=_auth)
 app.include_router(
     capabilities_settings.router,

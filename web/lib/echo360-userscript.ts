@@ -104,7 +104,7 @@ export async function getConnectorInfo(): Promise<ConnectorInfo | null> {
 
 export async function getExpectedConnectorVersion(): Promise<string | null> {
   try {
-    const res = await fetch("/api/v1/lectures/echo360/connector-version");
+    const res = await fetch("/echo360-connector-version");
     if (!res.ok) return null;
     const data = await res.json();
     return typeof data.version === "string" ? data.version : null;

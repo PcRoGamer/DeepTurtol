@@ -53,6 +53,8 @@ WorkspaceFeature = Literal[
     "co-writer",
     "chat",
     "book",
+    "todos",
+    "email_monitor",
 ]
 
 
@@ -226,7 +228,7 @@ class PathService:
             "_detached_code_execution",
         }:
             return self.get_chat_feature_dir(cast(ChatWorkspaceFeature, feature))
-        if feature in {"memory", "notebook", "co-writer", "book"}:
+        if feature in {"memory", "notebook", "co-writer", "book", "todos", "email_monitor"}:
             return self.get_workspace_feature_dir(cast(WorkspaceFeature, feature))
         raise ValueError(f"Unknown workspace feature: {feature}")
 
@@ -363,6 +365,22 @@ class PathService:
     def get_run_code_workspace_dir(self) -> Path:
         return self.get_chat_feature_dir("_detached_code_execution")
 
+    # ── Todo paths ──────────────────────────────────────────────────
+
+    def get_todo_dir(self) -> Path:
+        """Root directory holding the todos JSON file."""
+        return self.get_workspace_feature_dir("todos")
+
+    def get_todo_file(self) -> Path:
+        """The todos.json file path."""
+        return self.get_todo_dir() / "todos.json"
+
+    # ── Email monitor paths ─────────────────────────────────────────
+
+    def get_email_monitor_dir(self) -> Path:
+        """Root directory holding email monitor state (config, cursor, etc.)."""
+        return self.get_workspace_feature_dir("email_monitor")
+
     def get_logs_dir(self) -> Path:
         return self.get_user_root() / "logs"
 
@@ -402,7 +420,10 @@ class PathService:
         self.ensure_memory_dir()
         self.ensure_notebook_dir()
         self.get_logs_dir().mkdir(parents=True, exist_ok=True)
-        for workspace_feature in cast(tuple[WorkspaceFeature, ...], ("co-writer", "book")):
+        for workspace_feature in cast(
+            tuple[WorkspaceFeature, ...],
+            ("co-writer", "book", "todos", "email_monitor"),
+        ):
             self.get_workspace_feature_dir(workspace_feature).mkdir(parents=True, exist_ok=True)
         for chat_feature in cast(
             tuple[ChatWorkspaceFeature, ...],
