@@ -201,10 +201,10 @@ samp {
     --ocean-mid-deep-rgb: 78, 28, 170;
     --ocean-mid-light-rgb: 68, 22, 155;
     --ocean-back-rgb: 56, 12, 130;
-    --ocean-sand-wet-dark-rgb: 94, 56, 156;
-    --ocean-sand-wet-light-rgb: 147, 92, 232;
-    --ocean-sand-damp-dark-rgb: 120, 72, 200;
-    --ocean-sand-damp-light-rgb: 168, 120, 255;
+    --ocean-sand-wet-dark-rgb: 62, 30, 120;
+    --ocean-sand-wet-light-rgb: 74, 36, 140;
+    --ocean-sand-damp-dark-rgb: 70, 34, 135;
+    --ocean-sand-damp-light-rgb: 80, 40, 150;
     --ocean-sand-chip-rgb: 46, 40, 84;
     --ocean-foam-rgb: 255, 255, 255;
     --ocean-accent-rgb: 192, 150, 255;
