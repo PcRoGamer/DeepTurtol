@@ -205,6 +205,9 @@ samp {
     --ocean-sand-chip-rgb: 40, 38, 64;
     --ocean-foam-rgb: 240, 240, 248;
     --ocean-accent-rgb: 167, 139, 250;
+    /* Extra transparency — scales every water/sand/foam layer's opacity
+       (default 1) so the dark page reads through the violet water. */
+    --ocean-alpha-scale: 0.55;
   }
 
   .theme-glass body {
