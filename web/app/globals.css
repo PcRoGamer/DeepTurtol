@@ -192,22 +192,27 @@ samp {
     --input: rgba(255, 255, 255, 0.06);
     --ring: #a855f7;
     --overlay: rgba(0, 0, 0, 0.55);
-    /* Ocean sidebar palette — violet water for the glass theme */
-    --ocean-front-deep-rgb: 109, 40, 217;
-    --ocean-front-light-rgb: 167, 139, 250;
-    --ocean-mid-deep-rgb: 124, 58, 237;
-    --ocean-mid-light-rgb: 139, 92, 246;
-    --ocean-back-rgb: 147, 51, 234;
-    --ocean-sand-wet-dark-rgb: 56, 44, 76;
-    --ocean-sand-wet-light-rgb: 96, 78, 116;
-    --ocean-sand-damp-dark-rgb: 72, 58, 96;
-    --ocean-sand-damp-light-rgb: 108, 92, 130;
-    --ocean-sand-chip-rgb: 40, 38, 64;
-    --ocean-foam-rgb: 240, 240, 248;
-    --ocean-accent-rgb: 167, 139, 250;
-    /* Extra transparency — scales every water/sand/foam layer's opacity
-       (default 1) so the dark page reads through the violet water. */
-    --ocean-alpha-scale: 0.55;
+    /* Ocean sidebar palette — vivid violet glass panels. No gray: the foam
+       is lavender-white and the "sand" washes are violet-glass tints, so
+       every layer reads as translucent frosted glass. */
+    --ocean-front-deep-rgb: 124, 58, 237;
+    --ocean-front-light-rgb: 192, 150, 255;
+    --ocean-mid-deep-rgb: 139, 92, 246;
+    --ocean-mid-light-rgb: 168, 130, 255;
+    --ocean-back-rgb: 168, 85, 247;
+    --ocean-sand-wet-dark-rgb: 94, 56, 156;
+    --ocean-sand-wet-light-rgb: 147, 92, 232;
+    --ocean-sand-damp-dark-rgb: 120, 72, 200;
+    --ocean-sand-damp-light-rgb: 168, 120, 255;
+    --ocean-sand-chip-rgb: 46, 40, 84;
+    --ocean-foam-rgb: 235, 225, 255;
+    --ocean-accent-rgb: 192, 150, 255;
+    /* Glassmorphic tuning — frosted blur on every layer (front strongest)
+       plus mild transparency so the dark page glows through the panels. */
+    --ocean-blur: 18px;
+    --ocean-blur-mid: 12px;
+    --ocean-blur-back: 7px;
+    --ocean-alpha-scale: 0.6;
   }
 
   .theme-glass body {
