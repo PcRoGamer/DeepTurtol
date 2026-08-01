@@ -8,7 +8,7 @@ export default function MemoryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex h-full min-h-0 flex-col bg-[var(--background)]">
+    <main className="flex h-full min-h-0 flex-col">
       {children}
     </main>
   );

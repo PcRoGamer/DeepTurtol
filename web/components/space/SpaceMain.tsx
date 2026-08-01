@@ -42,7 +42,7 @@ export default function SpaceMain({
 
   if (isFullBleed(pathname)) {
     return (
-      <div className="flex h-full min-h-0 flex-col bg-[var(--background)]">
+      <div className="flex h-full min-h-0 flex-col">
         <div className="shrink-0 border-b border-[var(--border)] px-5 py-2.5">
           <BackToHub />
         </div>
@@ -52,7 +52,7 @@ export default function SpaceMain({
   }
 
   return (
-    <div className="h-full overflow-y-auto bg-[var(--background)] [scrollbar-gutter:stable]">
+    <div className="h-full overflow-y-auto [scrollbar-gutter:stable]">
       <div className="mx-auto max-w-5xl px-8 py-8 pb-12">
         {!isDashboard && (
           <div className="mb-5">

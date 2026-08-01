@@ -21,7 +21,7 @@ export default function SettingsMain({
 
   if (isHub) {
     return (
-      <div className="h-full overflow-y-auto bg-[var(--background)] [scrollbar-gutter:stable]">
+      <div className="h-full overflow-y-auto [scrollbar-gutter:stable]">
         <div className="mx-auto w-full max-w-5xl px-8 py-8 pb-12">
           {children}
         </div>
@@ -32,7 +32,7 @@ export default function SettingsMain({
   const showToolbar = !isNavOnlyRoute(pathname);
 
   return (
-    <div className="flex h-full min-w-0 flex-col overflow-hidden bg-[var(--background)]">
+    <div className="flex h-full min-w-0 flex-col overflow-hidden">
       <div className="mx-auto w-full max-w-5xl px-10 pt-5">
         <SettingsBreadcrumb />
         {showToolbar && (
