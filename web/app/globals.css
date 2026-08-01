@@ -206,7 +206,7 @@ samp {
     --ocean-sand-damp-dark-rgb: 120, 72, 200;
     --ocean-sand-damp-light-rgb: 168, 120, 255;
     --ocean-sand-chip-rgb: 46, 40, 84;
-    --ocean-foam-rgb: 210, 180, 255;
+    --ocean-foam-rgb: 255, 255, 255;
     --ocean-accent-rgb: 192, 150, 255;
     /* Glassmorphic tuning — frosted blur on every layer (front strongest)
        plus mild transparency so the dark page glows through the panels. */
