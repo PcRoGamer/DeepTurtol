@@ -488,7 +488,7 @@ function BookPageInner() {
         />
       )}
 
-      <main className="relative flex flex-1 overflow-hidden bg-[var(--background)]">
+      <main className="beach-surface relative flex flex-1 overflow-hidden">
         {/* Persistent mini progress chip — floats top-right of the workspace
             across creator/spine/reader views as long as generation activity
             exists and isn't fully complete. */}

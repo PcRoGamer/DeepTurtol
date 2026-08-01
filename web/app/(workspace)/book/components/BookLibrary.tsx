@@ -177,7 +177,7 @@ export default function BookLibrary({
   }, [books]);
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[var(--background)]">
+    <div className="beach-surface flex h-full min-h-full flex-col overflow-hidden">
       {/* Header bar */}
       <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-6 py-3">
         <div className="flex items-center gap-3">

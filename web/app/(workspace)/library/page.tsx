@@ -348,7 +348,7 @@ export default function MediaLibraryPage() {
     [items, query],
   );
   return (
-    <main className="h-full overflow-y-auto bg-[var(--background)] px-5 py-6 md:px-8">
+    <main className="beach-surface h-full overflow-y-auto px-5 py-6 md:px-8">
       <section className="mx-auto max-w-7xl">
         <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

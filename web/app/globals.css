@@ -815,7 +815,19 @@ body[data-picker-open] .dt-mark-pulse {
 
 body.theme-beach,
 html.theme-beach body {
-  background: linear-gradient(135deg, #FDF8EE 0%, #E6D5B8 100%) !important;
+  background: linear-gradient(135deg, #FDF8EE 0%, #E6D5B8 100%) fixed !important;
+}
+
+/*
+ * Viewport-anchored sand surface for page-level containers. Because the
+ * gradient is background-attachment: fixed, every element that carries this
+ * class paints the SAME viewport-sized gradient — so tabs, chat, and each
+ * page merge seamlessly at their boundaries instead of each painting its own
+ * element-relative gradient (which never lines up). One paint, everywhere.
+ */
+.theme-beach .beach-surface {
+  background: linear-gradient(135deg, #FDF8EE 0%, #E6D5B8 100%);
+  background-attachment: fixed;
 }
 
 /* ============================================================

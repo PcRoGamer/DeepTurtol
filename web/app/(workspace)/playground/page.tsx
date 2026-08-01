@@ -1803,7 +1803,7 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="beach-surface min-h-screen">
       <div className="mx-auto max-w-5xl px-6 py-8">
         <div className="mb-6">
           <h1 className="font-serif text-2xl font-bold tracking-tight text-[var(--foreground)]">

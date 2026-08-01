@@ -1672,7 +1672,7 @@ export default function CoWriterPage() {
 
   if (docNotFound) {
     return (
-      <div className="flex h-full min-h-full flex-col items-center justify-center gap-4 bg-[var(--background)] p-10 text-center">
+      <div className="beach-surface flex h-full min-h-full flex-col items-center justify-center gap-4 p-10 text-center">
         <p className="text-lg font-medium text-[var(--foreground)]">
           {t("Document not found")}
         </p>
@@ -1693,7 +1693,7 @@ export default function CoWriterPage() {
 
   if (isLoadingDoc && !hasLoadedDraft) {
     return (
-      <div className="flex h-full min-h-full flex-col items-center justify-center gap-3 bg-[var(--background)] p-10 text-center text-[var(--muted-foreground)]">
+      <div className="beach-surface flex h-full min-h-full flex-col items-center justify-center gap-3 p-10 text-center text-[var(--muted-foreground)]">
         <Loader2 size={20} className="animate-spin" />
         <span className="text-sm">{t("Loading document…")}</span>
       </div>
@@ -1701,7 +1701,7 @@ export default function CoWriterPage() {
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[var(--background)]">
+    <div className="beach-surface flex h-full min-h-full flex-col overflow-hidden">
       {/* ── Top bar ── */}
       <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-1.5">
         <div className="flex min-w-0 items-center gap-3 text-sm text-[var(--muted-foreground)]">

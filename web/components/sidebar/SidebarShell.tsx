@@ -156,7 +156,7 @@ export function SidebarShell({
   };
 
   return (
-    <div className="relative flex h-screen shrink-0 overflow-visible">
+    <div className="relative z-[10] flex h-screen shrink-0 overflow-visible">
       <OceanSidebar
         collapsed={collapsed}
         onToggle={() => setCollapsed(!collapsed)}
