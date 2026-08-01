@@ -293,7 +293,7 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold ocean-accent-text shadow-md backdrop-blur-md overflow-hidden"
+                                ? "bg-white/20 border border-white/30 font-semibold text-white shadow-md backdrop-blur-md overflow-hidden"
                                 : "ocean-accent-text"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
@@ -310,9 +310,11 @@ export function SidebarShell({
                             <item.icon
                               size={21}
                               className={
-                                active
-                                  ? "ocean-accent-text"
-                                  : "text-white/70 group-hover:text-white"
+                                active && isExpanded
+                                  ? "text-white"
+                                  : active
+                                    ? "ocean-accent-text"
+                                    : "text-white/70 group-hover:text-white"
                               }
                               strokeWidth={active ? 2.1 : 1.6}
                             />
@@ -329,9 +331,11 @@ export function SidebarShell({
                               ease: [0.22, 1, 0.36, 1],
                             }}
                             className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
-                              active
-                                ? "ocean-accent-text font-semibold"
-                                : "text-white/80 group-hover:text-white"
+                              active && isExpanded
+                                ? "text-white font-semibold"
+                                : active
+                                  ? "ocean-accent-text font-semibold"
+                                  : "text-white/80 group-hover:text-white"
                             }`}
                           >
                             {t(item.label)}
@@ -365,7 +369,7 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold ocean-accent-text shadow-md backdrop-blur-md overflow-hidden"
+                                ? "bg-white/20 border border-white/30 font-semibold text-white shadow-md backdrop-blur-md overflow-hidden"
                                 : "ocean-accent-text"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
@@ -382,9 +386,11 @@ export function SidebarShell({
                             <item.icon
                               size={21}
                               className={
-                                active
-                                  ? "ocean-accent-text"
-                                  : "text-white/70 group-hover:text-white"
+                                active && isExpanded
+                                  ? "text-white"
+                                  : active
+                                    ? "ocean-accent-text"
+                                    : "text-white/70 group-hover:text-white"
                               }
                               strokeWidth={active ? 2.1 : 1.6}
                             />
@@ -401,9 +407,11 @@ export function SidebarShell({
                               ease: [0.22, 1, 0.36, 1],
                             }}
                             className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
-                              active
-                                ? "ocean-accent-text font-semibold"
-                                : "text-white/80 group-hover:text-white"
+                              active && isExpanded
+                                ? "text-white font-semibold"
+                                : active
+                                  ? "ocean-accent-text font-semibold"
+                                  : "text-white/80 group-hover:text-white"
                             }`}
                           >
                             {t(item.label)}
