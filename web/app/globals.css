@@ -198,9 +198,9 @@ samp {
        tints, so every layer reads as translucent frosted glass. */
     --ocean-front-deep-rgb: 124, 58, 237;
     --ocean-front-light-rgb: 88, 32, 178;
-    --ocean-mid-deep-rgb: 139, 92, 246;
-    --ocean-mid-light-rgb: 92, 40, 190;
-    --ocean-back-rgb: 168, 85, 247;
+    --ocean-mid-deep-rgb: 78, 28, 170;
+    --ocean-mid-light-rgb: 68, 22, 155;
+    --ocean-back-rgb: 56, 12, 130;
     --ocean-sand-wet-dark-rgb: 94, 56, 156;
     --ocean-sand-wet-light-rgb: 147, 92, 232;
     --ocean-sand-damp-dark-rgb: 120, 72, 200;
