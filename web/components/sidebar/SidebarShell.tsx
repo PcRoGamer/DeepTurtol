@@ -177,7 +177,7 @@ export function SidebarShell({
                   href="/"
                   className={`group flex h-9 items-center gap-2.5 transition-all duration-200 cursor-pointer ${
                     isExpanded
-                      ? "rounded-xl border border-white/50 bg-[#FDF8EE] px-3 shadow-md hover:bg-[#FDF6E2] hover:scale-[1.02] active:scale-[0.98] overflow-visible"
+                      ? "rounded-xl border border-white/50 ocean-sand-chip px-3 shadow-md hover:scale-[1.02] active:scale-[0.98] overflow-visible"
                       : "pl-1 bg-transparent border border-transparent overflow-hidden"
                   }`}
                   onMouseEnter={(e) => spawnBubbles(e)}
@@ -293,15 +293,15 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md overflow-hidden"
-                                : "text-cyan-300"
+                                ? "bg-white/20 border border-white/30 font-semibold ocean-accent-text shadow-md backdrop-blur-md overflow-hidden"
+                                : "ocean-accent-text"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
                         >
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20 ${
+                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full ocean-accent-bar z-20 ${
                                 isExpanded ? "rounded-l-xl" : "rounded-full"
                               }`}
                             />
@@ -311,7 +311,7 @@ export function SidebarShell({
                               size={21}
                               className={
                                 active
-                                  ? "text-cyan-300"
+                                  ? "ocean-accent-text"
                                   : "text-white/70 group-hover:text-white"
                               }
                               strokeWidth={active ? 2.1 : 1.6}
@@ -330,7 +330,7 @@ export function SidebarShell({
                             }}
                             className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
                               active
-                                ? "text-cyan-300 font-semibold"
+                                ? "ocean-accent-text font-semibold"
                                 : "text-white/80 group-hover:text-white"
                             }`}
                           >
@@ -365,15 +365,15 @@ export function SidebarShell({
                           className={`group relative flex h-11 w-full items-center rounded-xl px-1 transition-all duration-200 ${
                             active
                               ? isExpanded
-                                ? "bg-white/20 border border-white/30 font-semibold text-cyan-300 shadow-md backdrop-blur-md overflow-hidden"
-                                : "text-cyan-300"
+                                ? "bg-white/20 border border-white/30 font-semibold ocean-accent-text shadow-md backdrop-blur-md overflow-hidden"
+                                : "ocean-accent-text"
                               : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
                           }`}
                         >
                           {active && (
                             <motion.div
                               layoutId="activeCurrentIndicator"
-                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.95)] z-20 ${
+                              className={`absolute left-0 top-0 bottom-0 w-1.5 h-full ocean-accent-bar z-20 ${
                                 isExpanded ? "rounded-l-xl" : "rounded-full"
                               }`}
                             />
@@ -383,7 +383,7 @@ export function SidebarShell({
                               size={21}
                               className={
                                 active
-                                  ? "text-cyan-300"
+                                  ? "ocean-accent-text"
                                   : "text-white/70 group-hover:text-white"
                               }
                               strokeWidth={active ? 2.1 : 1.6}
@@ -402,7 +402,7 @@ export function SidebarShell({
                             }}
                             className={`whitespace-nowrap overflow-hidden font-sans font-medium text-[14px] tracking-wide ${
                               active
-                                ? "text-cyan-300 font-semibold"
+                                ? "ocean-accent-text font-semibold"
                                 : "text-white/80 group-hover:text-white"
                             }`}
                           >

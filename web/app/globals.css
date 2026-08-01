@@ -65,6 +65,20 @@ samp {
     --input: #dfd0b5;
     --ring: #028090;
     --overlay: rgba(61, 43, 31, 0.42);
+    /* Ocean sidebar palette — RGB triplets (no alpha) consumed by the ocean
+       sidebar SVG/canvas + chrome so water/sand/foam follow the theme. */
+    --ocean-front-deep-rgb: 8, 128, 150;
+    --ocean-front-light-rgb: 74, 196, 220;
+    --ocean-mid-deep-rgb: 13, 136, 128;
+    --ocean-mid-light-rgb: 64, 182, 176;
+    --ocean-back-rgb: 6, 166, 200;
+    --ocean-sand-wet-dark-rgb: 74, 84, 77;
+    --ocean-sand-wet-light-rgb: 108, 88, 64;
+    --ocean-sand-damp-dark-rgb: 88, 94, 86;
+    --ocean-sand-damp-light-rgb: 112, 98, 72;
+    --ocean-sand-chip-rgb: 247, 241, 227;
+    --ocean-foam-rgb: 255, 255, 255;
+    --ocean-accent-rgb: 94, 208, 216;
   }
 
   /* Default — pure-white neutral canvas (theme id "snow" kept for stored
@@ -93,6 +107,19 @@ samp {
     --input: #e5e5e5;
     --ring: #2563eb;
     --overlay: rgba(0, 0, 0, 0.4);
+    /* Ocean sidebar palette — icy blue water for the snow theme */
+    --ocean-front-deep-rgb: 30, 64, 175;
+    --ocean-front-light-rgb: 96, 165, 250;
+    --ocean-mid-deep-rgb: 37, 99, 235;
+    --ocean-mid-light-rgb: 147, 197, 253;
+    --ocean-back-rgb: 59, 130, 246;
+    --ocean-sand-wet-dark-rgb: 71, 85, 105;
+    --ocean-sand-wet-light-rgb: 148, 163, 184;
+    --ocean-sand-damp-dark-rgb: 100, 116, 139;
+    --ocean-sand-damp-light-rgb: 203, 213, 225;
+    --ocean-sand-chip-rgb: 242, 244, 248;
+    --ocean-foam-rgb: 255, 255, 255;
+    --ocean-accent-rgb: 147, 197, 253;
   }
 
   /* Dark — warm night beach canvas */
@@ -118,6 +145,19 @@ samp {
     --input: #473d34;
     --ring: #00a896;
     --overlay: rgba(0, 0, 0, 0.6);
+    /* Ocean sidebar palette — deepened night water (keeps the cyan family) */
+    --ocean-front-deep-rgb: 6, 105, 133;
+    --ocean-front-light-rgb: 45, 190, 220;
+    --ocean-mid-deep-rgb: 8, 128, 120;
+    --ocean-mid-light-rgb: 45, 180, 172;
+    --ocean-back-rgb: 5, 150, 180;
+    --ocean-sand-wet-dark-rgb: 38, 58, 56;
+    --ocean-sand-wet-light-rgb: 78, 64, 46;
+    --ocean-sand-damp-dark-rgb: 52, 72, 68;
+    --ocean-sand-damp-light-rgb: 96, 78, 56;
+    --ocean-sand-chip-rgb: 64, 54, 44;
+    --ocean-foam-rgb: 235, 240, 240;
+    --ocean-accent-rgb: 103, 232, 249;
   }
 
   /* Glass — translucent purple panels on near-black. Slightly brighter
@@ -142,6 +182,19 @@ samp {
     --input: rgba(255, 255, 255, 0.06);
     --ring: #a855f7;
     --overlay: rgba(0, 0, 0, 0.55);
+    /* Ocean sidebar palette — violet water for the glass theme */
+    --ocean-front-deep-rgb: 109, 40, 217;
+    --ocean-front-light-rgb: 167, 139, 250;
+    --ocean-mid-deep-rgb: 124, 58, 237;
+    --ocean-mid-light-rgb: 139, 92, 246;
+    --ocean-back-rgb: 147, 51, 234;
+    --ocean-sand-wet-dark-rgb: 56, 44, 76;
+    --ocean-sand-wet-light-rgb: 96, 78, 116;
+    --ocean-sand-damp-dark-rgb: 72, 58, 96;
+    --ocean-sand-damp-light-rgb: 108, 92, 130;
+    --ocean-sand-chip-rgb: 40, 38, 64;
+    --ocean-foam-rgb: 240, 240, 248;
+    --ocean-accent-rgb: 167, 139, 250;
   }
 
   .theme-glass body {
@@ -862,6 +915,19 @@ body[data-picker-open] .dt-mark-pulse {
   --input: #dfd4c1;
   --ring: #028090;
   --overlay: rgba(45, 38, 33, 0.42);
+  /* Ocean sidebar palette — the canonical beach water/sand/foam */
+  --ocean-front-deep-rgb: 8, 145, 178;
+  --ocean-front-light-rgb: 103, 232, 249;
+  --ocean-mid-deep-rgb: 13, 148, 136;
+  --ocean-mid-light-rgb: 94, 208, 200;
+  --ocean-back-rgb: 6, 182, 212;
+  --ocean-sand-wet-dark-rgb: 55, 82, 78;
+  --ocean-sand-wet-light-rgb: 91, 75, 52;
+  --ocean-sand-damp-dark-rgb: 69, 93, 86;
+  --ocean-sand-damp-light-rgb: 100, 86, 63;
+  --ocean-sand-chip-rgb: 253, 248, 238;
+  --ocean-foam-rgb: 255, 255, 255;
+  --ocean-accent-rgb: 103, 232, 249;
 }
 
 body.theme-beach,
@@ -879,6 +945,22 @@ html.theme-beach body {
 .theme-beach .beach-surface {
   background: linear-gradient(225deg, #FDF8EE 0%, #FDF8EE 50%, #E6D5B8 100%);
   background-attachment: fixed;
+}
+
+/* Ocean sidebar chrome — theme-driven accent + logo-chip utilities. Each
+   falls back to the canonical beach palette so it works before a theme
+   class is applied (e.g. first paint / SSR). */
+.ocean-accent-text {
+  color: rgb(var(--ocean-accent-rgb, 103, 232, 249));
+}
+
+.ocean-accent-bar {
+  background-color: rgb(var(--ocean-accent-rgb, 103, 232, 249));
+  box-shadow: 0 0 14px rgba(var(--ocean-accent-rgb, 103, 232, 249), 0.95);
+}
+
+.ocean-sand-chip {
+  background-color: rgb(var(--ocean-sand-chip-rgb, 253, 248, 238));
 }
 
 /* ============================================================
