@@ -3,9 +3,37 @@
  * Handles light/dark theme with localStorage fallback and system preference detection
  */
 
-export type Theme = "ocean" | "light" | "dark" | "glass" | "snow";
+export type Theme = "beach" | "light" | "dark" | "glass" | "snow";
 
 export const THEME_STORAGE_KEY = "deeptutor-theme";
+
+/** All theme classes ever applied to <html>. Cleared before each apply so
+ *  switching themes never leaves a stale class behind (the old code forgot
+ *  `theme-beach`, so it piled up with the next theme's class and won by
+ *  CSS order — beach stuck even after picking dark/glass/snow). */
+const THEME_CLASSES = [
+  "dark",
+  "theme-glass",
+  "theme-snow",
+  "theme-beach",
+  "theme-ocean", // legacy — never written again, but clean it up if present
+] as const;
+
+/**
+ * Normalize any stored/legacy value into a valid Theme.
+ * - legacy "ocean" (old theme id) → "beach" (the CSS class has always been
+ *   theme-beach; the id just never matched it)
+ * - anything unknown → "beach" (the default)
+ */
+export function normalizeTheme(value: string | null | undefined): Theme {
+  if (value === "ocean") return "beach";
+  if (value === "beach") return "beach";
+  if (value === "snow") return "snow";
+  if (value === "light") return "light";
+  if (value === "dark") return "dark";
+  if (value === "glass") return "glass";
+  return "beach";
+}
 
 type ThemeChangeListener = (theme: Theme) => void;
 const themeListeners = new Set<ThemeChangeListener>();
@@ -35,14 +63,14 @@ export function getStoredTheme(): Theme | null {
 
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (
-      stored === "ocean" ||
-      stored === "light" ||
-      stored === "dark" ||
-      stored === "glass" ||
-      stored === "snow"
-    ) {
-      return stored;
+    if (stored) {
+      const theme = normalizeTheme(stored);
+      // Migrate legacy ids ("ocean") and stray values ("beach" was written by
+      // ThemeScript before lib/theme knew about it) to the canonical id.
+      if (stored !== theme) {
+        localStorage.setItem(THEME_STORAGE_KEY, theme);
+      }
+      return theme;
     }
   } catch (e) {
     // Silently fail - localStorage may be disabled
@@ -68,10 +96,10 @@ export function saveThemeToStorage(theme: Theme): boolean {
 
 /**
  * Get system preference for theme.
- * Defaults to "ocean" (Ocean Beach Theme).
+ * Defaults to "beach" (Ocean Beach Theme).
  */
 export function getSystemTheme(): Theme {
-  return "ocean";
+  return "beach";
 }
 
 /**
@@ -82,22 +110,32 @@ export function applyThemeToDocument(theme: Theme): void {
 
   const html = document.documentElement;
 
-  html.classList.remove("dark", "theme-glass", "theme-snow", "theme-ocean");
+  for (const cls of THEME_CLASSES) {
+    html.classList.remove(cls);
+  }
 
-  if (theme === "ocean") {
-    html.classList.add("theme-ocean");
-  } else if (theme === "dark") {
-    html.classList.add("dark");
-  } else if (theme === "glass") {
-    html.classList.add("dark", "theme-glass");
-  } else if (theme === "snow") {
-    html.classList.add("theme-snow");
+  switch (theme) {
+    case "beach":
+      html.classList.add("theme-beach");
+      break;
+    case "dark":
+      html.classList.add("dark");
+      break;
+    case "glass":
+      html.classList.add("dark", "theme-glass");
+      break;
+    case "snow":
+      html.classList.add("theme-snow");
+      break;
+    case "light":
+      // Cream — the plain no-class light palette (:root variables).
+      break;
   }
 }
 
 /**
  * Initialize theme on app startup
- * Priority: localStorage > default ("ocean")
+ * Priority: localStorage > default ("beach")
  */
 export function initializeTheme(): Theme {
   // Check localStorage first
@@ -107,8 +145,8 @@ export function initializeTheme(): Theme {
     return stored;
   }
 
-  // Fall back to default ocean theme
-  const defaultTheme: Theme = "ocean";
+  // Fall back to default beach theme
+  const defaultTheme: Theme = "beach";
   applyThemeToDocument(defaultTheme);
   saveThemeToStorage(defaultTheme);
   return defaultTheme;
@@ -118,7 +156,8 @@ export function initializeTheme(): Theme {
  * Set theme and persist it
  */
 export function setTheme(theme: Theme): void {
-  applyThemeToDocument(theme);
-  saveThemeToStorage(theme);
-  notifyThemeChange(theme);
+  const normalized = normalizeTheme(theme);
+  applyThemeToDocument(normalized);
+  saveThemeToStorage(normalized);
+  notifyThemeChange(normalized);
 }

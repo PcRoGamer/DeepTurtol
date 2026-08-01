@@ -13,8 +13,9 @@ from typing import Any
 from deeptutor.services.path_service import get_path_service
 
 DEFAULT_UI_SETTINGS: dict[str, Any] = {
-    # "snow" is the pure-white neutral theme, shown as "Default" in the UI.
-    "theme": "snow",
+    # "beach" is the Ocean theme (default brand look); "snow" is the
+    # pure-white neutral alternative.
+    "theme": "beach",
     "language": "en",
 }
 

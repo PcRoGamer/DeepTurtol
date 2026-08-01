@@ -113,7 +113,7 @@ export default function AppearanceSettingsPage() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
             {(
               [
-                { id: "ocean", label: t("Ocean (Default)") },
+                { id: "beach", label: t("Ocean (Default)") },
                 { id: "snow", label: t("Snow") },
                 { id: "light", label: t("Cream") },
                 { id: "dark", label: t("Dark") },

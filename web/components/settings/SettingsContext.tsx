@@ -23,7 +23,7 @@ import {
 } from "@/context/app-shell-storage";
 import { useAppShell } from "@/context/AppShellContext";
 import { apiFetch, apiUrl } from "@/lib/api";
-import { setTheme as applyThemePreference } from "@/lib/theme";
+import { normalizeTheme, setTheme as applyThemePreference } from "@/lib/theme";
 
 // ─── Domain types ─────────────────────────────────────────────────────────
 
@@ -109,7 +109,7 @@ export type Catalog = {
 };
 
 export type UiSettings = {
-  theme: "ocean" | "light" | "dark" | "glass" | "snow";
+  theme: "beach" | "light" | "dark" | "glass" | "snow";
   language: "en" | "zh";
   code_block_theme: string;
   code_block_show_line_numbers: boolean;
@@ -540,7 +540,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   } = useAppShell();
 
   const [status, setStatus] = useState<SystemStatus | null>(null);
-  const [theme, setTheme] = useState<UiSettings["theme"]>("ocean");
+  const [theme, setTheme] = useState<UiSettings["theme"]>("beach");
+  // Set the moment the user changes the theme in this session. The settings
+  // load (backend source of truth) must not clobber a choice made while the
+  // fetch is still in flight — otherwise a hard refresh + instant click on the
+  // appearance page snaps back to the backend value a moment later.
+  const themeTouchedByUser = useRef(false);
   const [language, setLanguage] = useState<UiSettings["language"]>("en");
   const [catalog, setCatalog] = useState<Catalog>(defaultCatalog());
   const [draft, setDraft] = useState<Catalog>(defaultCatalog());
@@ -626,7 +631,18 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       } else {
         setCatalogEditable(false);
       }
-      setTheme(payload.ui.theme);
+      // Backend is the source of truth for the signed-in user: sync both React
+      // state AND the document classes + storage. Without the apply call a
+      // backend theme that differs from ThemeScript's pre-hydration default
+      // (e.g. localStorage cleared but backend says "snow") would never reach
+      // <html>, leaving the page on the wrong theme until the user re-picks.
+      // Skipped entirely when the user already changed the theme this session
+      // (themeTouchedByUser) so a slow settings fetch can't snap it back.
+      if (!themeTouchedByUser.current) {
+        const loadedTheme = normalizeTheme(payload.ui.theme);
+        setTheme(loadedTheme);
+        applyThemePreference(loadedTheme);
+      }
       setLanguage(payload.ui.language);
       // Writes the backend-loaded values into app-shell storage and dispatches
       // the code-block settings event; AppShellContext (the single source) picks
@@ -695,6 +711,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   // ── UI preferences ──────────────────────────────────────────────────────
   const updateTheme = useCallback(async (next: UiSettings["theme"]) => {
+    themeTouchedByUser.current = true;
     setTheme(next);
     applyThemePreference(next);
     await persistUiSettingsPatch({ theme: next });

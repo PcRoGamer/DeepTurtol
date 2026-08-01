@@ -23,7 +23,7 @@ type Palette = {
 };
 
 const PALETTES: Record<Theme, Palette> = {
-  ocean: {
+  beach: {
     bg: "#FDF8EE",
     fg: "#0f172a",
     card: "rgba(255,255,255,0.4)",

@@ -62,8 +62,9 @@ DEFAULT_SIDEBAR_NAV_ORDER = {
 }
 
 DEFAULT_UI_SETTINGS = {
-    # "snow" is the pure-white neutral theme, shown as "Default" in the UI.
-    "theme": "snow",
+    # "beach" is the Ocean theme (default brand look); "snow" is the
+    # pure-white neutral alternative.
+    "theme": "beach",
     "language": "en",
     "sidebar_description": "✨ Data Intelligence Lab @ HKU",
     "sidebar_nav_order": DEFAULT_SIDEBAR_NAV_ORDER,
@@ -94,7 +95,7 @@ class SidebarNavOrder(BaseModel):
 
 
 class UISettings(BaseModel):
-    theme: Literal["light", "dark", "glass", "snow"] = "snow"
+    theme: Literal["beach", "light", "dark", "glass", "snow"] = "beach"
     language: Literal["zh", "en"] = "en"
     sidebar_description: Optional[str] = None
     sidebar_nav_order: Optional[SidebarNavOrder] = None
@@ -116,7 +117,7 @@ class UISettingsUpdate(BaseModel):
     # Same Literal domains as UISettings — a None default keeps them optional
     # for exclude_unset partial merges, but an explicit value is still validated
     # so PUT /ui cannot persist a theme/language the app can't render.
-    theme: Literal["light", "dark", "glass", "snow"] | None = None
+    theme: Literal["beach", "light", "dark", "glass", "snow"] | None = None
     language: Literal["zh", "en"] | None = None
     sidebar_description: str | None = None
     sidebar_nav_order: SidebarNavOrder | None = None
@@ -134,7 +135,7 @@ class ChatResponseTimeoutUpdate(BaseModel):
 
 
 class ThemeUpdate(BaseModel):
-    theme: Literal["light", "dark", "glass", "snow"]
+    theme: Literal["beach", "light", "dark", "glass", "snow"]
 
 
 class LanguageUpdate(BaseModel):
@@ -1129,7 +1130,8 @@ async def reset_settings():
 async def get_themes():
     return {
         "themes": [
-            {"id": "snow", "name": "Default"},
+            {"id": "beach", "name": "Ocean"},
+            {"id": "snow", "name": "Snow"},
             {"id": "light", "name": "Cream"},
             {"id": "dark", "name": "Dark"},
             {"id": "glass", "name": "Glass"},

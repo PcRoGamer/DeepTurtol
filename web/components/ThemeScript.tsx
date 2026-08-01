@@ -10,22 +10,24 @@ import Script from "next/script";
 export default function ThemeScript() {
   const themeScript = `
     try {
-      const stored = localStorage.getItem('deeptutor-theme');
-      document.documentElement.classList.remove('dark', 'theme-glass', 'theme-snow');
+      var stored = localStorage.getItem('deeptutor-theme');
+      var html = document.documentElement;
+      html.classList.remove('dark', 'theme-glass', 'theme-snow', 'theme-beach', 'theme-ocean');
       if (stored === 'dark') {
-        document.documentElement.classList.add('dark');
+        html.classList.add('dark');
       } else if (stored === 'glass') {
-        document.documentElement.classList.add('dark', 'theme-glass');
-      } else if (stored === 'beach' || stored === 'light') {
-        document.documentElement.classList.add('theme-beach');
+        html.classList.add('dark', 'theme-glass');
+      } else if (stored === 'snow') {
+        html.classList.add('theme-snow');
+      } else if (stored === 'beach' || stored === 'ocean') {
+        html.classList.add('theme-beach');
+        if (stored === 'ocean') localStorage.setItem('deeptutor-theme', 'beach');
+      } else if (stored === 'light') {
+        // Cream — the plain no-class light palette.
       } else {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('deeptutor-theme', 'dark');
-        } else {
-          document.documentElement.classList.add('theme-beach');
-          localStorage.setItem('deeptutor-theme', 'beach');
-        }
+        // Default: Ocean Beach (matches getSystemTheme()).
+        html.classList.add('theme-beach');
+        localStorage.setItem('deeptutor-theme', 'beach');
       }
     } catch (e) {}
   `;
