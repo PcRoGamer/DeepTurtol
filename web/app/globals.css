@@ -193,13 +193,13 @@ samp {
     --ring: #a855f7;
     --overlay: rgba(0, 0, 0, 0.55);
     /* Ocean sidebar palette — vivid violet glass panels. No gray: the
-       seafoam is a luminous violet rim and the "sand" washes are
-       violet-glass tints, so every layer reads as translucent frosted
-       glass. */
+       gradients deepen to a dark violet crest at the wave edge, the
+       seafoam is pure white, and the "sand" washes are violet-glass
+       tints, so every layer reads as translucent frosted glass. */
     --ocean-front-deep-rgb: 124, 58, 237;
-    --ocean-front-light-rgb: 155, 105, 255;
+    --ocean-front-light-rgb: 88, 32, 178;
     --ocean-mid-deep-rgb: 139, 92, 246;
-    --ocean-mid-light-rgb: 147, 96, 250;
+    --ocean-mid-light-rgb: 92, 40, 190;
     --ocean-back-rgb: 168, 85, 247;
     --ocean-sand-wet-dark-rgb: 94, 56, 156;
     --ocean-sand-wet-light-rgb: 147, 92, 232;
