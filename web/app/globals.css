@@ -197,9 +197,9 @@ samp {
        violet-glass tints, so every layer reads as translucent frosted
        glass. */
     --ocean-front-deep-rgb: 124, 58, 237;
-    --ocean-front-light-rgb: 192, 150, 255;
+    --ocean-front-light-rgb: 155, 105, 255;
     --ocean-mid-deep-rgb: 139, 92, 246;
-    --ocean-mid-light-rgb: 168, 130, 255;
+    --ocean-mid-light-rgb: 147, 96, 250;
     --ocean-back-rgb: 168, 85, 247;
     --ocean-sand-wet-dark-rgb: 94, 56, 156;
     --ocean-sand-wet-light-rgb: 147, 92, 232;
