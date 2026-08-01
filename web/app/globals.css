@@ -120,9 +120,13 @@ samp {
     --ocean-sand-chip-rgb: 242, 244, 248;
     --ocean-foam-rgb: 255, 255, 255;
     --ocean-accent-rgb: 147, 197, 253;
-    /* Frosted-glass + calmer-wave tuning (defaults elsewhere: blur 12px,
-       wave scale 1, frost hidden). Only the snow theme overrides these. */
+    /* Frosted-glass + calmer-wave tuning. Blur is applied per wave layer
+       (front/mid/back) so depth reads through progressive frost; defaults
+       elsewhere: front blur 12px, mid/back 0px, wave scale 1, frost hidden.
+       Only the snow theme overrides these. */
     --ocean-blur: 24px;
+    --ocean-blur-mid: 14px;
+    --ocean-blur-back: 8px;
     --ocean-wave-scale: 0.45;
     --ocean-frost-opacity: 0.22;
     --ocean-frost-rgb: 235, 245, 255;
